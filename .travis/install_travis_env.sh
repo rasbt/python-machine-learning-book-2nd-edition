@@ -4,6 +4,8 @@
 
 set -e
 
+echo ${TRAVIS_PYTHON_VERSION};
+
 if [ "${TRAVIS_PYTHON_VERSION}" == "2.7" ]; then
   wget http://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
 else
@@ -29,7 +31,7 @@ fi
 
 source activate testenv
 
-conda install -q -y pip
+conda install -q -y pip jupyter notebook;
 
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"
