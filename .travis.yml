@@ -1,0 +1,25 @@
+dist: trusty
+sudo: required
+language: python
+matrix:
+    include:
+        - python: 2.7
+          env: LATEST="false" NUMPY_VERSION="1.11" SCIPY_VERSION="0.18" SKLEARN_VERSION="0.18" MATPLOTLIB_VERSION="2.0" PANDAS_VERSION="0.19"
+        - python: 3.5
+          env: LATEST="false"
+        - python: 3.6
+          env: LATEST="true"
+
+install:
+    - sudo apt-get update
+    - source .travis/install_travis_env.sh
+script:
+    - bash .travis/run_travis_tests.sh
+#after_success:
+#    - if [[ "${COVERAGE}" == "true" ]]; then coveralls; codecov; else echo "failed"; fi
+notifications:
+    email:
+        recipients:
+            - mail@sebastianraschka.com
+    on_success: always
+    on_failure: always
