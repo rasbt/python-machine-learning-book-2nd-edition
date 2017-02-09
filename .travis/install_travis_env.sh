@@ -30,6 +30,7 @@ fi
 source activate testenv
 
 conda install -q -y pip jupyter;
+conda update -q -y nb_conda nb_conda_kernels;
 
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"
