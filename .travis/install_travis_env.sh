@@ -29,7 +29,7 @@ fi
 
 source activate testenv
 
-conda install -q -y pip
+conda install -q -y pip ipython
 
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"
