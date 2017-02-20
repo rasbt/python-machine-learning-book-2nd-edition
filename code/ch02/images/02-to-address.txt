@@ -1,0 +1,25 @@
+<--------------------------------------------------------------------------------------------
+Alfredo Canziani
+
+Ch2: you never explained ravel and zip
+
+----------------------
+
+activation function should be used in adaline
+
+=================
+
+mention logistic regression implementation
+
+
+=========
+
+vector scaling, see mail by makarov@cl.uzh.ch
+
+=========
+
+make datasets locally available
+
+========
+
+badly vs well-conditioned problem
