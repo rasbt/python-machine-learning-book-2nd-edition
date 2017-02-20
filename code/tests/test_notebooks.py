@@ -25,7 +25,8 @@ class TestNotebooks(unittest.TestCase):
     def test_appendix_g_tensorflow_basics(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
-                               '../ch01/ch01.ipynb'))
+                               '../ch01/ch01.ipynb',
+                               '../ch02/ch02.ipynb'))
 
 
 if __name__ == '__main__':
