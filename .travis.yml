@@ -12,6 +12,11 @@ matrix:
         - python: 3.6
           env: LATEST="true"
 
+addons:
+  apt:
+    packages:
+      - graphviz
+
 install:
     - sudo apt-get update
     - source .travis/install_travis_env.sh
