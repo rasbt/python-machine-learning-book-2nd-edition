@@ -201,10 +201,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[14]:
-
-Image(filename='images/03_03.png', width=500)
-
 
 # <br>
 # <br>
@@ -392,8 +388,6 @@ lr.predict(X_test_std[0, :].reshape(1, -1))
 
 # In[24]:
 
-Image(filename='images/03_07.png', width=700)
-
 
 # In[25]:
 
@@ -424,8 +418,6 @@ plt.show()
 
 # In[26]:
 
-Image(filename='images/03_09.png', width=700)
-
 
 # ## Maximum margin intuition
 
@@ -434,8 +426,6 @@ Image(filename='images/03_09.png', width=700)
 # ## Dealing with the nonlinearly separable case using slack variables
 
 # In[27]:
-
-Image(filename='images/03_10.png', width=600)
 
 
 # In[28]:
@@ -504,9 +494,6 @@ plt.show()
 
 # In[31]:
 
-Image(filename='images/03_13.png', width=700)
-
-
 # <br>
 # <br>
 
@@ -563,13 +550,6 @@ plt.show()
 # # Decision tree learning
 
 # In[35]:
-
-Image(filename='images/03_17.png', width=500)
-
-
-# In[36]:
-
-Image(filename='images/03_18.png', width=500)
 
 
 # <br>
@@ -671,8 +651,6 @@ graph.write_png('tree.png')
 
 # In[40]:
 
-Image(filename='images/03_21.png', width=600)
-
 
 # <br>
 # <br>
@@ -706,8 +684,6 @@ plt.show()
 # # K-nearest neighbors - a lazy learning algorithm
 
 # In[42]:
-
-Image(filename='images/03_23.png', width=400)
 
 
 # In[43]:
