@@ -37,5 +37,10 @@ class TestNotebooks(unittest.TestCase):
         run_ipynb(os.path.join(this_dir,
                                '../ch03/ch03.ipynb'))
 
+    def test_ch04(self):
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        run_ipynb(os.path.join(this_dir,
+                               '../ch04/ch04.ipynb'))
+
 if __name__ == '__main__':
     unittest.main()
