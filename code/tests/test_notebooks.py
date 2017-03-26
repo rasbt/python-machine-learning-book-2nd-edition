@@ -45,17 +45,17 @@ class TestNotebooks(unittest.TestCase):
     def test_ch05(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
-                               '../ch04/ch05.ipynb'))
+                               '../ch05/ch05.ipynb'))
 
     def test_ch06(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
-                               '../ch04/ch06.ipynb'))
+                               '../ch06/ch06.ipynb'))
 
     def test_ch07(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
-                               '../ch04/ch07.ipynb'))
+                               '../ch07/ch07.ipynb'))
 
 if __name__ == '__main__':
     unittest.main()
