@@ -2,6 +2,7 @@ docs/equations/*.aux
 docs/equations/*.log
 docs/equations/*.out
 docs/equations/*.synctex.gz
+code/ch08/aclImdb/
 
 .ipynb_checkpoints
 .DS_Store
