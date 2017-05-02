@@ -49,3 +49,4 @@ fi
 pip install watermark;
 pip install nbformat;
 pip install pydotplus;
+pip install seaborn;
