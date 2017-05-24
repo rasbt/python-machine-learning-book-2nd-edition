@@ -74,7 +74,7 @@ class TestNotebooks(unittest.TestCase):
                    'train-images-idx3-ubyte.gz',
                    'train-labels-idx1-ubyte.gz']:
             gz_path = os.path.join(this_dir, '../ch12/%s' % gz)
-        subprocess.call(['gunzip', gz_path])
+            subprocess.call(['gunzip', gz_path])
         run_ipynb(os.path.join(this_dir,
                                '../ch12/ch12.ipynb'))
 
