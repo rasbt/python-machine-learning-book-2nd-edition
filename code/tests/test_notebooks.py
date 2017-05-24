@@ -2,7 +2,6 @@ import unittest
 import os
 import subprocess
 import tempfile
-import watermark
 import sys
 
 
@@ -11,7 +10,7 @@ def run_ipynb(path):
         kernel_name = 'python3'
     else:
         kernel_name = 'python2'
-    error_cells = []
+    # error_cells = []
     with tempfile.NamedTemporaryFile(suffix=".ipynb") as fout:
         args = ["jupyter", "nbconvert", "--to",
                 "notebook", "--execute",
@@ -68,6 +67,12 @@ class TestNotebooks(unittest.TestCase):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
                                '../ch11/ch11.ipynb'))
+
+    def test_ch12(self):
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        run_ipynb(os.path.join(this_dir,
+                               '../ch12/ch12.ipynb'))
+
 
 if __name__ == '__main__':
     unittest.main()
