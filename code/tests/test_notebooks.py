@@ -16,7 +16,11 @@ def run_ipynb(path):
                 "notebook", "--execute",
                 "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
                 "--output", fout.name, path]
+    try:
         subprocess.check_output(args)
+    except TimeoutError:
+        sys.stderr.write('%s timed out\n' % path)
+        sys.stderr.flush()
 
 
 class TestNotebooks(unittest.TestCase):
@@ -79,9 +83,7 @@ class TestNotebooks(unittest.TestCase):
         try:
             run_ipynb(os.path.join(this_dir,
                                    '../ch12/ch12.ipynb'))
-        except TimeoutError:
-            sys.stderr.write('Ch12 timed out\n')
-            sys.stderr.flush()
+
 
 
 if __name__ == '__main__':
