@@ -1,3 +1,7 @@
+code/ch12/t10k-images-idx3-ubyte
+code/ch12/t10k-labels-idx1-ubyte
+code/ch12/train-images-idx3-ubyte
+code/ch12/train-labels-idx1-ubyte
 docs/equations/*.aux
 docs/equations/*.log
 docs/equations/*.out

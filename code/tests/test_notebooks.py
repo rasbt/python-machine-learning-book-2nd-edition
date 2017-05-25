@@ -75,14 +75,8 @@ class TestNotebooks(unittest.TestCase):
     # too expensive for travis, generates timeout err
     def test_ch12(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
-        for gz in ['t10k-images-idx3-ubyte.gz', 't10k-labels-idx1-ubyte.gz',
-                   'train-images-idx3-ubyte.gz',
-                   'train-labels-idx1-ubyte.gz']:
-            gz_path = os.path.join(this_dir, '../ch12/%s' % gz)
-            subprocess.call(['gunzip', gz_path])
-
         run_ipynb(os.path.join(this_dir,
-                               '../ch12/ch12.ipynb'))
+                               '../ch12/.test_version.ipynb'))
 
 
 
