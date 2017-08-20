@@ -24,9 +24,9 @@ conda info -a
 # Setting up the Test Environment
 
 if [ "${LATEST}" = "true" ]; then
-  conda create -q -n testenv --yes python=$TRAVIS_PYTHON_VERSION numpy scipy matplotlib scikit-learn pandas;
+  conda create -q -n testenv --yes python=$TRAVIS_PYTHON_VERSION numpy scipy matplotlib scikit-learn pandas nltk;
 else
-  conda create -q -n testenv --yes python=$TRAVIS_PYTHON_VERSION numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION matplotlib=$MATPLOTLIB_VERSION scikit-learn=$SKLEARN_VERSION pandas=$PANDAS_VERSION;
+  conda create -q -n testenv --yes python=$TRAVIS_PYTHON_VERSION numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION matplotlib=$MATPLOTLIB_VERSION scikit-learn=$SKLEARN_VERSION pandas=$PANDAS_VERSION nltk=$NLTK_VERSION;
 fi
 
 source activate testenv
