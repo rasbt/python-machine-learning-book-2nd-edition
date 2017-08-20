@@ -48,3 +48,14 @@ Simply click on the `open dir` links next to the chapter headlines to navigate t
 14. Going Deeper: The Mechanics of TensorFlow
 15. Classifying Images with Deep Convolutional Neural Networks [[open dir](./code/ch15)] [[ipynb](./code/ch15/ch15.ipynb)] 
 16. Modeling Sequential Data Using Recurrent Neural Networks
+
+### What’s new in the second edition from the first edition?
+
+Oh, there are so many things that we improved or added; where should I start!? The one issue on top of my priority list was to fix all the nasty typos that were introduced during the layout stage or my oversight. I really appreciated all the helpful feedback from readers in this manner! Furthermore, I addressed all the feedback about sections that may have been confusing or a bit unclear, reworded paragraphs, and added additional explanations. Also, special thanks go to the excellent editors of the second edition, who helped a lot along the way! 
+
+Also, the figures and plots became much prettier. While readers liked the graphic content a lot, some people criticized the PowerPoint-esque style and layout. Thus, I decided to overhaul every little figure with a hopefully more pleasing choice of fonts and colors. Also, the data plots look much nicer now, thanks to the matplotlib team who put a lot of work in matplotlib 2.0 and its new styling theme.
+
+Beyond all these cosmetic fixes, new sections were added here and there. Among these is, for example, is a section on dealing with imbalanced datasets, which several readers were missing in the first edition and short section on Latent Dirichlet Allocation among others.
+
+As time and the software world moved on after the first edition was released in September 2015, we decided to replace the introduction to deep learning via Theano. No worries, we didn't remove it but it got a substantial overflow and is now based on TensorFlow, which has become a major player in my research toolbox since its open source release by Google in November 2015. 
+Along with the new introduction to deep learning using TensorFlow, the biggest additions to this new edition are three brand new chapters focussing on deep learning applications: A more detailed overview of the TensorFlow mechanics, an introduction to convolutional neural networks for image classification, and an introduction to recurrent neural networks for natural language processing. Of course, and in a similar vein as the rest of the book, these new chapters do not only provide readers with practical instructions and examples but also introduce the fundamental mathematics behind those concepts, which are an essential building block for understanding how deep learning works.
