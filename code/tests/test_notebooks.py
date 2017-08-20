@@ -68,7 +68,7 @@ class TestNotebooks(unittest.TestCase):
     def test_ch09(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
-                               '../ch09ch09.ipynb'))
+                               '../ch09/ch09.ipynb'))
 
     def test_ch10(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
