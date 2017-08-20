@@ -60,7 +60,15 @@ class TestNotebooks(unittest.TestCase):
         run_ipynb(os.path.join(this_dir,
                                '../ch07/ch07.ipynb'))
 
-    # add 8 & 9
+    def test_ch08(self):
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        run_ipynb(os.path.join(this_dir,
+                               '../ch08/ch08.ipynb'))
+
+    def test_ch09(self):
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        run_ipynb(os.path.join(this_dir,
+                               '../ch09ch09.ipynb'))
 
     def test_ch10(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -72,7 +80,7 @@ class TestNotebooks(unittest.TestCase):
         run_ipynb(os.path.join(this_dir,
                                '../ch11/ch11.ipynb'))
 
-    # too expensive for travis, generates timeout err
+    # too computationally expensive for travis, generates timeout err
     def test_ch12(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
