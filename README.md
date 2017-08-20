@@ -46,5 +46,5 @@ Simply click on the `open dir` links next to the chapter headlines to navigate t
 12. Implementing a Multi-layer Artificial Neural Network from Scratch [[open dir](./code/ch12)] [[ipynb](./code/ch12/ch12.ipynb)] 
 13. Parallelizing Neural Network Training with TensorFlow
 14. Going Deeper: The Mechanics of TensorFlow
-15. Classifying Images with Deep Convolutional Neural Networks [[open dir](./code/ch15)]
+15. Classifying Images with Deep Convolutional Neural Networks [[open dir](./code/ch15)] [[ipynb](./code/ch15/ch15.ipynb)] 
 16. Modeling Sequential Data Using Recurrent Neural Networks
