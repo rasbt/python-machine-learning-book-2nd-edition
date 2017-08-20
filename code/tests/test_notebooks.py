@@ -16,11 +16,16 @@ def run_ipynb(path):
                 "notebook", "--execute",
                 "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
                 "--output", fout.name, path]
-    try:
+
+    if (sys.version_info >= (3, 0)):
+        try:
+            subprocess.check_output(args)
+        except TimeoutError:
+            sys.stderr.write('%s timed out\n' % path)
+            sys.stderr.flush()
+
+    else:
         subprocess.check_output(args)
-    except TimeoutError:
-        sys.stderr.write('%s timed out\n' % path)
-        sys.stderr.flush()
 
 
 class TestNotebooks(unittest.TestCase):
