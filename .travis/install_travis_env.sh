@@ -47,6 +47,7 @@ if [ "${COVERAGE}" = "true" ]; then
 fi
 
 pip install watermark;
+pip install pyprind;
 pip install nbformat;
 pip install pydotplus;
 pip install seaborn;
