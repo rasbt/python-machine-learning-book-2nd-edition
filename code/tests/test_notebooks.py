@@ -73,11 +73,16 @@ class TestNotebooks(unittest.TestCase):
     def test_ch09(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
 
-        import nltk
-        nltk.download('stopwords')
+        # run only on Py3, because of the Py3 specific picle files
 
-        run_ipynb(os.path.join(this_dir,
-                               '../ch09/ch09.ipynb'))
+        if (sys.version_info >= (3, 0)):
+            import nltk
+            nltk.download('stopwords')
+
+            run_ipynb(os.path.join(this_dir,
+                                   '../ch09/ch09.ipynb'))
+        else:
+            pass
 
     def test_ch10(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
