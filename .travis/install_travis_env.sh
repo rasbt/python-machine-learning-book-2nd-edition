@@ -51,3 +51,9 @@ pip install pyprind;
 pip install nbformat;
 pip install pydotplus;
 pip install seaborn;
+
+if [ "${LATEST}" = "true" ]; then
+  pip install tensorflow;
+else
+  pip install tensorflow=$TENSORFLOW_VERSION;
+fi
