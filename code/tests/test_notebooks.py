@@ -72,6 +72,10 @@ class TestNotebooks(unittest.TestCase):
 
     def test_ch09(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
+
+        import nltk
+        nltk.download('stopwords')
+
         run_ipynb(os.path.join(this_dir,
                                '../ch09/ch09.ipynb'))
 
