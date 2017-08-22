@@ -55,5 +55,5 @@ pip install seaborn;
 if [ "${LATEST}" = "true" ]; then
   pip install tensorflow;
 else
-  pip install tensorflow=$TENSORFLOW_VERSION;
+  pip install tensorflow==$TENSORFLOW_VERSION;
 fi
