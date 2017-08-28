@@ -47,7 +47,7 @@ Simply click on the `open dir` links next to the chapter headlines to navigate t
 13. Parallelizing Neural Network Training with TensorFlow
 14. Going Deeper: The Mechanics of TensorFlow [[open dir](./code/ch14)] [[ipynb](./code/ch14/ch14.ipynb)] 
 15. Classifying Images with Deep Convolutional Neural Networks [[open dir](./code/ch15)] [[ipynb](./code/ch15/ch15.ipynb)] 
-16. Modeling Sequential Data Using Recurrent Neural Networks
+16. Modeling Sequential Data Using Recurrent Neural Networks [[open dir](./code/ch16)] [[ipynb](./code/ch16/ch16.ipynb)] 
 
 ### What’s new in the second edition from the first edition?
 
