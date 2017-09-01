@@ -65,15 +65,15 @@ class TestNotebooks(unittest.TestCase):
         run_ipynb(os.path.join(this_dir,
                                '../ch07/ch07.ipynb'))
 
-    #  def test_ch08(self):
-    #      this_dir = os.path.dirname(os.path.abspath(__file__))
-    #      run_ipynb(os.path.join(this_dir,
-    #                             '../ch08/ch08.ipynb'))
+    def test_ch08(self):
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        run_ipynb(os.path.join(this_dir,
+                               '../ch08/ch08.ipynb'))
 
     def test_ch09(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
 
-        # run only on Py3, because of the Py3 specific picle files
+        # run only on Py3, because of the Py3 specific pickle files
 
         if (sys.version_info >= (3, 0)):
 
@@ -84,7 +84,7 @@ class TestNotebooks(unittest.TestCase):
                 run_ipynb(os.path.join(this_dir,
                                        '../ch09/ch09.ipynb'))
             except:
-                print('Unexpected error in Chapter 19:', sys.exc_info()[0])
+                print('Unexpected error in Chapter 09:', sys.exc_info()[0])
         else:
             pass
 
@@ -102,7 +102,7 @@ class TestNotebooks(unittest.TestCase):
     def test_ch12(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
-                               '../ch12/.test_version.ipynb'))
+                               '../ch12/ch12.ipynb'))
 
     def test_ch13(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
