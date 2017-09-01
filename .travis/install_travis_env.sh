@@ -40,6 +40,7 @@ python -c "import matplotlib; print('matplotlib %s' % matplotlib.__version__)"
 python -c "import sklearn; print('sklearn %s' % sklearn.__version__)"
 python -c "import pandas; print('pandas %s' % pandas.__version__)"
 
+
 pip install --upgrade pip
 
 if [ "${COVERAGE}" = "true" ]; then
@@ -57,3 +58,6 @@ if [ "${LATEST}" = "true" ]; then
 else
   pip install tensorflow==$TENSORFLOW_VERSION;
 fi
+
+python -c "import tensorflow; print('tensorflow %s' % tensorflow.__version__)"
+
