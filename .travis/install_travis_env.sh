@@ -60,4 +60,5 @@ else
 fi
 
 python -c "import tensorflow; print('tensorflow %s' % tensorflow.__version__)"
+python -c "import os; print(os.environ)"
 
