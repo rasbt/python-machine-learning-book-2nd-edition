@@ -16,10 +16,10 @@ def run_ipynb(path):
         kernel_name = 'python2'
     #  error_cells = []
 
-    args = ["jupyter", "nbconvert", "--to",
-            "notebook", "--execute", "--inplace",
+    args = ["jupyter", "nbconvert",
+            "--execute", "--inplace",
             "--ExecutePreprocessor.timeout=5000",
-            "--log-level 'DEBUG'",
+            "--log-level DEBUG",
             "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
             path]
 
