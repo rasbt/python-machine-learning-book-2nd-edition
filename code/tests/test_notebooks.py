@@ -1,8 +1,12 @@
 import unittest
 import os
 import subprocess
-import tempfile
 import sys
+import logging
+
+
+LOG_FORMAT = '[%(asctime)s %(levelname)s] %(message)s'
+LOGGER = logging.getLogger(__file__)
 
 
 def run_ipynb(path):
@@ -11,12 +15,13 @@ def run_ipynb(path):
     else:
         kernel_name = 'python2'
     #  error_cells = []
-    with tempfile.NamedTemporaryFile(suffix=".ipynb") as fout:
-        args = ["jupyter", "nbconvert", "--to",
-                "notebook", "--execute", 
-                "--ExecutePreprocessor.timeout=5000",
-                "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
-                '--to python', path, '--stdout']
+
+    args = ["jupyter", "nbconvert", "--to",
+            "notebook", "--execute", "--inplace",
+            "--ExecutePreprocessor.timeout=5000",
+            "--log-level 'DEBUG'",
+            "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
+            path]
 
     if (sys.version_info >= (3, 0)):
         try:
