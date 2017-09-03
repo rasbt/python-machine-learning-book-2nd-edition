@@ -19,7 +19,7 @@ def run_ipynb(path):
     args = ["jupyter", "nbconvert",
             "--execute", "--inplace",
             "--ExecutePreprocessor.timeout=5000",
-            "--log-level DEBUG",
+            "--log_level DEBUG",
             "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
             path]
 
