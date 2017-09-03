@@ -1,21 +1,33 @@
 import unittest
 import os
 import subprocess
-import tempfile
 import sys
+import logging
+
+
+LOG_FORMAT = '[%(asctime)s %(levelname)s] %(message)s'
+LOGGER = logging.getLogger(__file__)
 
 
 def run_ipynb(path):
+
+    nb_dir = os.path.dirname(path)
+    nb_path = os.path.basename(path)
+    orig_dir = os.getcwd()
+    os.chdir(nb_dir)
+
     if (sys.version_info >= (3, 0)):
         kernel_name = 'python3'
     else:
         kernel_name = 'python2'
     #  error_cells = []
-    with tempfile.NamedTemporaryFile(suffix=".ipynb") as fout:
-        args = ["jupyter", "nbconvert", "--to",
-                "notebook", "--execute",
-                "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
-                "--output", fout.name, path]
+
+    args = ["jupyter", "nbconvert",
+            "--execute", "--inplace",
+            "--debug",
+            "--ExecutePreprocessor.timeout=5000",
+            "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
+            nb_path]
 
     if (sys.version_info >= (3, 0)):
         try:
@@ -26,6 +38,8 @@ def run_ipynb(path):
 
     else:
         subprocess.check_output(args)
+
+    os.chdir(orig_dir)
 
 
 class TestNotebooks(unittest.TestCase):
@@ -67,24 +81,19 @@ class TestNotebooks(unittest.TestCase):
 
     def test_ch08(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
-        run_ipynb(os.path.join(this_dir,
-                               '../ch08/ch08.ipynb'))
+
+        # run only on Py3, because of Py2 unicode handling
+        if (sys.version_info >= (3, 0)):
+            run_ipynb(os.path.join(this_dir,
+                                   '../ch08/ch08.ipynb'))
 
     def test_ch09(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
 
         # run only on Py3, because of the Py3 specific pickle files
-
         if (sys.version_info >= (3, 0)):
-
-            try:
-                import nltk
-                nltk.download('stopwords')
-
-                run_ipynb(os.path.join(this_dir,
-                                       '../ch09/ch09.ipynb'))
-            except:
-                print('Unexpected error in Chapter 09:', sys.exc_info()[0])
+            os.chdir(this_dir)
+            run_ipynb(os.path.join(this_dir, '../ch09/ch09.ipynb'))
         else:
             pass
 

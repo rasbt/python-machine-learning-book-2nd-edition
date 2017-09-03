@@ -44,7 +44,7 @@ Simply click on the `open dir` links next to the chapter headlines to navigate t
 10. Predicting Continuous Target Variables with Regression Analysis [[open dir](./code/ch10)] [[ipynb](./code/ch10/ch10.ipynb)] 
 11. Working with Unlabeled Data – Clustering Analysis [[open dir](./code/ch11)] [[ipynb](./code/ch11/ch11.ipynb)] 
 12. Implementing a Multi-layer Artificial Neural Network from Scratch [[open dir](./code/ch12)] [[ipynb](./code/ch12/ch12.ipynb)] 
-13. Parallelizing Neural Network Training with TensorFlow
+13. Parallelizing Neural Network Training with TensorFlow [[open dir](./code/ch13)] [[ipynb](./code/ch13/ch13.ipynb)] 
 14. Going Deeper: The Mechanics of TensorFlow [[open dir](./code/ch14)] [[ipynb](./code/ch14/ch14.ipynb)] 
 15. Classifying Images with Deep Convolutional Neural Networks [[open dir](./code/ch15)] [[ipynb](./code/ch15/ch15.ipynb)] 
 16. Modeling Sequential Data Using Recurrent Neural Networks [[open dir](./code/ch16)] [[ipynb](./code/ch16/ch16.ipynb)] 

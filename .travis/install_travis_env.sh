@@ -31,7 +31,7 @@ fi
 
 source activate testenv
 
-conda install -q -y pip jupyter notebook;
+conda install -q -y pip jupyter notebook nbconvert;
 
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"
@@ -60,4 +60,5 @@ else
 fi
 
 python -c "import tensorflow; print('tensorflow %s' % tensorflow.__version__)"
+python -c "import os; print(os.environ)"
 
