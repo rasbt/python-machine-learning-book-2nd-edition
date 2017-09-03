@@ -13,10 +13,10 @@ def run_ipynb(path):
     #  error_cells = []
     with tempfile.NamedTemporaryFile(suffix=".ipynb") as fout:
         args = ["jupyter", "nbconvert", "--to",
-                "notebook", "--execute",
+                "notebook", "--execute", 
                 "--ExecutePreprocessor.timeout=5000",
                 "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
-                "--output", fout.name, path]
+                '--to python', path, '--stdout']
 
     if (sys.version_info >= (3, 0)):
         try:
