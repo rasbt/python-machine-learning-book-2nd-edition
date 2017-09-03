@@ -80,13 +80,16 @@ class TestNotebooks(unittest.TestCase):
                                    '../ch08/ch08.ipynb'))
 
     def test_ch09(self):
+        old_dir = os.getcwd()
         this_dir = os.path.dirname(os.path.abspath(__file__))
 
         # run only on Py3, because of the Py3 specific pickle files
         if (sys.version_info >= (3, 0)):
+            os.chdir(this_dir)
             run_ipynb(os.path.join(this_dir, '../ch09/ch09.ipynb'))
         else:
             pass
+        os.chdir(old_dir)
 
     def test_ch10(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
