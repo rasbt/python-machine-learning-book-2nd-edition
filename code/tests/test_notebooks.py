@@ -10,6 +10,12 @@ LOGGER = logging.getLogger(__file__)
 
 
 def run_ipynb(path):
+
+    nb_dir = os.path.dirname(path)
+    nb_path = os.path.basename(path)
+    orig_dir = os.getcwd()
+    os.chdir(nb_dir)
+
     if (sys.version_info >= (3, 0)):
         kernel_name = 'python3'
     else:
@@ -21,7 +27,7 @@ def run_ipynb(path):
             "--debug",
             "--ExecutePreprocessor.timeout=5000",
             "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
-            path]
+            nb_path]
 
     if (sys.version_info >= (3, 0)):
         try:
@@ -32,6 +38,8 @@ def run_ipynb(path):
 
     else:
         subprocess.check_output(args)
+
+    os.chdir(orig_dir)
 
 
 class TestNotebooks(unittest.TestCase):
@@ -80,7 +88,6 @@ class TestNotebooks(unittest.TestCase):
                                    '../ch08/ch08.ipynb'))
 
     def test_ch09(self):
-        old_dir = os.getcwd()
         this_dir = os.path.dirname(os.path.abspath(__file__))
 
         # run only on Py3, because of the Py3 specific pickle files
@@ -89,7 +96,6 @@ class TestNotebooks(unittest.TestCase):
             run_ipynb(os.path.join(this_dir, '../ch09/ch09.ipynb'))
         else:
             pass
-        os.chdir(old_dir)
 
     def test_ch10(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
