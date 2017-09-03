@@ -31,7 +31,7 @@ fi
 
 source activate testenv
 
-conda install -q -y pip jupyter notebook;
+conda install -q -y pip jupyter notebook nbconvert;
 
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"

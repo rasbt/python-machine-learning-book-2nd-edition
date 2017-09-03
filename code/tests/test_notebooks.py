@@ -18,8 +18,8 @@ def run_ipynb(path):
 
     args = ["jupyter", "nbconvert",
             "--execute", "--inplace",
+            "--debug",
             "--ExecutePreprocessor.timeout=5000",
-            "--log_level DEBUG",
             "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
             path]
 
@@ -80,17 +80,8 @@ class TestNotebooks(unittest.TestCase):
         this_dir = os.path.dirname(os.path.abspath(__file__))
 
         # run only on Py3, because of the Py3 specific pickle files
-
         if (sys.version_info >= (3, 0)):
-
-            try:
-                import nltk
-                nltk.download('stopwords')
-
-                run_ipynb(os.path.join(this_dir,
-                                       '../ch09/ch09.ipynb'))
-            except:
-                print('Unexpected error in Chapter 09:', sys.exc_info()[0])
+            run_ipynb(os.path.join(this_dir, '../ch09/ch09.ipynb'))
         else:
             pass
 
