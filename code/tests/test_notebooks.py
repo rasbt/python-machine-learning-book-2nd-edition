@@ -24,6 +24,7 @@ def run_ipynb(path):
 
     args = ["jupyter", "nbconvert",
             "--execute", "--inplace",
+            "--debug",
             "--ExecutePreprocessor.timeout=5000",
             "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
             nb_path]
