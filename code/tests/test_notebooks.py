@@ -24,7 +24,6 @@ def run_ipynb(path):
 
     args = ["jupyter", "nbconvert",
             "--execute", "--inplace",
-            "--debug",
             "--ExecutePreprocessor.timeout=5000",
             "--ExecutePreprocessor.kernel_name=%s" % kernel_name,
             nb_path]
@@ -107,7 +106,6 @@ class TestNotebooks(unittest.TestCase):
         run_ipynb(os.path.join(this_dir,
                                '../ch11/ch11.ipynb'))
 
-    # too computationally expensive for travis, generates timeout err
     def test_ch12(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
@@ -117,6 +115,11 @@ class TestNotebooks(unittest.TestCase):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
                                '../ch13/ch13.ipynb'))
+
+    def test_ch14(self):
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        run_ipynb(os.path.join(this_dir,
+                               '../ch14/ch14.ipynb'))
 
 
 if __name__ == '__main__':
