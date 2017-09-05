@@ -92,7 +92,6 @@ class TestNotebooks(unittest.TestCase):
 
         # run only on Py3, because of the Py3 specific pickle files
         if (sys.version_info >= (3, 0)):
-            os.chdir(this_dir)
             run_ipynb(os.path.join(this_dir, '../ch09/ch09.ipynb'))
         else:
             pass
@@ -121,6 +120,18 @@ class TestNotebooks(unittest.TestCase):
         this_dir = os.path.dirname(os.path.abspath(__file__))
         run_ipynb(os.path.join(this_dir,
                                '../ch14/ch14.ipynb'))
+
+    def test_ch15(self):
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        run_ipynb(os.path.join(this_dir,
+                               '../ch15/ch15.ipynb'))
+
+    def test_ch16(self):
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        # run only on Py3, because of Py2 unicode handling
+        if (sys.version_info >= (3, 0)):
+            run_ipynb(os.path.join(this_dir,
+                                   '../ch16/ch16.ipynb'))
 
 
 if __name__ == '__main__':
