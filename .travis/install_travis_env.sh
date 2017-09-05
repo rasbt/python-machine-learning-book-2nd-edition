@@ -52,6 +52,7 @@ pip install pyprind;
 pip install nbformat;
 pip install pydotplus;
 pip install seaborn;
+pip install pillow;
 
 if [ "${LATEST}" = "true" ]; then
   pip install tensorflow;
