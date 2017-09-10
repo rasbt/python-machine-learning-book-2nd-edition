@@ -37,7 +37,7 @@ Simply click on the `open dir` links next to the chapter headlines to navigate t
 3. A Tour of Machine Learning Classifiers Using Scikit-Learn [[open dir](./code/ch03)] [[ipynb](./code/ch03/ch03.ipynb)] 
 4. Building Good Training Sets – Data Pre-Processing [[open dir](./code/ch04)] [[ipynb](./code/ch04/ch04.ipynb)] 
 5. Compressing Data via Dimensionality Reduction [[open dir](./code/ch05)] [[ipynb](./code/ch05/ch05.ipynb)] 
-6. Learning Best Practices for Model Evaluation and Hyperparameter Optimization [[open dir](./code/ch06)] 
+6. Learning Best Practices for Model Evaluation and Hyperparameter Optimization [[open dir](./code/ch06)] [[ipynb](./code/ch06/ch06.ipynb)]
 7. Combining Different Models for Ensemble Learning [[open dir](./code/ch07)] [[ipynb](./code/ch07/ch07.ipynb)]
 8. Applying Machine Learning to Sentiment Analysis [[open dir](./code/ch08)] [[ipynb](./code/ch08/ch08.ipynb)] 
 9. Embedding a Machine Learning Model into a Web Application [[open dir](./code/ch09)] [[ipynb](./code/ch09/ch09.ipynb)] 
