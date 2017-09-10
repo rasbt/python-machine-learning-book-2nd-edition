@@ -25,9 +25,11 @@ Kindle ASIN: B0742K7HYF
 
 ## Table of Contents and Code Notebooks
 
-**Helpful installation and setup instructions can be found in the README.md file [code/](code/) subdirectory**
+**Helpful installation and setup instructions can be found in the [README.md file of Chapter 1](code/ch01/README.md)**
 
-Simply click on the `open dir` links next to the chapter headlines to navigate to the chapter subdirectories located in the [code/](code/) subdirectory. You can also click on the `ipynb` links below to open and view the Jupyter notebook of each chapter directly on GitHub.
+To access the code materials for a given chapter, simply click on the `open dir` links next to the chapter headlines to navigate to the chapter subdirectories located in the [code/](code/) subdirectory. You can also click on the `ipynb` links below to open and view the Jupyter notebook of each chapter directly on GitHub.
+
+In addition, the [code/](code/) subdirectories also contain .py script files, which were created from the Jupyter Notebooks. However, I highly recommend working with the Jupyter notebook if possible in your computing environment. Not only do the Jupyter notebooks contain the images and section headings for easier navigation, but they also allow for a stepwise execution of individual code snippets, which -- in my opinion -- provide a better learning experience.
 
 **Please note that these are just the code examples accompanying the book, which I uploaded for your convenience; be aware that these notebooks may not be useful without the formulae and descriptive text.**   
 
