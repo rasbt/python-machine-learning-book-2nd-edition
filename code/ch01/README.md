@@ -3,7 +3,7 @@ Sebastian Raschka, 2017
 Python Machine Learning - Code Examples
 
 
-##  Chapter 1 - Giving Computers the Ability to Learn from Data
+##  Chapter 1: Giving Computers the Ability to Learn from Data
 
 
 ---
