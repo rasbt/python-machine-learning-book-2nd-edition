@@ -2,15 +2,13 @@
 ![Python 3.6](https://img.shields.io/badge/Python-3.6-blue.svg)
 ![License](https://img.shields.io/badge/Code%20License-MIT-blue.svg)
 
-## Note: this repo is still under construction ...
-
 
 [<img src="./images/cover_1.jpg" width="348">](https://www.amazon.com/Python-Machine-Learning-scikit-learn-TensorFlow/dp/1787125939)
 
-Python Machine Learning  
-2nd edition, to published October 2017  
+**Python Machine Learning**  
+2nd edition, to be published mid-September 2017  
 
-Paperback: 501? pages  
+Paperback: 601? pages  
 Publisher: Packt Publishing  
 Language: English
 
@@ -18,10 +16,29 @@ ISBN-10: 1787125939
 ISBN-13: 978-1787125933  
 Kindle ASIN: B0742K7HYF  
 
-#### Links
+
+
+Raschka, Sebastian, and Vahid Mirjalili. *Python Machine Learning, 2nd Ed*. Packt Publishing, 2017.
+
+    @book{RaschkaMirjalili2017,  
+    address = {Birmingham, UK},  
+    author = {Raschka, Sebastian and Mirjalili, Vahid},  
+    edition = {2},  
+    isbn = {978-1787125933},  
+    keywords = {Clustering,Data Science,Deep Learning,  
+                Machine Learning,Neural Networks,Programming,  
+                Supervised Learning},  
+    publisher = {Packt Publishing},  
+    title = {{Python Machine Learning, 2nd Ed.}},  
+    year = {2017}  
+    }
+
+
+## Links
 
 - [Amazon Page](https://www.amazon.com/Python-Machine-Learning-scikit-learn-TensorFlow/dp/1787125939)
 - [Packt Page](https://www.packtpub.com/big-data-and-business-intelligence/python-machine-learning-second-edition)
+
 
 ## Table of Contents and Code Notebooks
 
