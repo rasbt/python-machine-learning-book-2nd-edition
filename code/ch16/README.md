@@ -1,0 +1,57 @@
+Python Machine Learning - Code Examples
+
+
+##  Chapter 16 - Modeling Sequential Data Using Recurrent Neural Networks
+
+### Chapter Outline
+
+
+- Introducing sequential data
+  - Modeling sequential data: Order matters
+  - Understanding the different categories of sequence modeling
+- Recurrent neural networks for modeling sequences
+  - Understanding the structure and flow of a recurrent neural network
+  - Computing activations in an RNN
+  - The challenges of learning long-range interactions
+  - Long short-term memory units
+- Implementing a multilayer RNN for sequence modeling in TensorFlow
+  - Performing sentiment analysis of IMDb movie reviews using multilayer RNNs
+    - Preparing the data
+    - Embedding
+    - Building the RNN model
+      - Step 1: Defining multilayer RNN cells
+      - Step 2: Defining the initial states for the RNN cells
+      - Step 3: Creating the recurrent neural network using the RNN cells and their states
+  - Example application: character-level language modeling
+    - Preparing the data
+    - Building the character-level RNN model
+- Summary
+
+### A note on using the code examples
+
+The recommended way to interact with the code examples in this book is via Jupyter Notebook (the `.ipynb` files). Using Jupyter Notebook, you will be able to execute the code step by step and have all the resulting outputs (including plots and images) all in one convenient document.
+
+![](../ch02/images/jupyter-example-1.png)
+
+
+
+Setting up Jupyter Notebook is really easy: if you are using the Anaconda Python distribution, all you need to install jupyter notebook is to execute the following command in your terminal:
+
+    conda install jupyter notebook
+
+Then you can launch jupyter notebook by executing
+
+    jupyter notebook
+
+A window will open up in your browser, which you can then use to navigate to the target directory that contains the `.ipynb` file you wish to open.
+
+**More installation and setup instructions can be found in the [README.md file of Chapter 1](../ch01/README.md)**.
+
+**(Even if you decide not to install Jupyter Notebook, note that you can also view the notebook files on GitHub by simply clicking on them: [`ch16.ipynb`](ch16.ipynb))**
+
+In addition to the code examples, I added a table of contents to each Jupyter notebook as well as section headers that are consistent with the content of the book. Also, I included the original images and figures in hope that these make it easier to navigate and work with the code interactively as you are reading the book.
+
+![](../ch02/images/jupyter-example-2.png)
+
+
+When I was creating these notebooks, I was hoping to make your reading (and coding) experience as convenient as possible! However, if you don't wish to use Jupyter Notebooks, I also converted these notebooks to regular Python script files (`.py` files) that can be viewed and edited in any plaintext editor. 
