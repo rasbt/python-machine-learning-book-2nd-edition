@@ -1,8 +1,23 @@
-from __future__ import print_function
-
-
-
 # coding: utf-8
+
+
+from __future__ import print_function
+import numpy as np
+import numpy as np
+import scipy.signal
+import scipy.misc
+import sys
+import gzip
+import shutil
+import os
+import struct
+import numpy as np
+import tensorflow as tf
+import numpy as np
+import tensorflow as tf
+import numpy as np
+import tensorflow as tf
+import numpy as np
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -16,7 +31,6 @@ from __future__ import print_function
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
@@ -39,13 +53,10 @@ from __future__ import print_function
 #     - [Implementing a CNN in TensorFlow low-level API](#Implementing-a-CNN-in-TensorFlow-low-level-API)
 #     - [Implementing a CNN in the TensorFlow layers API](#Implementing-a-CNN-in-the-TensorFlow-layers-API)
 
-# In[2]:
 
 
-from IPython.display import Image
 
 
-# In[3]:
 
 
 # This is for Python 2.7 compatibility
@@ -55,7 +66,6 @@ from IPython.display import Image
 
 # ## Understanding CNNs and learning feature hierarchies
 
-# In[4]:
 
 
 
@@ -64,29 +74,24 @@ from IPython.display import Image
 
 # ###  Performing a discrete convolution in one dimension
 
-# In[5]:
 
 
 
 
-# In[6]:
 
 
 
 
 # ### The effect of zero-padding in convolution
 
-# In[7]:
 
 
 
 
 # ### Determining the size of the convolution output
 
-# In[8]:
 
 
-import numpy as np
 
 
 def conv1d(x, w, p=0, s=1):
@@ -112,21 +117,16 @@ print('Numpy Results:         ',
 
 # ### Performing a discrete convolution in 2D
 
-# In[9]:
 
 
 
 
-# In[10]:
 
 
 
 
-# In[11]:
 
 
-import numpy as np
-import scipy.signal
 
 
 def conv2d(X, W, p=(0,0), s=(1,1)):
@@ -160,7 +160,6 @@ print('Scipy Results:         \n',
 
 # ## Sub-sampling
 
-# In[12]:
 
 
 
@@ -169,10 +168,8 @@ print('Scipy Results:         \n',
 
 # ## Working with multiple input or color channels
 
-# In[13]:
 
 
-import scipy.misc
 
 
 try:
@@ -191,14 +188,12 @@ print('Image data type:', img.dtype)
 print(img[100:102, 100:102, :])
 
 
-# In[14]:
 
 
 
 
 # ## Regularizing a neural network with dropout
 
-# In[15]:
 
 
 
@@ -207,22 +202,16 @@ print(img[100:102, 100:102, :])
 
 # ## The multilayer CNN architecture 
 
-# In[16]:
 
 
 
 
 # ## Loading and preprocessing the data
 
-# In[17]:
 
 
 ## unzips mnist
 
-import sys
-import gzip
-import shutil
-import os
 
 
 if (sys.version_info > (3, 0)):
@@ -237,11 +226,8 @@ for z in zipped_mnist:
         outfile.write(decompressed.read())
 
 
-# In[18]:
 
 
-import struct
-import numpy as np
 
 
 def load_mnist(path, kind='train'):
@@ -281,7 +267,6 @@ print('Validation: ', X_valid.shape, y_valid.shape)
 print('Test Set:   ', X_test.shape, y_test.shape)
 
 
-# In[19]:
 
 
 def batch_generator(X, y, batch_size=64, 
@@ -299,7 +284,6 @@ def batch_generator(X, y, batch_size=64,
         yield (X[i:i+batch_size, :], y[i:i+batch_size])
 
 
-# In[20]:
 
 
 mean_vals = np.mean(X_train, axis=0)
@@ -314,11 +298,8 @@ del X_data, y_data, X_train, X_valid, X_test
 
 # ## Implementing a CNN in TensorFlow low-level API
 
-# In[21]:
 
 
-import tensorflow as tf
-import numpy as np
 
 
 ## wrapper functions 
@@ -349,7 +330,7 @@ def conv_layer(input_tensor, name,
                             padding=padding_mode)
         print(conv)
         conv = tf.nn.bias_add(conv, biases, 
-                              name='net_pre-activaiton')
+                              name='net_pre-activation')
         print(conv)
         conv = tf.nn.relu(conv, name='activation')
         print(conv)
@@ -366,7 +347,6 @@ with g.as_default():
 del g, x
 
 
-# In[22]:
 
 
 def fc_layer(input_tensor, name, 
@@ -390,7 +370,7 @@ def fc_layer(input_tensor, name,
         layer = tf.matmul(input_tensor, weights)
         print(layer)
         layer = tf.nn.bias_add(layer, biases,
-                              name='net_pre-activaiton')
+                              name='net_pre-activation')
         print(layer)
         if activation_fn is None:
             return layer
@@ -411,7 +391,6 @@ with g.as_default():
 del g, x
 
 
-# In[23]:
 
 
 def build_cnn():
@@ -563,11 +542,8 @@ def predict(sess, X_test, return_proba=False):
         return sess.run('labels:0', feed_dict=feed)
 
 
-# In[24]:
 
 
-import tensorflow as tf
-import numpy as np
 
 ## Define hyperparameters
 learning_rate = 1e-4
@@ -587,7 +563,6 @@ with g.as_default():
     saver = tf.train.Saver()
 
 
-# In[25]:
 
 
 ## @Readers: PLEASE IGNORE THIS CELL
@@ -606,7 +581,6 @@ if 'TRAVIS' in os.environ:
     y_valid = y_valid[:500]
 
 
-# In[26]:
 
 
 ## crearte a TF session 
@@ -621,7 +595,6 @@ with tf.Session(graph=g) as sess:
     save(saver, sess, epoch=20)
 
 
-# In[27]:
 
 
 ### Calculate prediction accuracy
@@ -655,7 +628,6 @@ with tf.Session(graph=g2) as sess:
     
 
 
-# In[28]:
 
 
 ## run the prediction on 
@@ -674,7 +646,6 @@ with tf.Session(graph=g2) as sess:
                   return_proba=True))
 
 
-# In[29]:
 
 
 ## continue training for 20 more epochs
@@ -701,7 +672,6 @@ with tf.Session(graph=g2) as sess:
                 np.sum(preds == y_test)/len(y_test)))
 
 
-# In[30]:
 
 
 ## build the model
@@ -782,18 +752,14 @@ with tf.Session(graph=g) as sess:
 
 # #### Visualize the graph with TensorBoard
 
-# In[4]:
 
 
 
 
 # ## Implementing a CNN in the TensorFlow layers API
 
-# In[32]:
 
 
-import tensorflow as tf
-import numpy as np
 
 
 class ConvNN(object):
@@ -971,13 +937,11 @@ class ConvNN(object):
 
 
 
-# In[33]:
 
 
 cnn = ConvNN(random_seed=123)
 
 
-# In[34]:
 
 
 cnn.train(training_set=(X_train_centered, y_train), 
@@ -986,7 +950,6 @@ cnn.train(training_set=(X_train_centered, y_train),
 cnn.save(epoch=20)
 
 
-# In[35]:
 
 
 del cnn
@@ -998,7 +961,6 @@ cnn2.load(epoch=20, path='./tflayers-model/')
 print(cnn2.predict(X_test_centered[:10,:]))
 
 
-# In[36]:
 
 
 preds = cnn2.predict(X_test_centered)
@@ -1015,12 +977,10 @@ print('Test Accuracy: %.2f%%' % (100*
 # 
 # Readers may ignore the next cell.
 
-# In[ ]:
 
 
 
 
-# In[ ]:
 
 
 

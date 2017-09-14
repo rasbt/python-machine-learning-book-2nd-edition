@@ -1,5 +1,22 @@
-
 # coding: utf-8
+
+
+import tensorflow as tf
+import tensorflow as tf
+import numpy as np
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+import sys
+import gzip
+import shutil
+import os
+import struct
+import tensorflow as tf
+import tensorflow as tf
+import tensorflow.contrib.keras as keras
+import numpy as np
+import matplotlib.pyplot as plt
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com) and Vahid Mirjalili, Packt Publishing Ltd. 2017
 # 
@@ -29,29 +46,24 @@
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
 
 # *The use of `watermark` is optional. You can install this IPython extension via "`pip install watermark`". For more information, please see: https://github.com/rasbt/watermark.*
 
-# In[2]:
 
 
 
 
-# In[3]:
 
 
-from IPython.display import Image
 
 
 # ## Building, compiling, and running machine learning models with TensorFlow
 
 # ### Performance challenges of expensive computations
 
-# In[4]:
 
 
 
@@ -60,10 +72,8 @@ from IPython.display import Image
 
 # ### First steps with TensorFlow
 
-# In[5]:
 
 
-import tensorflow as tf
 
 ## create a graph
 g = tf.Graph()
@@ -86,7 +96,6 @@ with tf.Session(graph=g) as sess:
               t, sess.run(z, feed_dict={x:t})))
 
 
-# In[6]:
 
 
 with tf.Session(graph=g) as sess:
@@ -96,11 +105,8 @@ with tf.Session(graph=g) as sess:
 
 # ### Working with array structures
 
-# In[7]:
 
 
-import tensorflow as tf
-import numpy as np
 
 
 g = tf.Graph()
@@ -132,11 +138,8 @@ with tf.Session(graph=g) as sess:
 
 # ### Developing a simple model with low-level TensorFlow API
 
-# In[8]:
 
 
-import tensorflow as tf
-import numpy as np
  
 X_train = np.arange(10).reshape((10, 1))
 y_train = np.array([1.0, 1.3, 3.1,
@@ -145,7 +148,6 @@ y_train = np.array([1.0, 1.3, 3.1,
                     9.0])
 
 
-# In[9]:
 
 
 class TfLinreg(object):
@@ -198,13 +200,11 @@ class TfLinreg(object):
         self.optimizer = optimizer.minimize(self.mean_cost)
 
 
-# In[10]:
 
 
 lrmodel = TfLinreg(x_dim=X_train.shape[1], learning_rate=0.01)
 
 
-# In[11]:
 
 
 def train_linreg(sess, model, X_train, y_train, num_epochs=10):
@@ -221,17 +221,14 @@ def train_linreg(sess, model, X_train, y_train, num_epochs=10):
     return training_costs
 
 
-# In[12]:
 
 
 sess = tf.Session(graph=lrmodel.g)
 training_costs = train_linreg(sess, lrmodel, X_train, y_train)
 
 
-# In[13]:
 
 
-import matplotlib.pyplot as plt
 
 plt.plot(range(1,len(training_costs) + 1), training_costs)
 plt.tight_layout()
@@ -241,7 +238,6 @@ plt.ylabel('Training Cost')
 plt.show()
 
 
-# In[14]:
 
 
 def predict_linreg(sess, model, X_test):
@@ -250,7 +246,6 @@ def predict_linreg(sess, model, X_test):
     return y_pred
 
 
-# In[15]:
 
 
 plt.scatter(X_train, y_train,
@@ -275,15 +270,10 @@ plt.show()
 
 # - See Chapter 12 for details on MNIST
 
-# In[16]:
 
 
 # unzips mnist
 
-import sys
-import gzip
-import shutil
-import os
 
 if (sys.version_info > (3, 0)):
     writemode = 'wb'
@@ -296,10 +286,8 @@ for z in zipped_mnist:
         outfile.write(decompressed.read())
 
 
-# In[17]:
 
 
-import struct
  
 def load_mnist(path, kind='train'):
     """Load MNIST data from `path`"""
@@ -324,7 +312,6 @@ def load_mnist(path, kind='train'):
     return images, labels
 
 
-# In[18]:
 
 
 ## loading the data
@@ -349,10 +336,8 @@ print(X_train_centered.shape, y_train.shape)
 print(X_test_centered.shape, y_test.shape)
 
 
-# In[19]:
 
 
-import tensorflow as tf
 
 n_features = X_train_centered.shape[1]
 n_classes = 10
@@ -391,7 +376,6 @@ with g.as_default():
     }
 
 
-# In[20]:
 
 
 ## define cost function and optimizer:
@@ -407,7 +391,6 @@ with g.as_default():
     init_op = tf.global_variables_initializer()
 
 
-# In[21]:
 
 
 def create_batch_generator(X, y, batch_size=128, shuffle=False):
@@ -424,7 +407,6 @@ def create_batch_generator(X, y, batch_size=128, shuffle=False):
         yield (X[i:i+batch_size, :], y[i:i+batch_size])
 
 
-# In[22]:
 
 
 ## create a session to launch the graph
@@ -451,7 +433,6 @@ for epoch in range(50):
     ))
 
 
-# In[23]:
 
 
 ## do prediction on the test set:
@@ -465,7 +446,6 @@ print('Test Accuracy: %.2f%%' % (
 
 # ### Developing Multilayer Neural Networks with Keras
 
-# In[24]:
 
 
 X_train, y_train = load_mnist('./', kind='train')
@@ -489,17 +469,13 @@ print(X_train_centered.shape, y_train.shape)
 print(X_test_centered.shape, y_test.shape)
 
 
-# In[25]:
 
 
-import tensorflow as tf
-import tensorflow.contrib.keras as keras
 
 np.random.seed(123)
 tf.set_random_seed(123)
 
 
-# In[26]:
 
 
 y_train_onehot = keras.utils.to_categorical(y_train)
@@ -508,7 +484,6 @@ print('First 3 labels: ', y_train[:3])
 print('\nFirst 3 labels (one-hot):\n', y_train_onehot[:3])
 
 
-# In[27]:
 
 
 model = keras.models.Sequential()
@@ -545,7 +520,6 @@ model.compile(optimizer=sgd_optimizer,
               loss='categorical_crossentropy')
 
 
-# In[28]:
 
 
 history = model.fit(X_train_centered, y_train_onehot,
@@ -554,14 +528,12 @@ history = model.fit(X_train_centered, y_train_onehot,
                     validation_split=0.1)
 
 
-# In[29]:
 
 
 y_train_pred = model.predict_classes(X_train_centered, verbose=0)
 print('First 3 predictions: ', y_train_pred[:3])
 
 
-# In[30]:
 
 
 y_train_pred = model.predict_classes(X_train_centered, 
@@ -573,7 +545,6 @@ print('First 3 predictions: ', y_train_pred[:3])
 print('Training accuracy: %.2f%%' % (train_acc * 100))
 
 
-# In[31]:
 
 
 y_test_pred = model.predict_classes(X_test_centered, 
@@ -588,10 +559,8 @@ print('Test accuracy: %.2f%%' % (test_acc * 100))
 
 # ### Logistic function recap
 
-# In[5]:
 
 
-import numpy as np
 
 X = np.array([1, 1.4, 2.5]) ## first value must be 1
 w = np.array([0.4, 0.3, 0.5])
@@ -609,7 +578,6 @@ def logistic_activation(X, w):
 print('P(y=1|x) = %.3f' % logistic_activation(X, w))
 
 
-# In[33]:
 
 
 # W : array with shape = (n_output_units, n_hidden_units+1)
@@ -632,7 +600,6 @@ print('Net Input: \n', Z)
 print('Output Units:\n', y_probas)
 
 
-# In[34]:
 
 
 y_class = np.argmax(Z, axis=0)
@@ -641,7 +608,6 @@ print('Predicted class label: %d' % y_class)
 
 # ### Estimating class probabilities in multi-class classification via the softmax function
 
-# In[35]:
 
 
 def softmax(z):
@@ -651,7 +617,6 @@ y_probas = softmax(Z)
 print('Probabilities:\n', y_probas)
 
 
-# In[36]:
 
 
 np.sum(y_probas)
@@ -659,10 +624,8 @@ np.sum(y_probas)
 
 # ### Broadening the output spectrum by using a hyperbolic tangent
 
-# In[7]:
 
 
-import matplotlib.pyplot as plt
 
 def tanh(z):
     e_p = np.exp(z)
@@ -697,7 +660,6 @@ plt.show()
 
 # ### Rectified Linear Unit activation
 
-# In[38]:
 
 
 
@@ -709,13 +671,6 @@ plt.show()
 # ---
 # 
 # Readers may ignore the next cell.
-
-# In[ ]:
-
-
-
-
-# In[ ]:
 
 
 

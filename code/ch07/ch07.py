@@ -1,5 +1,42 @@
-
 # coding: utf-8
+
+
+from scipy.misc import comb
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.base import BaseEstimator
+from sklearn.base import ClassifierMixin
+from sklearn.preprocessing import LabelEncoder
+from sklearn.externals import six
+from sklearn.base import clone
+from sklearn.pipeline import _name_estimators
+import numpy as np
+import operator
+from sklearn import datasets
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier 
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import roc_curve
+from sklearn.metrics import auc
+from itertools import product
+from sklearn.model_selection import GridSearchCV
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import BaggingClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.ensemble import AdaBoostClassifier
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -13,7 +50,6 @@
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
@@ -37,29 +73,22 @@
 # - [Summary](#Summary)
 
 
-# In[1]:
 
 
-from IPython.display import Image
 
 
 # # Learning with ensembles
 
-# In[2]:
 
 
 
 
-# In[3]:
 
 
 
 
-# In[5]:
 
 
-from scipy.misc import comb
-import math
 
 def ensemble_error(n_classifier, error):
     k_start = int(math.ceil(n_classifier / 2.))
@@ -68,26 +97,21 @@ def ensemble_error(n_classifier, error):
     return sum(probs)
 
 
-# In[6]:
 
 
 ensemble_error(n_classifier=11, error=0.25)
 
 
-# In[7]:
 
 
-import numpy as np
 
 error_range = np.arange(0.0, 1.01, 0.01)
 ens_errors = [ensemble_error(n_classifier=11, error=error)
               for error in error_range]
 
 
-# In[8]:
 
 
-import matplotlib.pyplot as plt
 
 plt.plot(error_range, 
          ens_errors, 
@@ -113,16 +137,13 @@ plt.show()
 
 # ## Implementing a simple majority vote classifier 
 
-# In[9]:
 
 
-import numpy as np
 
 np.argmax(np.bincount([0, 0, 1], 
                       weights=[0.2, 0.2, 0.6]))
 
 
-# In[10]:
 
 
 ex = np.array([[0.9, 0.1],
@@ -135,23 +156,13 @@ p = np.average(ex,
 p
 
 
-# In[11]:
 
 
 np.argmax(p)
 
 
-# In[12]:
 
 
-from sklearn.base import BaseEstimator
-from sklearn.base import ClassifierMixin
-from sklearn.preprocessing import LabelEncoder
-from sklearn.externals import six
-from sklearn.base import clone
-from sklearn.pipeline import _name_estimators
-import numpy as np
-import operator
 
 
 class MajorityVoteClassifier(BaseEstimator, 
@@ -285,13 +296,8 @@ class MajorityVoteClassifier(BaseEstimator,
 
 # ## Using the majority voting principle to make predictions
 
-# In[13]:
 
 
-from sklearn import datasets
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
 
 iris = datasets.load_iris()
 X, y = iris.data[50:, [1, 2]], iris.target[50:]
@@ -304,15 +310,8 @@ X_train, X_test, y_train, y_test =       train_test_split(X, y,
                         stratify=y)
 
 
-# In[14]:
 
 
-import numpy as np
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier 
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import cross_val_score
 
 clf1 = LogisticRegression(penalty='l2', 
                           C=0.001,
@@ -344,7 +343,6 @@ for clf, label in zip([pipe1, clf2, pipe3], clf_labels):
           % (scores.mean(), scores.std(), label))
 
 
-# In[15]:
 
 
 # Majority Rule (hard) Voting
@@ -367,11 +365,8 @@ for clf, label in zip(all_clf, clf_labels):
 
 # # Evaluating and tuning the ensemble classifier
 
-# In[16]:
 
 
-from sklearn.metrics import roc_curve
-from sklearn.metrics import auc
 
 colors = ['black', 'orange', 'blue', 'green']
 linestyles = [':', '--', '-.', '-']
@@ -406,17 +401,14 @@ plt.ylabel('True positive rate (TPR)')
 plt.show()
 
 
-# In[17]:
 
 
 sc = StandardScaler()
 X_train_std = sc.fit_transform(X_train)
 
 
-# In[18]:
 
 
-from itertools import product
 
 all_clf = [pipe1, clf2, pipe3, mv_clf]
 
@@ -468,16 +460,13 @@ plt.text(-12.5, 4.5,
 plt.show()
 
 
-# In[19]:
 
 
 mv_clf.get_params()
 
 
-# In[20]:
 
 
-from sklearn.model_selection import GridSearchCV
 
 params = {'decisiontreeclassifier__max_depth': [1, 2],
           'pipeline-1__clf__C': [0.001, 0.1, 100.0]}
@@ -495,7 +484,6 @@ for r, _ in enumerate(grid.cv_results_['mean_test_score']):
              grid.cv_results_['params'][r]))
 
 
-# In[21]:
 
 
 print('Best parameters: %s' % grid.best_params_)
@@ -514,25 +502,21 @@ print('Accuracy: %.2f' % grid.best_score_)
 # 
 # In addition, the "best" estimator can directly be accessed via the `best_estimator_` attribute.
 
-# In[22]:
 
 
 grid.best_estimator_.classifiers
 
 
-# In[23]:
 
 
 mv_clf = grid.best_estimator_
 
 
-# In[24]:
 
 
 mv_clf.set_params(**grid.best_estimator_.get_params())
 
 
-# In[25]:
 
 
 mv_clf
@@ -541,24 +525,20 @@ mv_clf
 
 # # Bagging -- Building an ensemble of classifiers from bootstrap samples
 
-# In[4]:
 
 
 
 
 # ## Bagging in a nutshell
 
-# In[28]:
 
 
 
 
 # ## Applying bagging to classify samples in the Wine dataset
 
-# In[29]:
 
 
-import pandas as pd
 
 df_wine = pd.read_csv('https://archive.ics.uci.edu/ml/'
                       'machine-learning-databases/wine/wine.data',
@@ -583,11 +563,8 @@ y = df_wine['Class label'].values
 X = df_wine[['Alcohol', 'OD280/OD315 of diluted wines']].values
 
 
-# In[30]:
 
 
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
 
 
 le = LabelEncoder()
@@ -599,11 +576,8 @@ X_train, X_test, y_train, y_test =            train_test_split(X, y,
                              stratify=y)
 
 
-# In[31]:
 
 
-from sklearn.ensemble import BaggingClassifier
-from sklearn.tree import DecisionTreeClassifier
 
 tree = DecisionTreeClassifier(criterion='entropy', 
                               max_depth=None,
@@ -619,10 +593,8 @@ bag = BaggingClassifier(base_estimator=tree,
                         random_state=1)
 
 
-# In[32]:
 
 
-from sklearn.metrics import accuracy_score
 
 tree = tree.fit(X_train, y_train)
 y_train_pred = tree.predict(X_train)
@@ -643,11 +615,8 @@ print('Bagging train/test accuracies %.3f/%.3f'
       % (bag_train, bag_test))
 
 
-# In[33]:
 
 
-import numpy as np
-import matplotlib.pyplot as plt
 
 x_min = X_train[:, 0].min() - 1
 x_max = X_train[:, 0].max() + 1
@@ -697,22 +666,18 @@ plt.show()
 
 # ## How boosting works
 
-# In[34]:
 
 
 
 
-# In[35]:
 
 
 
 
 # ## Applying AdaBoost using scikit-learn
 
-# In[36]:
 
 
-from sklearn.ensemble import AdaBoostClassifier
 
 tree = DecisionTreeClassifier(criterion='entropy', 
                               max_depth=1,
@@ -724,7 +689,6 @@ ada = AdaBoostClassifier(base_estimator=tree,
                          random_state=1)
 
 
-# In[37]:
 
 
 tree = tree.fit(X_train, y_train)
@@ -746,7 +710,6 @@ print('AdaBoost train/test accuracies %.3f/%.3f'
       % (ada_train, ada_test))
 
 
-# In[38]:
 
 
 x_min, x_max = X_train[:, 0].min() - 1, X_train[:, 0].max() + 1
@@ -788,3 +751,11 @@ plt.show()
 # # Summary
 
 # ...
+
+# ---
+# 
+# Readers may ignore the next cell.
+
+
+
+

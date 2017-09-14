@@ -1,5 +1,25 @@
-
 # coding: utf-8
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import RANSACRegressor
+from sklearn.model_selection import train_test_split
+import numpy as np
+import scipy as sp
+from sklearn.metrics import r2_score
+from sklearn.metrics import mean_squared_error
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import ElasticNet
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -13,7 +33,6 @@
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
@@ -50,24 +69,20 @@
 # - [Summary](#Summary)
 
 
-# In[2]:
 
 
-from IPython.display import Image
 
 
 # # Introducing linear regression
 
 # ## Simple linear regression
 
-# In[3]:
 
 
 
 
 # ## Multiple linear regression
 
-# In[4]:
 
 
 
@@ -101,10 +116,8 @@ from IPython.display import Image
 # 14. MEDV     Median value of owner-occupied homes in $1000s
 # </pre>
 
-# In[5]:
 
 
-import pandas as pd
 
 df = pd.read_csv('https://raw.githubusercontent.com/rasbt/'
                  'python-machine-learning-book-2nd-edition'
@@ -118,7 +131,6 @@ df.columns = ['CRIM', 'ZN', 'INDUS', 'CHAS',
 df.head()
 
 
-# <hr>
 # 
 # ### Note:
 # 
@@ -135,14 +147,10 @@ df.head()
 
 # ## Visualizing the important characteristics of a dataset
 
-# In[6]:
 
 
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
-# In[7]:
 
 
 cols = ['LSTAT', 'INDUS', 'NOX', 'RM', 'MEDV']
@@ -153,10 +161,8 @@ plt.tight_layout()
 plt.show()
 
 
-# In[8]:
 
 
-import numpy as np
 
 
 cm = np.corrcoef(df[cols].values.T)
@@ -182,7 +188,6 @@ plt.show()
 
 # ## Solving regression for regression parameters with gradient descent
 
-# In[9]:
 
 
 class LinearRegressionGD(object):
@@ -211,17 +216,14 @@ class LinearRegressionGD(object):
         return self.net_input(X)
 
 
-# In[10]:
 
 
 X = df[['RM']].values
 y = df['MEDV'].values
 
 
-# In[11]:
 
 
-from sklearn.preprocessing import StandardScaler
 
 
 sc_x = StandardScaler()
@@ -230,14 +232,12 @@ X_std = sc_x.fit_transform(X)
 y_std = sc_y.fit_transform(y[:, np.newaxis]).flatten()
 
 
-# In[12]:
 
 
 lr = LinearRegressionGD()
 lr.fit(X_std, y_std)
 
 
-# In[13]:
 
 
 plt.plot(range(1, lr.n_iter+1), lr.cost_)
@@ -248,7 +248,6 @@ plt.xlabel('Epoch')
 plt.show()
 
 
-# In[14]:
 
 
 def lin_regplot(X, y, model):
@@ -257,7 +256,6 @@ def lin_regplot(X, y, model):
     return 
 
 
-# In[15]:
 
 
 lin_regplot(X_std, y_std, lr)
@@ -268,14 +266,12 @@ plt.savefig('images/10_06.png', dpi=300)
 plt.show()
 
 
-# In[16]:
 
 
 print('Slope: %.3f' % lr.w_[1])
 print('Intercept: %.3f' % lr.w_[0])
 
 
-# In[17]:
 
 
 num_rooms_std = sc_x.transform(np.array([[5.0]]))
@@ -286,13 +282,10 @@ print("Price in $1000s: %.3f" % sc_y.inverse_transform(price_std))
 
 # ## Estimating the coefficient of a regression model via scikit-learn
 
-# In[18]:
 
 
-from sklearn.linear_model import LinearRegression
 
 
-# In[19]:
 
 
 slr = LinearRegression()
@@ -302,7 +295,6 @@ print('Slope: %.3f' % slr.coef_[0])
 print('Intercept: %.3f' % slr.intercept_)
 
 
-# In[20]:
 
 
 lin_regplot(X, y, slr)
@@ -315,7 +307,6 @@ plt.show()
 
 # **Normal Equations** alternative:
 
-# In[21]:
 
 
 # adding a column vector of "ones"
@@ -331,10 +322,8 @@ print('Intercept: %.3f' % w[0])
 
 # # Fitting a robust regression model using RANSAC
 
-# In[22]:
 
 
-from sklearn.linear_model import RANSACRegressor
 
 ransac = RANSACRegressor(LinearRegression(), 
                          max_trials=100, 
@@ -366,7 +355,6 @@ plt.legend(loc='upper left')
 plt.show()
 
 
-# In[23]:
 
 
 print('Slope: %.3f' % ransac.estimator_.coef_[0])
@@ -376,10 +364,8 @@ print('Intercept: %.3f' % ransac.estimator_.intercept_)
 
 # # Evaluating the performance of linear regression models
 
-# In[24]:
 
 
-from sklearn.model_selection import train_test_split
 
 X = df.iloc[:, :-1].values
 y = df['MEDV'].values
@@ -388,7 +374,6 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=0)
 
 
-# In[25]:
 
 
 slr = LinearRegression()
@@ -398,31 +383,24 @@ y_train_pred = slr.predict(X_train)
 y_test_pred = slr.predict(X_test)
 
 
-# In[26]:
 
 
-import numpy as np
-import scipy as sp
 
 ary = np.array(range(100000))
 
 
-# In[27]:
 
 
 
 
-# In[28]:
 
 
 
 
-# In[29]:
 
 
 
 
-# In[30]:
 
 
 plt.scatter(y_train_pred,  y_train_pred - y_train,
@@ -442,11 +420,8 @@ plt.tight_layout()
 plt.show()
 
 
-# In[31]:
 
 
-from sklearn.metrics import r2_score
-from sklearn.metrics import mean_squared_error
 
 print('MSE train: %.3f, test: %.3f' % (
         mean_squared_error(y_train, y_train_pred),
@@ -459,10 +434,8 @@ print('R^2 train: %.3f, test: %.3f' % (
 
 # # Using regularized methods for regression
 
-# In[32]:
 
 
-from sklearn.linear_model import Lasso
 
 lasso = Lasso(alpha=0.1)
 lasso.fit(X_train, y_train)
@@ -471,7 +444,6 @@ y_test_pred = lasso.predict(X_test)
 print(lasso.coef_)
 
 
-# In[33]:
 
 
 print('MSE train: %.3f, test: %.3f' % (
@@ -484,35 +456,28 @@ print('R^2 train: %.3f, test: %.3f' % (
 
 # Ridge regression:
 
-# In[34]:
 
 
-from sklearn.linear_model import Ridge
 ridge = Ridge(alpha=1.0)
 
 
 # LASSO regression:
 
-# In[35]:
 
 
-from sklearn.linear_model import Lasso
 lasso = Lasso(alpha=1.0)
 
 
 # Elastic Net regression:
 
-# In[36]:
 
 
-from sklearn.linear_model import ElasticNet
 elanet = ElasticNet(alpha=1.0, l1_ratio=0.5)
 
 
 
 # # Turning a linear regression model into a curve - polynomial regression
 
-# In[37]:
 
 
 X = np.array([258.0, 270.0, 294.0, 
@@ -526,10 +491,8 @@ y = np.array([236.4, 234.4, 252.8,
               390.8])
 
 
-# In[38]:
 
 
-from sklearn.preprocessing import PolynomialFeatures
 
 lr = LinearRegression()
 pr = LinearRegression()
@@ -537,7 +500,6 @@ quadratic = PolynomialFeatures(degree=2)
 X_quad = quadratic.fit_transform(X)
 
 
-# In[39]:
 
 
 # fit linear features
@@ -560,14 +522,12 @@ plt.tight_layout()
 plt.show()
 
 
-# In[40]:
 
 
 y_lin_pred = lr.predict(X)
 y_quad_pred = pr.predict(X_quad)
 
 
-# In[41]:
 
 
 print('Training MSE linear: %.3f, quadratic: %.3f' % (
@@ -581,7 +541,6 @@ print('Training R^2 linear: %.3f, quadratic: %.3f' % (
 
 # ## Modeling nonlinear relationships in the Housing Dataset
 
-# In[42]:
 
 
 X = df[['LSTAT']].values
@@ -642,7 +601,6 @@ plt.show()
 
 # Transforming the dataset:
 
-# In[43]:
 
 
 X = df[['LSTAT']].values
@@ -683,10 +641,8 @@ plt.show()
 
 # ## Decision tree regression
 
-# In[44]:
 
 
-from sklearn.tree import DecisionTreeRegressor
 
 X = df[['LSTAT']].values
 y = df['MEDV'].values
@@ -706,7 +662,6 @@ plt.show()
 
 # ## Random forest regression
 
-# In[45]:
 
 
 X = df.iloc[:, :-1].values
@@ -716,10 +671,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.4, random_state=1)
 
 
-# In[46]:
 
 
-from sklearn.ensemble import RandomForestRegressor
 
 forest = RandomForestRegressor(n_estimators=1000, 
                                criterion='mse', 
@@ -737,7 +690,6 @@ print('R^2 train: %.3f, test: %.3f' % (
         r2_score(y_test, y_test_pred)))
 
 
-# In[47]:
 
 
 plt.scatter(y_train_pred,  
@@ -776,13 +728,6 @@ plt.show()
 # ---
 # 
 # Readers may ignore the next cell.
-
-# In[ ]:
-
-
-
-
-# In[ ]:
 
 
 

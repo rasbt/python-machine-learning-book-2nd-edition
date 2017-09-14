@@ -1,5 +1,29 @@
-
 # coding: utf-8
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from matplotlib.colors import ListedColormap
+from sklearn.linear_model import LogisticRegression
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.linear_model import LogisticRegression
+from scipy.spatial.distance import pdist, squareform
+from scipy import exp
+from scipy.linalg import eigh
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_moons
+from sklearn.decomposition import PCA
+from sklearn.datasets import make_circles
+from scipy.spatial.distance import pdist, squareform
+from scipy import exp
+from scipy.linalg import eigh
+import numpy as np
+from sklearn.decomposition import KernelPCA
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -13,7 +37,6 @@
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
@@ -46,27 +69,22 @@
 # - [Summary](#Summary)
 
 
-# In[2]:
 
 
-from IPython.display import Image
 
 
 # # Unsupervised dimensionality reduction via principal component analysis
 
 # ## The main steps behind principal component analysis
 
-# In[3]:
 
 
 
 
 # ## Extracting the principal components step-by-step
 
-# In[4]:
 
 
-import pandas as pd
 
 df_wine = pd.read_csv('https://archive.ics.uci.edu/ml/'
                       'machine-learning-databases/wine/wine.data',
@@ -87,14 +105,11 @@ df_wine.columns = ['Class label', 'Alcohol', 'Malic acid', 'Ash',
 df_wine.head()
 
 
-# <hr>
 
 # Splitting the data into 70% training and 30% test subsets.
 
-# In[5]:
 
 
-from sklearn.model_selection import train_test_split
 
 X, y = df_wine.iloc[:, 1:].values, df_wine.iloc[:, 0].values
 
@@ -105,10 +120,8 @@ X_train, X_test, y_train, y_test =     train_test_split(X, y, test_size=0.3,
 
 # Standardizing the data.
 
-# In[6]:
 
 
-from sklearn.preprocessing import StandardScaler
 
 sc = StandardScaler()
 X_train_std = sc.fit_transform(X_train)
@@ -161,10 +174,8 @@ X_test_std = sc.transform(X_test)
 
 # Eigendecomposition of the covariance matrix.
 
-# In[7]:
 
 
-import numpy as np
 cov_mat = np.cov(X_train_std.T)
 eigen_vals, eigen_vecs = np.linalg.eig(cov_mat)
 
@@ -181,7 +192,6 @@ print('\nEigenvalues \n%s' % eigen_vals)
 
 # ## Total and explained variance
 
-# In[8]:
 
 
 tot = sum(eigen_vals)
@@ -189,10 +199,8 @@ var_exp = [(i / tot) for i in sorted(eigen_vals, reverse=True)]
 cum_var_exp = np.cumsum(var_exp)
 
 
-# In[9]:
 
 
-import matplotlib.pyplot as plt
 
 
 plt.bar(range(1, 14), var_exp, alpha=0.5, align='center',
@@ -210,7 +218,6 @@ plt.show()
 
 # ## Feature transformation
 
-# In[10]:
 
 
 # Make a list of (eigenvalue, eigenvector) tuples
@@ -221,7 +228,6 @@ eigen_pairs = [(np.abs(eigen_vals[i]), eigen_vecs[:, i])
 eigen_pairs.sort(key=lambda k: k[0], reverse=True)
 
 
-# In[11]:
 
 
 w = np.hstack((eigen_pairs[0][1][:, np.newaxis],
@@ -240,13 +246,11 @@ print('Matrix W:\n', w)
 # then $-v$ is also an eigenvector that has the same eigenvalue, since
 # $$\Sigma \cdot (-v) = -\Sigma v = -\lambda v = \lambda \cdot (-v).$$
 
-# In[12]:
 
 
 X_train_std[0].dot(w)
 
 
-# In[13]:
 
 
 X_train_pca = X_train_std.dot(w)
@@ -273,17 +277,14 @@ plt.show()
 # 
 # The following four code cells has been added in addition to the content to the book, to illustrate how to replicate the results from our own PCA implementation in scikit-learn:
 
-# In[14]:
 
 
-from sklearn.decomposition import PCA
 
 pca = PCA()
 X_train_pca = pca.fit_transform(X_train_std)
 pca.explained_variance_ratio_
 
 
-# In[15]:
 
 
 plt.bar(range(1, 14), pca.explained_variance_ratio_, alpha=0.5, align='center')
@@ -294,7 +295,6 @@ plt.xlabel('Principal components')
 plt.show()
 
 
-# In[16]:
 
 
 pca = PCA(n_components=2)
@@ -302,7 +302,6 @@ X_train_pca = pca.fit_transform(X_train_std)
 X_test_pca = pca.transform(X_test_std)
 
 
-# In[17]:
 
 
 plt.scatter(X_train_pca[:, 0], X_train_pca[:, 1])
@@ -311,10 +310,8 @@ plt.ylabel('PC 2')
 plt.show()
 
 
-# In[18]:
 
 
-from matplotlib.colors import ListedColormap
 
 def plot_decision_regions(X, y, classifier, resolution=0.02):
 
@@ -347,10 +344,8 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
 
 # Training logistic regression classifier using the first 2 principal components.
 
-# In[19]:
 
 
-from sklearn.linear_model import LogisticRegression
 
 pca = PCA(n_components=2)
 X_train_pca = pca.fit_transform(X_train_std)
@@ -360,7 +355,6 @@ lr = LogisticRegression()
 lr = lr.fit(X_train_pca, y_train)
 
 
-# In[20]:
 
 
 plot_decision_regions(X_train_pca, y_train, classifier=lr)
@@ -372,7 +366,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[21]:
 
 
 plot_decision_regions(X_test_pca, y_test, classifier=lr)
@@ -384,7 +377,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[22]:
 
 
 pca = PCA(n_components=None)
@@ -397,7 +389,6 @@ pca.explained_variance_ratio_
 
 # ## Principal component analysis versus linear discriminant analysis
 
-# In[4]:
 
 
 
@@ -409,7 +400,6 @@ pca.explained_variance_ratio_
 
 # Calculate the mean vectors for each class:
 
-# In[24]:
 
 
 np.set_printoptions(precision=4)
@@ -422,7 +412,6 @@ for label in range(1, 4):
 
 # Compute the within-class scatter matrix:
 
-# In[25]:
 
 
 d = 13 # number of features
@@ -439,14 +428,12 @@ print('Within-class scatter matrix: %sx%s' % (S_W.shape[0], S_W.shape[1]))
 
 # Better: covariance matrix since classes are not equally distributed:
 
-# In[26]:
 
 
 print('Class label distribution: %s' 
       % np.bincount(y_train)[1:])
 
 
-# In[27]:
 
 
 d = 13  # number of features
@@ -460,7 +447,6 @@ print('Scaled within-class scatter matrix: %sx%s' % (S_W.shape[0],
 
 # Compute the between-class scatter matrix:
 
-# In[28]:
 
 
 mean_overall = np.mean(X_train_std, axis=0)
@@ -480,7 +466,6 @@ print('Between-class scatter matrix: %sx%s' % (S_B.shape[0], S_B.shape[1]))
 
 # Solve the generalized eigenvalue problem for the matrix $S_W^{-1}S_B$:
 
-# In[29]:
 
 
 eigen_vals, eigen_vecs = np.linalg.eig(np.linalg.inv(S_W).dot(S_B))
@@ -495,7 +480,6 @@ eigen_vals, eigen_vecs = np.linalg.eig(np.linalg.inv(S_W).dot(S_B))
 
 # Sort eigenvectors in descending order of the eigenvalues:
 
-# In[30]:
 
 
 # Make a list of (eigenvalue, eigenvector) tuples
@@ -512,7 +496,6 @@ for eigen_val in eigen_pairs:
     print(eigen_val[0])
 
 
-# In[31]:
 
 
 tot = sum(eigen_vals.real)
@@ -532,7 +515,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[32]:
 
 
 w = np.hstack((eigen_pairs[0][1][:, np.newaxis].real,
@@ -543,7 +525,6 @@ print('Matrix W:\n', w)
 
 # ## Projecting samples onto the new feature space
 
-# In[33]:
 
 
 X_train_lda = X_train_std.dot(w)
@@ -566,19 +547,15 @@ plt.show()
 
 # ## LDA via scikit-learn
 
-# In[34]:
 
 
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
 lda = LDA(n_components=2)
 X_train_lda = lda.fit_transform(X_train_std, y_train)
 
 
-# In[35]:
 
 
-from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression()
 lr = lr.fit(X_train_lda, y_train)
 
@@ -591,7 +568,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[36]:
 
 
 X_test_lda = lda.transform(X_test_std)
@@ -608,7 +584,6 @@ plt.show()
 
 # # Using kernel principal component analysis for nonlinear mappings
 
-# In[5]:
 
 
 
@@ -616,13 +591,8 @@ plt.show()
 
 # ## Implementing a kernel principal component analysis in Python
 
-# In[38]:
 
 
-from scipy.spatial.distance import pdist, squareform
-from scipy import exp
-from scipy.linalg import eigh
-import numpy as np
 
 def rbf_kernel_pca(X, gamma, n_components):
     """
@@ -674,11 +644,8 @@ def rbf_kernel_pca(X, gamma, n_components):
 
 # ### Example 1: Separating half-moon shapes
 
-# In[39]:
 
 
-import matplotlib.pyplot as plt
-from sklearn.datasets import make_moons
 
 X, y = make_moons(n_samples=100, random_state=123)
 
@@ -690,10 +657,8 @@ plt.tight_layout()
 plt.show()
 
 
-# In[40]:
 
 
-from sklearn.decomposition import PCA
 
 scikit_pca = PCA(n_components=2)
 X_spca = scikit_pca.fit_transform(X)
@@ -721,7 +686,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[41]:
 
 
 X_kpca = rbf_kernel_pca(X, gamma=15, n_components=2)
@@ -751,10 +715,8 @@ plt.show()
 
 # ### Example 2: Separating concentric circles
 
-# In[42]:
 
 
-from sklearn.datasets import make_circles
 
 X, y = make_circles(n_samples=1000, random_state=123, noise=0.1, factor=0.2)
 
@@ -766,7 +728,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[43]:
 
 
 scikit_pca = PCA(n_components=2)
@@ -795,7 +756,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[44]:
 
 
 X_kpca = rbf_kernel_pca(X, gamma=15, n_components=2)
@@ -825,13 +785,8 @@ plt.show()
 
 # ## Projecting new data points
 
-# In[45]:
 
 
-from scipy.spatial.distance import pdist, squareform
-from scipy import exp
-from scipy.linalg import eigh
-import numpy as np
 
 def rbf_kernel_pca(X, gamma, n_components):
     """
@@ -886,28 +841,24 @@ def rbf_kernel_pca(X, gamma, n_components):
     return alphas, lambdas
 
 
-# In[46]:
 
 
 X, y = make_moons(n_samples=100, random_state=123)
 alphas, lambdas = rbf_kernel_pca(X, gamma=15, n_components=1)
 
 
-# In[47]:
 
 
 x_new = X[25]
 x_new
 
 
-# In[48]:
 
 
 x_proj = alphas[25] # original projection
 x_proj
 
 
-# In[49]:
 
 
 def project_x(x_new, X, gamma, alphas, lambdas):
@@ -920,7 +871,6 @@ x_reproj = project_x(x_new, X, gamma=15, alphas=alphas, lambdas=lambdas)
 x_reproj 
 
 
-# In[50]:
 
 
 plt.scatter(alphas[y == 0, 0], np.zeros((50)),
@@ -941,10 +891,8 @@ plt.show()
 
 # ## Kernel principal component analysis in scikit-learn
 
-# In[51]:
 
 
-from sklearn.decomposition import KernelPCA
 
 X, y = make_moons(n_samples=100, random_state=123)
 scikit_kpca = KernelPCA(n_components=2, kernel='rbf', gamma=15)
@@ -966,3 +914,16 @@ plt.show()
 # # Summary
 
 # ...
+
+# ---
+# 
+# Readers may ignore the next cell.
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,28 @@
-
 # coding: utf-8
+
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+import numpy as np
+from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import cross_val_score
+import matplotlib.pyplot as plt
+from sklearn.model_selection import learning_curve
+from sklearn.model_selection import validation_curve
+from sklearn.model_selection import GridSearchCV
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.metrics import make_scorer
+from sklearn.metrics import roc_curve, auc
+from scipy import interp
+from sklearn.utils import resample
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -13,7 +36,6 @@
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
@@ -44,10 +66,8 @@
 # - [Summary](#Summary)
 
 
-# In[2]:
 
 
-from IPython.display import Image
 
 
 # # Streamlining workflows with pipelines
@@ -56,10 +76,8 @@ from IPython.display import Image
 
 # ## Loading the Breast Cancer Wisconsin dataset
 
-# In[3]:
 
 
-import pandas as pd
 
 df = pd.read_csv('https://archive.ics.uci.edu/ml/'
                  'machine-learning-databases'
@@ -74,18 +92,14 @@ df = pd.read_csv('https://archive.ics.uci.edu/ml/'
 df.head()
 
 
-# In[4]:
 
 
 df.shape
 
 
-# <hr>
-
-# In[5]:
 
 
-from sklearn.preprocessing import LabelEncoder
+
 
 X = df.loc[:, 2:].values
 y = df.loc[:, 1].values
@@ -94,16 +108,13 @@ y = le.fit_transform(y)
 le.classes_
 
 
-# In[6]:
 
 
 le.transform(['M', 'B'])
 
 
-# In[7]:
 
 
-from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test =     train_test_split(X, y, 
                      test_size=0.20,
@@ -114,13 +125,8 @@ X_train, X_test, y_train, y_test =     train_test_split(X, y,
 
 # ## Combining transformers and estimators in a pipeline
 
-# In[8]:
 
 
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
 
 pipe_lr = make_pipeline(StandardScaler(),
                         PCA(n_components=2),
@@ -131,7 +137,6 @@ y_pred = pipe_lr.predict(X_test)
 print('Test Accuracy: %.3f' % pipe_lr.score(X_test, y_test))
 
 
-# In[9]:
 
 
 
@@ -143,7 +148,6 @@ print('Test Accuracy: %.3f' % pipe_lr.score(X_test, y_test))
 
 # ## The holdout method
 
-# In[10]:
 
 
 
@@ -151,16 +155,12 @@ print('Test Accuracy: %.3f' % pipe_lr.score(X_test, y_test))
 
 # ## K-fold cross-validation
 
-# In[11]:
 
 
 
 
-# In[12]:
 
 
-import numpy as np
-from sklearn.model_selection import StratifiedKFold
     
 
 kfold = StratifiedKFold(n_splits=10,
@@ -177,10 +177,8 @@ for k, (train, test) in enumerate(kfold):
 print('\nCV accuracy: %.3f +/- %.3f' % (np.mean(scores), np.std(scores)))
 
 
-# In[13]:
 
 
-from sklearn.model_selection import cross_val_score
 
 scores = cross_val_score(estimator=pipe_lr,
                          X=X_train,
@@ -197,16 +195,12 @@ print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores), np.std(scores)))
 
 # ## Diagnosing bias and variance problems with learning curves
 
-# In[14]:
 
 
 
 
-# In[15]:
 
 
-import matplotlib.pyplot as plt
-from sklearn.model_selection import learning_curve
 
 
 pipe_lr = make_pipeline(StandardScaler(),
@@ -256,10 +250,8 @@ plt.show()
 
 # ## Addressing over- and underfitting with validation curves
 
-# In[16]:
 
 
-from sklearn.model_selection import validation_curve
 
 
 param_range = [0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
@@ -311,11 +303,8 @@ plt.show()
 
 # ## Tuning hyperparameters via grid search 
 
-# In[17]:
 
 
-from sklearn.model_selection import GridSearchCV
-from sklearn.svm import SVC
 
 pipe_svc = make_pipeline(StandardScaler(),
                          SVC(random_state=1))
@@ -338,7 +327,6 @@ print(gs.best_score_)
 print(gs.best_params_)
 
 
-# In[18]:
 
 
 clf = gs.best_estimator_
@@ -349,12 +337,10 @@ print('Test accuracy: %.3f' % clf.score(X_test, y_test))
 
 # ## Algorithm selection with nested cross-validation
 
-# In[19]:
 
 
 
 
-# In[20]:
 
 
 gs = GridSearchCV(estimator=pipe_svc,
@@ -368,10 +354,8 @@ print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores),
                                       np.std(scores)))
 
 
-# In[21]:
 
 
-from sklearn.tree import DecisionTreeClassifier
 
 gs = GridSearchCV(estimator=DecisionTreeClassifier(random_state=0),
                   param_grid=[{'max_depth': [1, 2, 3, 4, 5, 6, 7, None]}],
@@ -391,15 +375,12 @@ print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores),
 
 # ## Reading a confusion matrix
 
-# In[22]:
 
 
 
 
-# In[23]:
 
 
-from sklearn.metrics import confusion_matrix
 
 pipe_svc.fit(X_train, y_train)
 y_pred = pipe_svc.predict(X_test)
@@ -407,7 +388,6 @@ confmat = confusion_matrix(y_true=y_test, y_pred=y_pred)
 print(confmat)
 
 
-# In[24]:
 
 
 fig, ax = plt.subplots(figsize=(2.5, 2.5))
@@ -428,13 +408,11 @@ plt.show()
 
 # Remember that we previously encoded the class labels so that *malignant* samples are the "postive" class (1), and *benign* samples are the "negative" class (0):
 
-# In[25]:
 
 
 le.transform(['M', 'B'])
 
 
-# In[26]:
 
 
 confmat = confusion_matrix(y_true=y_test, y_pred=y_pred)
@@ -443,7 +421,6 @@ print(confmat)
 
 # Next, we printed the confusion matrix like so:
 
-# In[27]:
 
 
 confmat = confusion_matrix(y_true=y_test, y_pred=y_pred)
@@ -452,7 +429,6 @@ print(confmat)
 
 # Note that the (true) class 0 samples that are correctly predicted as class 0 (true negatives) are now in the upper left corner of the matrix (index 0, 0). In order to change the ordering so that the true negatives are in the lower right corner (index 1,1) and the true positves are in the upper left, we can use the `labels` argument like shown below:
 
-# In[28]:
 
 
 confmat = confusion_matrix(y_true=y_test, y_pred=y_pred, labels=[1, 0])
@@ -466,20 +442,16 @@ print(confmat)
 
 # ## Optimizing the precision and recall of a classification model
 
-# In[29]:
 
 
-from sklearn.metrics import precision_score, recall_score, f1_score
 
 print('Precision: %.3f' % precision_score(y_true=y_test, y_pred=y_pred))
 print('Recall: %.3f' % recall_score(y_true=y_test, y_pred=y_pred))
 print('F1: %.3f' % f1_score(y_true=y_test, y_pred=y_pred))
 
 
-# In[30]:
 
 
-from sklearn.metrics import make_scorer
 
 scorer = make_scorer(f1_score, pos_label=0)
 
@@ -504,11 +476,8 @@ print(gs.best_params_)
 
 # ## Plotting a receiver operating characteristic
 
-# In[31]:
 
 
-from sklearn.metrics import roc_curve, auc
-from scipy import interp
 
 pipe_lr = make_pipeline(StandardScaler(),
                         PCA(n_components=2),
@@ -574,7 +543,6 @@ plt.show()
 
 # ## The scoring metrics for multiclass classification
 
-# In[32]:
 
 
 pre_scorer = make_scorer(score_func=precision_score, 
@@ -585,24 +553,20 @@ pre_scorer = make_scorer(score_func=precision_score,
 
 # ## Dealing with class imbalance
 
-# In[33]:
 
 
 X_imb = np.vstack((X[y == 0], X[y == 1][:40]))
 y_imb = np.hstack((y[y == 0], y[y == 1][:40]))
 
 
-# In[34]:
 
 
 y_pred = np.zeros(y_imb.shape[0])
 np.mean(y_pred == y_imb) * 100
 
 
-# In[35]:
 
 
-from sklearn.utils import resample
 
 print('Number of class 1 samples before:', X_imb[y_imb == 1].shape[0])
 
@@ -615,14 +579,12 @@ X_upsampled, y_upsampled = resample(X_imb[y_imb == 1],
 print('Number of class 1 samples after:', X_upsampled.shape[0])
 
 
-# In[36]:
 
 
 X_bal = np.vstack((X[y == 0], X_upsampled))
 y_bal = np.hstack((y[y == 0], y_upsampled))
 
 
-# In[37]:
 
 
 y_pred = np.zeros(y_bal.shape[0])
@@ -637,13 +599,6 @@ np.mean(y_pred == y_bal) * 100
 # ---
 # 
 # Readers may ignore the next cell.
-
-# In[ ]:
-
-
-
-
-# In[ ]:
 
 
 

@@ -1,5 +1,10 @@
-
 # coding: utf-8
+
+
+import matplotlib.pyplot as plt
+import tensorflow as tf
+import numpy as np
+import tensorflow as tf
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com) and Vahid Mirjalili, Packt Publishing Ltd. 2017
 # 
@@ -11,7 +16,6 @@
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
@@ -40,30 +44,22 @@
 # - [Visualizing the graph with TensorBoard](#Visualizing-the-graph-with-TensorBoard)
 # - [Summary](#Summary)
 
-# In[2]:
 
 
-from IPython.display import Image
 
 
-# In[3]:
 
 
-import matplotlib.pyplot as plt
-import tensorflow as tf
-import numpy as np
 
 
 # ## TensorFlow in a nutshell
 
-# In[4]:
 
 
 
 
 # **How to get the rank and shape of a tensor**
 
-# In[5]:
 
 
 g = tf.Graph()
@@ -95,13 +91,11 @@ with tf.Session(graph=g) as sess:
 
 # ## Understanding TensorFlow's computation graph
 
-# In[6]:
 
 
 Image("images/14_02.png")
 
 
-# In[7]:
 
 
 g = tf.Graph()
@@ -112,11 +106,11 @@ with g.as_default():
     b = tf.constant(2, name='b') 
     c = tf.constant(3, name='c') 
 
-    t = 2*(a-b) + c
+    z = 2*(a-b) + c
     
 ## launch the graph
 with tf.Session(graph=g) as sess:
-    print('2*(a-b)+c => ', sess.run(t))
+    print('2*(a-b)+c => ', sess.run(z))
 
 
 # ## Working with TensorFlow’s placeholders, variables, and operations
@@ -125,7 +119,6 @@ with tf.Session(graph=g) as sess:
 
 # #### Defining placeholders
 
-# In[8]:
 
 
 g = tf.Graph()
@@ -144,7 +137,6 @@ with g.as_default():
 
 # #### Feeding placeholders with data
 
-# In[9]:
 
 
 ## launch the previous graph
@@ -158,7 +150,6 @@ with tf.Session(graph=g) as sess:
 
 # Execution with and without feeding tf_c:
 
-# In[10]:
 
 
 ## launch the previous graph
@@ -185,7 +176,6 @@ with tf.Session(graph=g) as sess:
 
 # Placeholder for varying batchsizes:
 
-# In[11]:
 
 
 g = tf.Graph()
@@ -216,7 +206,6 @@ with tf.Session(graph=g) as sess:
                              feed_dict={tf_x:x2}))
 
 
-# In[12]:
 
 
 print(tf_x)
@@ -227,7 +216,6 @@ print(tf_x)
 
 # #### Defining Variables
 
-# In[13]:
 
 
 g1 = tf.Graph()
@@ -240,7 +228,6 @@ with g1.as_default():
 
 # #### Initializing variables
 
-# In[14]:
 
 
 ## initialize w and evaluate it
@@ -249,7 +236,6 @@ with tf.Session(graph=g1) as sess:
     print(sess.run(w))
 
 
-# In[15]:
 
 
 ## add the init_op to the graph
@@ -262,7 +248,6 @@ with tf.Session(graph=g1) as sess:
     print(sess.run(w))
 
 
-# In[16]:
 
 
 g2 = tf.Graph()
@@ -273,7 +258,6 @@ with g2.as_default():
     w2 = tf.Variable(2, name='w2')
 
 
-# In[17]:
 
 
 with tf.Session(graph=g2) as sess:
@@ -283,7 +267,6 @@ with tf.Session(graph=g2) as sess:
 
 # Error if a variable is not initialized:
 
-# In[18]:
 
 
 with tf.Session(graph=g2) as sess:
@@ -297,7 +280,6 @@ with tf.Session(graph=g2) as sess:
 
 # #### Variable scope
 
-# In[19]:
 
 
 g = tf.Graph()
@@ -322,7 +304,6 @@ with g.as_default():
 
 # #### Reusing variables
 
-# In[20]:
 
 
 ######################
@@ -398,7 +379,6 @@ with g.as_default():
         init_op = tf.global_variables_initializer()
 
 
-# In[21]:
 
 
 ## alternative way
@@ -432,7 +412,6 @@ with g.as_default():
 
 # ### Building a regression model
 
-# In[22]:
 
 
 ## define a graph
@@ -473,7 +452,6 @@ with g.as_default():
     train_op = optim.minimize(cost, name='train_op')
 
 
-# In[23]:
 
 
 ## create a random toy dataset for regression
@@ -495,13 +473,12 @@ def make_random_data():
 x, y = make_random_data() 
 
 plt.plot(x, y, 'o')
-plt.savefig('images/14_03.png', dpi=300)
+# plt.savefig('images/14_03.png', dpi=300)
 plt.show()
 
 
 # ### Executing objects in a TensorFlow graph using their names
 
-# In[24]:
 
 
 ## train/test splits:
@@ -532,7 +509,6 @@ plt.savefig('images/14_04.png', dpi=300)
 
 # Executing with variable names:
 
-# In[25]:
 
 
 ## train/test splits
@@ -562,7 +538,6 @@ with tf.Session(graph=g) as sess:
 
 # ## Saving and restoring a model in TensorFlow
 
-# In[26]:
 
 
 ## add saver to the graph
@@ -591,7 +566,6 @@ with tf.Session(graph=g) as sess:
 
 # Restoring the saved model:
 
-# In[27]:
 
 
 ## new file: loading a trained model
@@ -608,13 +582,11 @@ with tf.Session(graph=g2) as sess:
                       feed_dict={'tf_x:0' : x_test})
 
 
-# In[28]:
 
 
 print('SSE: %.4f' % (np.sum(np.square(y_pred - y_test))))
 
 
-# In[29]:
 
 
 x_arr = np.arange(-2, 4, 0.1)
@@ -638,7 +610,6 @@ plt.show()
 
 # ## Transforming Tensors as multidimensional data arrays
 
-# In[30]:
 
 
 g = tf.Graph()
@@ -658,7 +629,6 @@ with g.as_default():
     print(T3)
 
 
-# In[31]:
 
 
 with g.as_default():
@@ -670,7 +640,6 @@ with g.as_default():
     print(T5)
 
 
-# In[32]:
 
 
 with tf.Session(graph = g) as sess:
@@ -679,7 +648,6 @@ with tf.Session(graph = g) as sess:
     print(sess.run(T5))
 
 
-# In[33]:
 
 
 with g.as_default():
@@ -691,7 +659,6 @@ with g.as_default():
     print(T7)
 
 
-# In[34]:
 
 
 with g.as_default():
@@ -701,7 +668,6 @@ with g.as_default():
     print(t5_splt)
 
 
-# In[35]:
 
 
 g = tf.Graph()
@@ -709,7 +675,7 @@ with g.as_default():
     t1 = tf.ones(shape=(10, 1), 
                  dtype=tf.float32, name='t1')
     t2 = tf.zeros(shape=(10, 1),
-                 dtype=tf.float32, name='t1')
+                 dtype=tf.float32, name='t2')
     print(t1)
     print(t2)
     
@@ -720,7 +686,6 @@ with g.as_default():
     print(t4)
 
 
-# In[36]:
 
 
 with tf.Session(graph = g) as sess:
@@ -731,7 +696,6 @@ with tf.Session(graph = g) as sess:
 
 # ## Utilizing control flow mechanics in building graphs
 
-# In[37]:
 
 
 ## Python control flow
@@ -765,7 +729,6 @@ with tf.Session(graph=g) as sess:
     file_writer = tf.summary.FileWriter(logdir='./logs/py-cflow/', graph=g)
 
 
-# In[38]:
 
 
 ## TensorFlow control flow
@@ -798,17 +761,14 @@ with tf.Session(graph=g) as sess:
     #file_writer = tf.summary.FileWriter(logdir='./logs/tf-cond/', graph=g)
 
 
-# In[39]:
 
 
 
 
 # ## Visualizing the graph with TensorBoard
 
-# In[40]:
 
 
-import tensorflow as tf
 
 
 ###########################
@@ -894,17 +854,14 @@ with tf.Session(graph = g) as sess:
 
 
 
-# In[41]:
 
 
 
 
-# In[42]:
 
 
 
 
-# In[43]:
 
 
 
@@ -916,13 +873,6 @@ with tf.Session(graph = g) as sess:
 # ---
 # 
 # Readers may ignore the next cell.
-
-# In[ ]:
-
-
-
-
-# In[ ]:
 
 
 

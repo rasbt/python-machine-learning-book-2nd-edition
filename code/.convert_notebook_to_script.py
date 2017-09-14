@@ -7,6 +7,7 @@
 import argparse
 import os
 import subprocess
+import textwrap
 
 
 def convert(input_path, output_path):
@@ -17,21 +18,27 @@ def convert(input_path, output_path):
 def cleanup(path):
 
     skip_lines_startwith = ('Image(filename=',
+                            '# In[',
+                            '# <hr>',
+                            'from IPython.display import Image',
                             'get_ipython()',
-                            '# <br>',
-                            'from __future__ import print_function')
+                            '# <br>')
 
     clean_content = []
+    imports = []
     with open(path, 'r') as f:
+        next(f)
+        next(f)
         for line in f:
             if line.startswith(skip_lines_startwith):
-                if line.startswith('from __future__ import print_function'):
-                    clean_content.insert(0,
-                                         'from __future__ import '
-                                         'print_function\n\n\n')
                 continue
+            if line.startswith('import') or (
+                    'from' in line and 'import' in line):
+                imports.append(line)
             else:
                 clean_content.append(line)
+
+    clean_content = ['# coding: utf-8\n\n\n'] + imports + clean_content
 
     with open(path, 'w') as f:
         for line in clean_content:

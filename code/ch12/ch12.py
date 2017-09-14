@@ -1,5 +1,18 @@
-
 # coding: utf-8
+
+
+import os
+import struct
+import numpy as np
+import sys
+import gzip
+import shutil
+import matplotlib.pyplot as plt
+import numpy as np
+import numpy as np
+import sys
+import numpy as np
+import matplotlib.pyplot as plt
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -14,7 +27,6 @@
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
@@ -38,10 +50,8 @@
 # - [Summary](#Summary)
 
 
-# In[2]:
 
 
-from IPython.display import Image
 
 
 # # Modeling complex functions with artificial neural networks
@@ -50,7 +60,6 @@ from IPython.display import Image
 
 # ## Single-layer neural network recap
 
-# In[3]:
 
 
 
@@ -58,12 +67,10 @@ from IPython.display import Image
 
 # ## Introducing the multi-layer neural network architecture
 
-# In[4]:
 
 
 
 
-# In[5]:
 
 
 
@@ -71,7 +78,6 @@ from IPython.display import Image
 
 # ## Activating a neural network via forward propagation
 
-# In[6]:
 
 
 
@@ -97,12 +103,8 @@ from IPython.display import Image
 # in your local MNIST download directory, or, using your favorite unzipping tool if you are working with a machine running on Microsoft Windows. The images are stored in byte form, and using the following function, we will read them into NumPy arrays that we will use to train our MLP.
 # 
 
-# In[7]:
 
 
-import os
-import struct
-import numpy as np
  
 def load_mnist(path, kind='train'):
     """Load MNIST data from `path`"""
@@ -127,19 +129,14 @@ def load_mnist(path, kind='train'):
     return images, labels
 
 
-# In[8]:
 
 
 
 
-# In[9]:
 
 
 # unzips mnist
 
-import sys
-import gzip
-import shutil
 
 if (sys.version_info > (3, 0)):
     writemode = 'wb'
@@ -152,14 +149,12 @@ for z in zipped_mnist:
         outfile.write(decompressed.read()) 
 
 
-# In[10]:
 
 
 X_train, y_train = load_mnist('', kind='train')
 print('Rows: %d, columns: %d' % (X_train.shape[0], X_train.shape[1]))
 
 
-# In[11]:
 
 
 X_test, y_test = load_mnist('', kind='t10k')
@@ -168,10 +163,8 @@ print('Rows: %d, columns: %d' % (X_test.shape[0], X_test.shape[1]))
 
 # Visualize the first digit of each class:
 
-# In[12]:
 
 
-import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots(nrows=2, ncols=5, sharex=True, sharey=True,)
 ax = ax.flatten()
@@ -188,7 +181,6 @@ plt.show()
 
 # Visualize 25 different versions of "7":
 
-# In[13]:
 
 
 fig, ax = plt.subplots(nrows=5, ncols=5, sharex=True, sharey=True,)
@@ -204,10 +196,8 @@ plt.tight_layout()
 plt.show()
 
 
-# In[14]:
 
 
-import numpy as np
 
 np.savez_compressed('mnist_scaled.npz', 
                     X_train=X_train,
@@ -216,14 +206,12 @@ np.savez_compressed('mnist_scaled.npz',
                     y_test=y_test)
 
 
-# In[15]:
 
 
 mnist = np.load('mnist_scaled.npz')
 mnist.files
 
 
-# In[16]:
 
 
 X_train, y_train, X_test, y_test = [mnist[f] for f in ['X_train', 'y_train', 
@@ -237,11 +225,8 @@ X_train.shape
 
 # ## Implementing a multi-layer perceptron
 
-# In[17]:
 
 
-import numpy as np
-import sys
 
 
 class NeuralNetMLP(object):
@@ -495,7 +480,6 @@ class NeuralNetMLP(object):
         return self
 
 
-# In[18]:
 
 
 n_epochs = 200
@@ -511,7 +495,6 @@ if 'TRAVIS' in os.environ:
     n_epochs = 20
 
 
-# In[19]:
 
 
 nn = NeuralNetMLP(n_hidden=100, 
@@ -565,10 +548,8 @@ nn.fit(X_train=X_train[:55000],
 # 
 # 
 
-# In[20]:
 
 
-import numpy as np
 
 a = np.arange(5)
 b = a
@@ -583,10 +564,8 @@ print('a & b', np.may_share_memory(a, b))
 # 
 # ---
 
-# In[21]:
 
 
-import matplotlib.pyplot as plt
 
 plt.plot(range(nn.epochs), nn.eval_['cost'])
 plt.ylabel('Cost')
@@ -595,7 +574,6 @@ plt.xlabel('Epochs')
 plt.show()
 
 
-# In[22]:
 
 
 plt.plot(range(nn.epochs), nn.eval_['train_acc'], 
@@ -609,7 +587,6 @@ plt.legend()
 plt.show()
 
 
-# In[23]:
 
 
 y_test_pred = nn.predict(X_test)
@@ -619,7 +596,6 @@ acc = (np.sum(y_test == y_test_pred)
 print('Test accuracy: %.2f%%' % (acc * 100))
 
 
-# In[24]:
 
 
 miscl_img = X_test[y_test != y_test_pred][:25]
@@ -647,7 +623,6 @@ plt.show()
 
 # ## Computing the logistic cost function
 
-# In[25]:
 
 
 
@@ -659,12 +634,10 @@ plt.show()
 
 # ## Training neural networks via backpropagation
 
-# In[26]:
 
 
 
 
-# In[6]:
 
 
 
@@ -672,7 +645,6 @@ plt.show()
 
 # # Convergence in neural networks
 
-# In[28]:
 
 
 
@@ -683,3 +655,11 @@ plt.show()
 # # Summary
 
 # ...
+
+# ---
+# 
+# Readers may ignore the next cell.
+
+
+
+

@@ -1,5 +1,21 @@
-
 # coding: utf-8
+
+
+from sklearn.datasets import make_blobs
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+import numpy as np
+from matplotlib import cm
+from sklearn.metrics import silhouette_samples
+import pandas as pd
+import numpy as np
+from scipy.spatial.distance import pdist, squareform
+from scipy.cluster.hierarchy import linkage
+from scipy.cluster.hierarchy import dendrogram
+# from scipy.cluster.hierarchy import set_link_color_palette
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.datasets import make_moons
+from sklearn.cluster import DBSCAN
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -13,7 +29,6 @@
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
-# In[1]:
 
 
 
@@ -38,20 +53,16 @@
 # - [Summary](#Summary)
 
 
-# In[2]:
 
 
-from IPython.display import Image
 
 
 # # Grouping objects by similarity using k-means
 
 # ## K-means clustering using scikit-learn
 
-# In[3]:
 
 
-from sklearn.datasets import make_blobs
 
 X, y = make_blobs(n_samples=150, 
                   n_features=2, 
@@ -61,10 +72,8 @@ X, y = make_blobs(n_samples=150,
                   random_state=0)
 
 
-# In[4]:
 
 
-import matplotlib.pyplot as plt
 
 plt.scatter(X[:, 0], X[:, 1], 
             c='white', marker='o', edgecolor='black', s=50)
@@ -74,10 +83,8 @@ plt.tight_layout()
 plt.show()
 
 
-# In[5]:
 
 
-from sklearn.cluster import KMeans
 
 km = KMeans(n_clusters=3, 
             init='random', 
@@ -89,7 +96,6 @@ km = KMeans(n_clusters=3,
 y_km = km.fit_predict(X)
 
 
-# In[6]:
 
 
 plt.scatter(X[y_km == 0, 0],
@@ -130,13 +136,11 @@ plt.show()
 
 # ## Using the elbow method to find the optimal number of clusters 
 
-# In[7]:
 
 
 print('Distortion: %.2f' % km.inertia_)
 
 
-# In[8]:
 
 
 distortions = []
@@ -159,12 +163,8 @@ plt.show()
 
 # ## Quantifying the quality of clustering  via silhouette plots
 
-# In[9]:
 
 
-import numpy as np
-from matplotlib import cm
-from sklearn.metrics import silhouette_samples
 
 km = KMeans(n_clusters=3, 
             init='k-means++', 
@@ -204,7 +204,6 @@ plt.show()
 
 # Comparison to "bad" clustering:
 
-# In[10]:
 
 
 km = KMeans(n_clusters=2,
@@ -239,7 +238,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[11]:
 
 
 cluster_labels = np.unique(y_km)
@@ -275,16 +273,12 @@ plt.show()
 
 # ## Grouping clusters in bottom-up fashion
 
-# In[12]:
 
 
 
 
-# In[13]:
 
 
-import pandas as pd
-import numpy as np
 
 np.random.seed(123)
 
@@ -299,10 +293,8 @@ df
 
 # ## Performing hierarchical clustering on a distance matrix
 
-# In[14]:
 
 
-from scipy.spatial.distance import pdist, squareform
 
 row_dist = pd.DataFrame(squareform(pdist(df, metric='euclidean')),
                         columns=labels,
@@ -312,12 +304,10 @@ row_dist
 
 # We can either pass a condensed distance matrix (upper triangular) from the `pdist` function, or we can pass the "original" data array and define the `metric='euclidean'` argument in `linkage`. However, we should not pass the squareform distance matrix, which would yield different distance values although the overall clustering could be the same.
 
-# In[15]:
 
 
 # 1. incorrect approach: Squareform distance matrix
 
-from scipy.cluster.hierarchy import linkage
 
 row_clusters = linkage(row_dist, method='complete', metric='euclidean')
 pd.DataFrame(row_clusters,
@@ -327,7 +317,6 @@ pd.DataFrame(row_clusters,
                     for i in range(row_clusters.shape[0])])
 
 
-# In[16]:
 
 
 # 2. correct approach: Condensed distance matrix
@@ -340,7 +329,6 @@ pd.DataFrame(row_clusters,
                     for i in range(row_clusters.shape[0])])
 
 
-# In[17]:
 
 
 # 3. correct approach: Input sample matrix
@@ -353,13 +341,10 @@ pd.DataFrame(row_clusters,
                     for i in range(row_clusters.shape[0])])
 
 
-# In[18]:
 
 
-from scipy.cluster.hierarchy import dendrogram
 
 # make dendrogram black (part 1/2)
-# from scipy.cluster.hierarchy import set_link_color_palette
 # set_link_color_palette(['black'])
 
 row_dendr = dendrogram(row_clusters, 
@@ -377,7 +362,6 @@ plt.show()
 
 # ## Attaching dendrograms to a heat map
 
-# In[19]:
 
 
 # plot row dendrogram
@@ -411,10 +395,8 @@ plt.show()
 
 # ## Applying agglomerative clustering via scikit-learn
 
-# In[20]:
 
 
-from sklearn.cluster import AgglomerativeClustering
 
 ac = AgglomerativeClustering(n_clusters=3, 
                              affinity='euclidean', 
@@ -423,7 +405,6 @@ labels = ac.fit_predict(X)
 print('Cluster labels: %s' % labels)
 
 
-# In[21]:
 
 
 ac = AgglomerativeClustering(n_clusters=2, 
@@ -436,15 +417,12 @@ print('Cluster labels: %s' % labels)
 
 # # Locating regions of high density via DBSCAN
 
-# In[22]:
 
 
 
 
-# In[23]:
 
 
-from sklearn.datasets import make_moons
 
 X, y = make_moons(n_samples=200, noise=0.05, random_state=0)
 plt.scatter(X[:, 0], X[:, 1])
@@ -455,7 +433,6 @@ plt.show()
 
 # K-means and hierarchical clustering:
 
-# In[24]:
 
 
 f, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3))
@@ -490,10 +467,8 @@ plt.show()
 
 # Density-based clustering:
 
-# In[25]:
 
 
-from sklearn.cluster import DBSCAN
 
 db = DBSCAN(eps=0.2, min_samples=5, metric='euclidean')
 y_db = db.fit_predict(X)
@@ -520,7 +495,11 @@ plt.show()
 # 
 # Readers may ignore the next cell.
 
-# In[2]:
+
+
+
+
+
 
 
 
