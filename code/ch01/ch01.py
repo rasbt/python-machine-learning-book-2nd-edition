@@ -1,0 +1,1 @@
+raise AttributeError('fail on purpose')
