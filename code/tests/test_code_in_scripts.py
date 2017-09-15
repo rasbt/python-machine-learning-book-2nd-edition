@@ -21,7 +21,9 @@ def run_py(path):
         f.write('\n'.join(content))
 
     args = ["python", py_path]
-    p = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.check_output(args,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
     print(p.stdout)
     print(p.stderr)
 
