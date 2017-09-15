@@ -21,11 +21,14 @@ def run_py(path):
         f.write('\n'.join(content))
 
     args = ["python", py_path]
-    p = subprocess.check_output(args,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
-    print(p.stdout)
-    print(p.stderr)
+    try:
+        output = subprocess.check_output(
+            args, stderr=subprocess.STDOUT, shell=True, timeout=1000,
+            universal_newlines=True)
+    except subprocess.CalledProcessError as exc:
+        print("Status: FAIL", exc.returncode, exc.output)
+    else:
+        print("Output: \n%s\n" % output)
 
     os.chdir(orig_dir)
 
