@@ -177,7 +177,7 @@ hm = sns.heatmap(cm,
                  xticklabels=cols)
 
 plt.tight_layout()
-plt.savefig('images/10_04.png', dpi=300)
+#plt.savefig('images/10_04.png', dpi=300)
 plt.show()
 
 
@@ -262,7 +262,7 @@ lin_regplot(X_std, y_std, lr)
 plt.xlabel('Average number of rooms [RM] (standardized)')
 plt.ylabel('Price in $1000s [MEDV] (standardized)')
 
-plt.savefig('images/10_06.png', dpi=300)
+#plt.savefig('images/10_06.png', dpi=300)
 plt.show()
 
 
