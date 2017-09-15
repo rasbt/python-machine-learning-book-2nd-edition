@@ -11,6 +11,14 @@ def run_py(path):
     orig_dir = os.getcwd()
     os.chdir(py_dir)
 
+    with open(path, 'r') as f:
+        content = f.read()
+
+    with open(path, 'w') as f:
+        set_backend = "import matplotlib\nmatplotlib.use('Agg')\n"
+        content = set_backend + content
+        f.write(content)
+
     args = ["python", py_path]
     subprocess.check_output(args)
 
@@ -18,11 +26,6 @@ def run_py(path):
 
 
 class TestOptionalScripts(unittest.TestCase):
-
-    def test_ch01(self):
-        this_dir = os.path.dirname(os.path.abspath(__file__))
-        run_py(os.path.join(this_dir,
-                            '../ch01/ch01.py'))
 
     def test_ch02(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -61,15 +64,6 @@ class TestOptionalScripts(unittest.TestCase):
         if (sys.version_info >= (3, 0)):
             run_py(os.path.join(this_dir,
                                 '../ch08/ch08.py'))
-
-    def test_ch09(self):
-        this_dir = os.path.dirname(os.path.abspath(__file__))
-
-        # run only on Py3, because of the Py3 specific pickle files
-        if (sys.version_info >= (3, 0)):
-            run_py(os.path.join(this_dir, '../ch09/ch09.py'))
-        else:
-            pass
 
     def test_ch10(self):
         this_dir = os.path.dirname(os.path.abspath(__file__))
