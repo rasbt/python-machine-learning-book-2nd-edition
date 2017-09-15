@@ -12,12 +12,13 @@ def run_py(path):
     os.chdir(py_dir)
 
     with open(path, 'r') as f:
-        content = f.read()
+        content = [line for line in f.readlines()
+                   if not line.startswith('plt.tight_layout()')]
 
     with open(path, 'w') as f:
-        set_backend = "import matplotlib\nmatplotlib.use('Agg')\n"
-        content = set_backend + content
-        f.write(content)
+        set_backend = "\n\nimport matplotlib\nmatplotlib.use('Agg')\n\n"
+        content.insert(2, set_backend)
+        f.write('\n'.join(content))
 
     args = ["python", py_path]
     subprocess.check_output(args)
