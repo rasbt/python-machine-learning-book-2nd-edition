@@ -5,7 +5,6 @@ import pandas as pd
 from io import StringIO
 import sys
 from sklearn.preprocessing import Imputer
-import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
@@ -13,17 +12,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 from sklearn.base import clone
 from itertools import combinations
-import numpy as np
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
-importances = forest.feature_importances_
 from sklearn.feature_selection import SelectFromModel
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
@@ -592,6 +586,7 @@ forest = RandomForestClassifier(n_estimators=500,
                                 random_state=1)
 
 forest.fit(X_train, y_train)
+importances = forest.feature_importances_
 
 indices = np.argsort(importances)[::-1]
 

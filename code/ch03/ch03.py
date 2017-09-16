@@ -11,16 +11,9 @@ from sklearn.linear_model import Perceptron
 from sklearn.metrics import accuracy_score
 from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
-import matplotlib.pyplot as plt
-import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.svm import SVC
-import matplotlib.pyplot as plt
-import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from pydotplus import graph_from_dot_data
 from sklearn.tree import export_graphviz

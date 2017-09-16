@@ -7,7 +7,6 @@
 import argparse
 import os
 import subprocess
-import textwrap
 
 
 def convert(input_path, output_path):
@@ -26,15 +25,23 @@ def cleanup(path):
 
     clean_content = []
     imports = []
+    existing_imports = set()
     with open(path, 'r') as f:
         next(f)
         next(f)
         for line in f:
+            line = line.rstrip(' ')
             if line.startswith(skip_lines_startwith):
                 continue
-            if line.startswith('import') or (
-                    'from' in line and 'import' in line):
-                imports.append(line)
+            if line.startswith('import ') or (
+                    'from ' in line and 'import ' in line):
+                if 'from __future__ import print_function' in line:
+                    if line != imports[0]:
+                        imports.insert(0, line)
+                else:
+                    if line.strip() not in existing_imports:
+                        imports.append(line)
+                        existing_imports.add(line.strip())
             else:
                 clean_content.append(line)
 

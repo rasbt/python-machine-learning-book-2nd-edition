@@ -4,7 +4,6 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.colors import ListedColormap
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017

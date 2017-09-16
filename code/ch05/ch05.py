@@ -10,19 +10,11 @@ from sklearn.decomposition import PCA
 from matplotlib.colors import ListedColormap
 from sklearn.linear_model import LogisticRegression
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-from sklearn.linear_model import LogisticRegression
 from scipy.spatial.distance import pdist, squareform
 from scipy import exp
 from scipy.linalg import eigh
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.datasets import make_moons
-from sklearn.decomposition import PCA
 from sklearn.datasets import make_circles
-from scipy.spatial.distance import pdist, squareform
-from scipy import exp
-from scipy.linalg import eigh
-import numpy as np
 from sklearn.decomposition import KernelPCA
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
@@ -918,11 +910,6 @@ plt.show()
 # ---
 # 
 # Readers may ignore the next cell.
-
-
-
-
-
 
 
 
