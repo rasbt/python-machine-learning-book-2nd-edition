@@ -9,13 +9,11 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import RANSACRegressor
 from sklearn.model_selection import train_test_split
-import numpy as np
 import scipy as sp
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import Lasso
 from sklearn.linear_model import Ridge
-from sklearn.linear_model import Lasso
 from sklearn.linear_model import ElasticNet
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.tree import DecisionTreeRegressor
@@ -177,7 +175,7 @@ hm = sns.heatmap(cm,
                  xticklabels=cols)
 
 plt.tight_layout()
-plt.savefig('images/10_04.png', dpi=300)
+# plt.savefig('images/10_04.png', dpi=300)
 plt.show()
 
 
@@ -262,7 +260,7 @@ lin_regplot(X_std, y_std, lr)
 plt.xlabel('Average number of rooms [RM] (standardized)')
 plt.ylabel('Price in $1000s [MEDV] (standardized)')
 
-plt.savefig('images/10_06.png', dpi=300)
+#plt.savefig('images/10_06.png', dpi=300)
 plt.show()
 
 

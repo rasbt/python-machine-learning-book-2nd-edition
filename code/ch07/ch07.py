@@ -5,20 +5,16 @@ from scipy.misc import comb
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import numpy as np
 from sklearn.base import BaseEstimator
 from sklearn.base import ClassifierMixin
 from sklearn.preprocessing import LabelEncoder
 from sklearn.externals import six
 from sklearn.base import clone
 from sklearn.pipeline import _name_estimators
-import numpy as np
 import operator
 from sklearn import datasets
 from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier 
@@ -29,13 +25,8 @@ from sklearn.metrics import auc
 from itertools import product
 from sklearn.model_selection import GridSearchCV
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import BaggingClassifier
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.ensemble import AdaBoostClassifier
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017

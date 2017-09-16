@@ -4,7 +4,6 @@
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
-import tensorflow as tf
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com) and Vahid Mirjalili, Packt Publishing Ltd. 2017
 # 
@@ -873,6 +872,11 @@ with tf.Session(graph = g) as sess:
 # ---
 # 
 # Readers may ignore the next cell.
+
+
+
+
+
 
 
 

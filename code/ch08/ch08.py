@@ -7,9 +7,6 @@ import tarfile
 import time
 import pyprind
 import pandas as pd
-import os
-import numpy as np
-import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -21,19 +18,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import GridSearchCV
-from sklearn.linear_model import LogisticRegression
-import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import GridSearchCV
-import numpy as np
-import re
-from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.linear_model import SGDClassifier
-import pyprind
-import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
@@ -722,11 +710,6 @@ for iter_idx, movie_idx in enumerate(horror[:3]):
 # ---
 # 
 # Readers may ignore the next cell.
-
-
-
-
-
 
 
 

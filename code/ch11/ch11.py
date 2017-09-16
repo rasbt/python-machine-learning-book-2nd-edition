@@ -8,7 +8,6 @@ import numpy as np
 from matplotlib import cm
 from sklearn.metrics import silhouette_samples
 import pandas as pd
-import numpy as np
 from scipy.spatial.distance import pdist, squareform
 from scipy.cluster.hierarchy import linkage
 from scipy.cluster.hierarchy import dendrogram

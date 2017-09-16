@@ -18,7 +18,7 @@ class NeuralNetMLP(object):
         Learning rate.
     shuffle : bool (default: True)
         Shuffles training data every epoch if True to prevent circles.
-    minibatche_size : int (default: 1)
+    minibatch_size : int (default: 1)
         Number of training samples per minibatch.
     seed : int (default: None)
         Random seed for initalizing weights and shuffling.

@@ -2,9 +2,6 @@
 
 
 import tensorflow as tf
-import tensorflow as tf
-import numpy as np
-import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -12,11 +9,7 @@ import gzip
 import shutil
 import os
 import struct
-import tensorflow as tf
-import tensorflow as tf
 import tensorflow.contrib.keras as keras
-import numpy as np
-import matplotlib.pyplot as plt
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com) and Vahid Mirjalili, Packt Publishing Ltd. 2017
 # 

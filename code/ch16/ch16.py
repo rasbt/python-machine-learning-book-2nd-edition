@@ -10,9 +10,6 @@ import numpy as np
 import os
 from collections import Counter
 import tensorflow as tf
-import numpy as np
-import tensorflow as tf
-import os
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com) and Vahid Mirjalili, Packt Publishing Ltd. 2017
 # 
