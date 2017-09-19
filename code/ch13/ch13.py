@@ -397,7 +397,7 @@ def create_batch_generator(X, y, batch_size=128, shuffle=False):
         y_copy = data[:, -1].astype(int)
     
     for i in range(0, X.shape[0], batch_size):
-        yield (X[i:i+batch_size, :], y[i:i+batch_size])
+        yield (X_copy[i:i+batch_size, :], y_copy[i:i+batch_size])
 
 
 
@@ -413,7 +413,7 @@ for epoch in range(50):
     training_loss = []
     batch_generator = create_batch_generator(
             X_train_centered, y_train, 
-            batch_size=64, shuffle=True)
+            batch_size=64)
     for batch_X, batch_y in batch_generator:
         ## prepare a dict to feed data to our network:
         feed = {tf_x:batch_X, tf_y:batch_y}
@@ -664,6 +664,11 @@ plt.show()
 # ---
 # 
 # Readers may ignore the next cell.
+
+
+
+
+
 
 
 
