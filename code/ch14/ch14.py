@@ -432,7 +432,7 @@ with g.as_default():
         tf.random_normal(
             shape=(1, 1), 
             stddev=0.25),
-        name = 'weight')
+        name='weight')
     bias = tf.Variable(0.0, name='bias')
     
     ## build the model
