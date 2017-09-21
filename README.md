@@ -8,9 +8,10 @@
 
 
 **Python Machine Learning, 2nd Ed.**  
-to be published mid-September 2017  
 
-Paperback: 601? pages  
+published September 20th, 2017
+
+Paperback: 622 pages  
 Publisher: Packt Publishing  
 Language: English
 
