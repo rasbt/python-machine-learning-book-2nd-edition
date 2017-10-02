@@ -6,7 +6,6 @@
 
 
 
-
 **Python Machine Learning, 2nd Ed.**  
 
 published September 20th, 2017
