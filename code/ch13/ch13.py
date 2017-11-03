@@ -11,6 +11,20 @@ import os
 import struct
 import tensorflow.contrib.keras as keras
 
+# NOTE:
+# ================================================
+# If you have TensorFlow >= v1.4 installed
+# you can use the keras API directly instead
+# of importing it from the contrib module
+# for instance, in this code cell, you can skip
+# the import, and following code cells,
+# you can use
+# `tf.keras.utils.to_categorical(y_train)`
+# instead of `keras.utils.to_categorical(y_train)`
+# and so forth.
+
+
+
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com) and Vahid Mirjalili, Packt Publishing Ltd. 2017
 # 
 # Code Repository: https://github.com/rasbt/python-machine-learning-book-2nd-edition
