@@ -55,7 +55,7 @@ class NeuralNetMLP(object):
         onehot : array, shape = (n_samples, n_labels)
 
         """
-        onehot = np.zeros((n_classes, y.shape[0].astype(int)))
+        onehot = np.zeros((n_classes, y.shape[0]))
         for idx, val in enumerate(y):
             onehot[val, idx] = 1.
         return onehot.T
