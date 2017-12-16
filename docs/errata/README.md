@@ -18,7 +18,7 @@ Contributor list:
 
 
 1. Gogy ($10)
-2. [ColCarrol](https://github.com/ColCarroll) ($5)
+2. Christian Geier ($5)
 
 
 <br>
