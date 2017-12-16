@@ -7,7 +7,7 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 10$
+- Amount for the next donation: 15$
 - Amount donated: 0$
 
 
@@ -18,6 +18,7 @@ Contributor list:
 
 
 1. Gogy ($10)
+2. [ColCarrol](https://github.com/ColCarroll) ($5)
 
 
 <br>
@@ -36,6 +37,10 @@ Contributor list:
 pg. 55
 
 ![](./images/pg55.png)
+
+pg. 91
+
+On the top of the page, it says "Here, p (i | t ) is the proportion of the samples that belong to class c." The "*c*" should be changed to *i*.
 
 pg. 155
 
