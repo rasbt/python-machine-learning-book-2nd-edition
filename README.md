@@ -89,3 +89,14 @@ Raschka, Sebastian, and Vahid Mirjalili. *Python Machine Learning, 2nd Ed*. Pack
     title = {{Python Machine Learning, 2nd Ed.}},  
     year = {2017}  
     }
+
+# Translations
+
+### German
+
+- ISBN-10: 3958457339
+- ISBN-13: 978-3958457331
+- [Amazon.de link](https://www.amazon.de/Machine-Learning-Python-Scikit-Learn-TensorFlow/dp/3958457339/ref=tmm_pap_swatch_0?_encoding=UTF8&qid=1513601461&sr=8-5)
+- [Publisher link](https://mitp.de/IT-WEB/Programmierung/Machine-Learning-mit-Python-oxid.html)
+
+![](images/cover-german.jpg)
