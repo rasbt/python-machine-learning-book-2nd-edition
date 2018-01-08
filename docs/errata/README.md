@@ -7,7 +7,7 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 20$
+- Amount for the next donation: 25$
 - Amount donated: 0$
 
 
@@ -20,7 +20,7 @@ Contributor list:
 1. Gogy ($10)
 2. Christian Geier ($5)
 3. Pieter Algra / Carlos Zada ($5)
-
+4. @gabramson ($5)
 
 <br>
 <br>
@@ -65,3 +65,9 @@ It seems that I did it correctly in the notebook. Also, the list of feature impo
 pg. 155
 
 ![](./images/pg155.png)
+
+pg. 221
+
+There's been a mix-up, the epsilon and the 0.25 should be swapped
+
+![](./images/pg221.png)
