@@ -7,7 +7,7 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 25$
+- Amount for the next donation: 30$
 - Amount donated: 0$
 
 
@@ -21,6 +21,7 @@ Contributor list:
 2. Christian Geier ($5)
 3. Pieter Algra / Carlos Zada ($5)
 4. @gabramson ($5)
+5. Elias Strehle ($5)
 
 <br>
 <br>
@@ -34,6 +35,10 @@ Contributor list:
 ---
 
 ### Errata
+
+pg. 28
+
+In the code example in the info box (`sum([j * j for i, j in zip(a, b)])`), it should be `i * j`, not `‘`j * j`’`; otherwise, we would be calculating b^T b, not a^T b.
 
 pg. 55
 
