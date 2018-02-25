@@ -7,7 +7,7 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 30$
+- Amount for the next donation: 60$
 - Amount donated: 0$
 
 
@@ -16,12 +16,15 @@ Also below, I added a small leaderboard to keep track of the errata submissions 
 
 Contributor list:
 
-
+7. gabramson ($15)
 1. Gogy ($10)
 2. Christian Geier ($5)
 3. Pieter Algra / Carlos Zada ($5)
 4. @gabramson ($5)
 5. Elias Strehle ($5)
+6. Oliver Tomic ($5)
+7. Krishna Mohan ($5)
+
 
 <br>
 <br>
@@ -43,6 +46,13 @@ In the code example in the info box (`sum([j * j for i, j in zip(a, b)])`), it s
 pg. 55
 
 ![](./images/pg55.png)
+
+pg. 56
+
+Wrong chapter reference in the info box: 
+
+> In ~Chapter 5, Compressing Data via Dimensionality Reduction~ {Chapter 6: Learning Best Practices for Model Evaluation and Hyperparameter Tuning}, you will learn about useful techniques, including graphical analysis such as learning curves, to detect and prevent overfitting.
+
 
 pg. 91
 
@@ -76,3 +86,28 @@ pg. 221
 There's been a mix-up, the epsilon and the 0.25 should be swapped
 
 ![](./images/pg221.png)
+
+pg. 344
+
+> Unfortunately, there is ~now~ {not} a universal approach for dealing with non-randomness in residual plots, and it requires experimentation
+
+pg. 366
+
+An error occurred so that the figure from the previous page was duplicated instead of inserting the pairwise distance matrix. Below, the correct figure is shown (note that all Jupyter Notebooks contain the correct figures):
+
+![](../../code/ch11/images/11_09.png)
+
+pg. 366
+
+> The first and second columns denote the most dissimilar members in each cluster, and the third ~row~ {column} reports the distance between those members.
+
+pg. 371
+
+> As we can see, in this pruned clustering hierarchy, label ID_3 was ~not~ assigned to the same cluster as ID_0 and ID_4, as expected.
+
+pg. 506
+
+An error during the layout ocurred so that a figure was duplicated. Below, the correct figure is shown (note that all Jupyter Notebooks contain the correct figures):
+
+![](../../code/ch15/images/15_06.png)
+
