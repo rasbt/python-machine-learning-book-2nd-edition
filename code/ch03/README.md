@@ -5,8 +5,8 @@ Python Machine Learning - Code Examples
 
 ### Chapter Outline
 
-- Choosing a classi cation algorithm
-- First steps with scikit-learn – training a perceptron
+- Choosing a classification algorithm
+- First steps with scikit-learn -- training a perceptron
 - Modeling class probabilities via logistic regression
   - Logistic regression intuition and conditional probabilities
   - Learning the weights of the logistic cost function
