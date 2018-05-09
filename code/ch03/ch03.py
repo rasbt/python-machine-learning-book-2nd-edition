@@ -306,7 +306,7 @@ class LogisticRegressionGD(object):
     w_ : 1d-array
       Weights after fitting.
     cost_ : list
-      Sum-of-squares cost function value in each epoch.
+      Logistic cost function value in each epoch.
 
     """
     def __init__(self, eta=0.05, n_iter=100, random_state=1):
