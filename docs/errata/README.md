@@ -7,7 +7,7 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 65$
+- Amount for the next donation: 70$
 - Amount donated: 0$
 
 
@@ -18,11 +18,11 @@ Contributor list:
 
 7. gabramson ($15)
 1. Gogy ($10)
+6. Oliver Tomic ($10)
 2. Christian Geier ($5)
 3. Pieter Algra / Carlos Zada ($5)
 4. @gabramson ($5)
 5. Elias Strehle ($5)
-6. Oliver Tomic ($5)
 7. Krishna Mohan ($5)
 8. Jesse Blocher ($5)
 
@@ -80,6 +80,25 @@ instead of
 ```
 
 It seems that I did it correctly in the notebook. Also, the list of feature importances and the plot seem to be correct in the book. However, somehow the [indices] array index went missing in the print version.
+
+pg. 138
+
+Instead of writing
+
+```
+ >>> print('Number of samples that meet this criterion:',
+   ...       X_selected.shape[0])
+   Number of samples that meet this criterion: 124
+```
+
+it would make more sense to write
+
+```
+ >>> print('Number of features that meet this threshold criterion:',
+   ...       X_selected.shape[1])
+   Number of features that meet this threshold criterion: 5
+```
+
 
 
 pg. 155

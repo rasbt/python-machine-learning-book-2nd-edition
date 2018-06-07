@@ -613,8 +613,8 @@ plt.show()
 
 sfm = SelectFromModel(forest, threshold=0.1, prefit=True)
 X_selected = sfm.transform(X_train)
-print('Number of samples that meet this criterion:', 
-      X_selected.shape[0])
+print('Number of features that meet this threshold criterion:', 
+      X_selected.shape[1])
 
 
 # Now, let's print the 3 features that met the threshold criterion for feature selection that we set earlier (note that this code snippet does not appear in the actual book but was added to this notebook later for illustrative purposes):
