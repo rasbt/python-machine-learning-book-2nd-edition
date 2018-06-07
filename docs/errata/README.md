@@ -91,7 +91,7 @@ pg. 344
 
 > Unfortunately, there is ~now~ {not} a universal approach for dealing with non-randomness in residual plots, and it requires experimentation
 
-pg. 366
+pg. 368
 
 An error occurred so that the figure from the previous page was duplicated instead of inserting the pairwise distance matrix. Below, the correct figure is shown (note that all Jupyter Notebooks contain the correct figures):
 
