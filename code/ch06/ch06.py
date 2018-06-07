@@ -87,7 +87,7 @@ df = pd.read_csv('https://archive.ics.uci.edu/ml/'
 # UCI machine learning repository, un-comment the following line
 # of code to load the dataset from a local path:
 
-# df_wine = pd.read_csv('wdbc.data', header=None)
+# df = pd.read_csv('wdbc.data', header=None)
 
 df.head()
 
