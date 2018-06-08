@@ -7,7 +7,7 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 70$
+- Amount for the next donation: 75$
 - Amount donated: 0$
 
 
@@ -17,8 +17,8 @@ Also below, I added a small leaderboard to keep track of the errata submissions 
 Contributor list:
 
 7. gabramson ($15)
+6. Oliver Tomic ($15)
 1. Gogy ($10)
-6. Oliver Tomic ($10)
 2. Christian Geier ($5)
 3. Pieter Algra / Carlos Zada ($5)
 4. @gabramson ($5)
