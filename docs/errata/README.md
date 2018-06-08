@@ -25,6 +25,7 @@ Contributor list:
 5. Elias Strehle ($5)
 7. Krishna Mohan ($5)
 8. Jesse Blocher ($5)
+9. Elie Kawerk ($5)
 
 
 <br>
@@ -113,6 +114,10 @@ There's been a mix-up, the epsilon and the 0.25 should be swapped
 
 ![](./images/pg221.png)
 
+pg. 340
+
+The second paragraph (right under the equation) starts with "Here, x is the feature ..." Instead of "x" it should be "x_i" ("x" with a subscript "i")
+ 
 pg. 344
 
 > Unfortunately, there is ~now~ {not} a universal approach for dealing with non-randomness in residual plots, and it requires experimentation
