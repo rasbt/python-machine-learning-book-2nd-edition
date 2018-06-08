@@ -7,7 +7,7 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 75$
+- Amount for the next donation: 80$
 - Amount donated: 0$
 
 
@@ -16,8 +16,8 @@ Also below, I added a small leaderboard to keep track of the errata submissions 
 
 Contributor list:
 
+6. Oliver Tomic ($20)
 7. gabramson ($15)
-6. Oliver Tomic ($15)
 1. Gogy ($10)
 2. Christian Geier ($5)
 3. Pieter Algra / Carlos Zada ($5)
@@ -80,6 +80,8 @@ instead of
 ```
 
 It seems that I did it correctly in the notebook. Also, the list of feature importances and the plot seem to be correct in the book. However, somehow the [indices] array index went missing in the print version.
+
+Also, it says "10,000 trees" in the text, but it should be "500 trees" to be consistent with the code.  
 
 pg. 138
 
