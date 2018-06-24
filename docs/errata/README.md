@@ -26,6 +26,7 @@ Contributor list:
 7. Krishna Mohan ($5)
 8. Jesse Blocher ($5)
 9. Elie Kawerk ($5)
+10. Dejan Stepec ($5)
 
 
 <br>
@@ -44,6 +45,13 @@ Contributor list:
 pg. 28
 
 In the code example in the info box (`sum([j * j for i, j in zip(a, b)])`), it should be `i * j`, not `‘`j * j`’`; otherwise, we would be calculating b^T b, not a^T b.
+
+pg. 37
+
+The existing indices shouldn't be reused:
+
+![](./images/pg37.png)
+
 
 pg. 55
 
