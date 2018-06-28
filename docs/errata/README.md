@@ -122,10 +122,6 @@ There's been a mix-up, the epsilon and the 0.25 should be swapped
 
 ![](./images/pg221.png)
 
-pg. 249
-
-Instead of "3/10 = 0.3", it should be "0.3/10=0.03." Consequently, the numbers in the examples on that page (and 250 & 251) would change, too. An updated table for page 250 can be found here: [../../code/ch07/images/07_10.png](../../code/ch07/images/07_10.png)
-
 pg. 340
 
 The second paragraph (right under the equation) starts with "Here, x is the feature ..." Instead of "x" it should be "x_i" ("x" with a subscript "i")
