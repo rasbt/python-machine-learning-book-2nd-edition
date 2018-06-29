@@ -42,6 +42,10 @@ Contributor list:
 
 ### Errata
 
+pg. 18
+
+"McCullock" should me spelled "McCulloch."
+
 pg. 28
 
 In the code example in the info box (`sum([j * j for i, j in zip(a, b)])`), it should be `i * j`, not `‘`j * j`’`; otherwise, we would be calculating b^T b, not a^T b.
