@@ -7,7 +7,7 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 80$
+- Amount for the next donation: 85$
 - Amount donated: 0$
 
 
@@ -27,6 +27,7 @@ Contributor list:
 8. Jesse Blocher ($5)
 9. Elie Kawerk ($5)
 10. Dejan Stepec ($5)
+11. Poon Ho Chuen ($5)
 
 
 <br>
@@ -41,6 +42,10 @@ Contributor list:
 ---
 
 ### Errata
+
+pg. 13
+
+It says "and and open source community" on this page -- 1x "and" should be enough.
 
 pg. 18
 
