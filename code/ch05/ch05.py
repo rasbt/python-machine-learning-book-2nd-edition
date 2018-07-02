@@ -797,7 +797,7 @@ def rbf_kernel_pca(X, gamma, n_components):
     Returns
     ------------
      alphas: {NumPy ndarray}, shape = [n_samples, k_features]
-       Projected dataset   
+       Projected dataset 
      
      lambdas: list
        Eigenvalues

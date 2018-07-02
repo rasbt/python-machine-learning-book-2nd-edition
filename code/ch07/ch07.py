@@ -1,7 +1,7 @@
 # coding: utf-8
 
 
-from scipy.misc import comb
+from scipy.special import comb
 import math
 import numpy as np
 import matplotlib.pyplot as plt
