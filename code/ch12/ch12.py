@@ -1,12 +1,12 @@
 # coding: utf-8
 
 
-import os
-import struct
-import numpy as np
 import sys
 import gzip
 import shutil
+import os
+import struct
+import numpy as np
 import matplotlib.pyplot as plt
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
@@ -91,12 +91,48 @@ import matplotlib.pyplot as plt
 # - Test set images: t10k-images-idx3-ubyte.gz (1.6 MB, 7.8 MB, 10,000 samples)
 # - Test set labels: t10k-labels-idx1-ubyte.gz (5 KB, 10 KB unzipped, 10,000 labels)
 # 
-# In this section, we will only be working with a subset of MNIST, thus, we only need to download the training set images and training set labels. After downloading the files, I recommend unzipping the files using the Unix/Linux gzip tool from the terminal for efficiency, e.g., using the command 
+# In this section, we will only be working with a subset of MNIST, thus, we only need to download the training set images and training set labels. 
+# 
+# After downloading the files, simply run the next code cell to unzip the files.
+# 
+# 
+
+
+
+# this code cell unzips mnist
+
+
+if (sys.version_info > (3, 0)):
+    writemode = 'wb'
+else:
+    writemode = 'w'
+
+zipped_mnist = [f for f in os.listdir('./') if f.endswith('ubyte.gz')]
+for z in zipped_mnist:
+    with gzip.GzipFile(z, mode='rb') as decompressed, open(z[:-3], writemode) as outfile:
+        outfile.write(decompressed.read()) 
+
+
+# ----
+# 
+# IGNORE IF THE CODE CELL ABOVE EXECUTED WITHOUT PROBLEMS:
+#     
+# If you have issues with the code cell above, I recommend unzipping the files using the Unix/Linux gzip tool from the terminal for efficiency, e.g., using the command 
 # 
 #     gzip *ubyte.gz -d
 #  
 # in your local MNIST download directory, or, using your favorite unzipping tool if you are working with a machine running on Microsoft Windows. The images are stored in byte form, and using the following function, we will read them into NumPy arrays that we will use to train our MLP.
 # 
+# Please note that if you are **not** using gzip, please make sure tha the files are named
+# 
+# - train-images-idx3-ubyte
+# - train-labels-idx1-ubyte
+# - t10k-images-idx3-ubyte
+# - t10k-labels-idx1-ubyte
+# 
+# If a file is e.g., named `train-images.idx3-ubyte` after unzipping (this is due to the fact that certain tools try to guess a file suffix), please rename it to `train-images-idx3-ubyte` before proceeding. 
+# 
+# ----
 
 
 
@@ -126,22 +162,6 @@ def load_mnist(path, kind='train'):
 
 
 
-
-
-
-
-# unzips mnist
-
-
-if (sys.version_info > (3, 0)):
-    writemode = 'wb'
-else:
-    writemode = 'w'
-
-zipped_mnist = [f for f in os.listdir('./') if f.endswith('ubyte.gz')]
-for z in zipped_mnist:
-    with gzip.GzipFile(z, mode='rb') as decompressed, open(z[:-3], writemode) as outfile:
-        outfile.write(decompressed.read()) 
 
 
 
@@ -331,7 +351,7 @@ class NeuralNetMLP(object):
         term1 = -y_enc * (np.log(output))
         term2 = (1. - y_enc) * np.log(1. - output)
         cost = np.sum(term1 - term2) + L2_term
-
+        
         # If you are applying this cost function to other
         # datasets where activation
         # values maybe become more extreme (closer to zero or 1)
@@ -345,7 +365,7 @@ class NeuralNetMLP(object):
         #
         # term1 = -y_enc * (np.log(output + 1e-5))
         # term2 = (1. - y_enc) * np.log(1. - output + 1e-5)
-
+        
         return cost
 
     def predict(self, X):
