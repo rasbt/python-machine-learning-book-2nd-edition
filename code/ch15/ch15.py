@@ -16,8 +16,8 @@
 # In[1]:
 
 
-get_ipython().magic('load_ext watermark')
-get_ipython().magic("watermark -a 'Sebastian Raschka & Vahid Mirjalili' -d -p numpy,scipy,tensorflow")
+get_ipython().run_line_magic('load_ext', 'watermark')
+get_ipython().run_line_magic('watermark', "-a 'Sebastian Raschka & Vahid Mirjalili' -d -p numpy,scipy,tensorflow")
 
 
 # *The use of `watermark` is optional. You can install this IPython extension via "`pip install watermark`". For more information, please see*: https://github.com/rasbt/watermark.
@@ -42,7 +42,7 @@ get_ipython().magic("watermark -a 'Sebastian Raschka & Vahid Mirjalili' -d -p nu
 
 
 from IPython.display import Image
-get_ipython().magic('matplotlib inline')
+get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # In[3]:
@@ -114,7 +114,6 @@ print('Numpy Results:         ',
       np.convolve(x, w, mode='same'))
 
 
-
 # ### Performing a discrete convolution in 2D
 
 # In[9]:
@@ -162,7 +161,6 @@ print('Conv2d Implementation: \n',
 
 print('Scipy Results:         \n', 
       scipy.signal.convolve2d(X, W, mode='same'))
-
 
 
 # ## Sub-sampling
@@ -317,7 +315,7 @@ mean_vals = np.mean(X_train, axis=0)
 std_val = np.std(X_train)
 
 X_train_centered = (X_train - mean_vals)/std_val
-X_valid_centered = X_valid - mean_vals
+X_valid_centered = (X_valid - mean_vals)/std_val
 X_test_centered = (X_test - mean_vals)/std_val
 
 del X_data, y_data, X_train, X_valid, X_test
@@ -425,7 +423,7 @@ del g, x
 # In[23]:
 
 
-def build_cnn():
+def build_cnn(learning_rate=1e-4):
     ## Placeholders for X and y:
     tf_x = tf.placeholder(tf.float32, shape=[None, 784],
                           name='tf_x')
@@ -580,8 +578,7 @@ def predict(sess, X_test, return_proba=False):
 import tensorflow as tf
 import numpy as np
 
-## Define hyperparameters
-learning_rate = 1e-4
+## Define random seed
 random_seed = 123
 
 np.random.seed(random_seed)
@@ -907,10 +904,10 @@ class ConvNN(object):
                 logits=h4, labels=tf_y_onehot),
             name='cross_entropy_loss')
         
-        ## Optimizer:
+        ## Optimizer
         optimizer = tf.train.AdamOptimizer(self.learning_rate)
         optimizer = optimizer.minimize(cross_entropy_loss,
-                              name='train_op')
+                                       name='train_op')
 
         ## Finding accuracy
         correct_predictions = tf.equal(
@@ -982,7 +979,6 @@ class ConvNN(object):
 
 
 
-
 # In[33]:
 
 
@@ -1027,7 +1023,7 @@ print('Test Accuracy: %.2f%%' % (100*
 # 
 # Readers may ignore the next cell.
 
-# In[1]:
+# In[ ]:
 
 
 get_ipython().system(' python ../.convert_notebook_to_script.py --input ch15.ipynb --output ch15.py')
