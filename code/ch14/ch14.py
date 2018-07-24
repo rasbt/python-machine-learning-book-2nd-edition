@@ -864,7 +864,6 @@ with tf.Session(graph = g) as sess:
 
 
 
-
 # ## Summary
 
 # ...
@@ -872,11 +871,6 @@ with tf.Session(graph = g) as sess:
 # ---
 # 
 # Readers may ignore the next cell.
-
-
-
-
-
 
 
 
