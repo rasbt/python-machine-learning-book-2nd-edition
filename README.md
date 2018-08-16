@@ -100,3 +100,12 @@ Raschka, Sebastian, and Vahid Mirjalili. *Python Machine Learning, 2nd Ed*. Pack
 - [Publisher link](https://mitp.de/IT-WEB/Programmierung/Machine-Learning-mit-Python-oxid.html)
 
 ![](images/cover-german.jpg)
+
+
+### Japanese
+
+- ISBN-10: 4295003379
+- ISBN-13: 978-4295003373
+- [Amazon.de link](https://www.amazon.co.jp/Python-機械学習プログラミング-達人データサイエンティストによる理論と実践-impress-gear/dp/4295003379/ref=tmm_pap_swatch_0)
+
+![](images/cover-japanese.jpg)
