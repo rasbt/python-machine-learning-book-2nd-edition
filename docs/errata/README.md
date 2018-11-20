@@ -140,6 +140,10 @@ There's been a mix-up, the epsilon and the 0.25 should be swapped
 
 ![](./images/pg221.png)
 
+pg. 283
+
+The documentation of `joblib` has recently moved to a new webpage and previous address (http://pythonhosted.org/joblib/) is no longer valid. The new web address for the documentation is https://joblib.readthedocs.io.
+
 pg. 340
 
 The second paragraph (right under the equation) starts with "Here, x is the feature ..." Instead of "x" it should be "x_i" ("x" with a subscript "i")
