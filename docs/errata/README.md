@@ -86,6 +86,10 @@ pg. 99
 
 There is a wrong chapter reference at the bottom of this page. It should be *Chapter 6* and not *Chapter 5*.
 
+pg. 172
+
+The sentence "Now, we are going to implement an RBF Kernal PCA". It should be *a* and not *an*.
+
 pg. 101
 
 The text description references "entropy" as the impurity criterion being used in the `RandomForestClassifier`. However, `"gini"` is used in the code example, and thus "entropy" should be changed to "gini" in the text as well.
