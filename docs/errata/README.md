@@ -134,6 +134,10 @@ pg. 155
 
 ![](./images/pg155.png)
 
+pg. 186
+
+"To load the wine dataset" should be "to load the breast cancer Wisconsin dataset"
+
 pg. 221
 
 There's been a mix-up, the epsilon and the 0.25 should be swapped
