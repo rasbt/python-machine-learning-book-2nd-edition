@@ -86,6 +86,10 @@ pg. 99
 
 There is a wrong chapter reference at the bottom of this page. It should be *Chapter 6* and not *Chapter 5*.
 
+pg. 171
+
+The sentence "implement an RBF PCA". It should be *a* not *an*.
+
 pg. 172
 
 The sentence "Now, we are going to implement an RBF Kernal PCA". It should be *a* and not *an*.
