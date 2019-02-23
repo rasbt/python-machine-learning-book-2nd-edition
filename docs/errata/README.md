@@ -134,6 +134,10 @@ pg. 155
 
 ![](./images/pg155.png)
 
+pg. 205
+
+*an* SVM should be *a* SVM
+
 pg. 221
 
 There's been a mix-up, the epsilon and the 0.25 should be swapped
