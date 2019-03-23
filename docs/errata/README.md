@@ -68,6 +68,11 @@ pg. 55
 
 ![](./images/pg55.png)
 
+Note that in scikit-learn version 0.20 (compared to 0.19) you may get different perceptron results.
+In any case, for the perceptron, this is not important as it does not converge anyway when the classes are not linearly seperable, so, the results also depend on the number of iterations and the random seed for data shuffling. The perceptron, in this case, will cyrcle through ~2-9 missclassifications no matter what, since due to the nature of the algorithm, it will never converge on a dataset that is not seperable via a linear boundary/hyperplane.
+
+
+
 pg. 56
 
 Earlier prints of the book had a chapter reference in the info box: 
