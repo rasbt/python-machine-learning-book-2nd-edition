@@ -7,9 +7,8 @@ To turn those annoyances into something positive, I will donate $5 to [UNICEF US
 Also below, I added a small leaderboard to keep track of the errata submissions and errors you found. Please let me know if you don't want to be explicitely mentioned in that list! 
 
 
-- Amount for the next donation: 90$
-- Amount donated: 0$
-
+- Amount for the next donation: 0$
+- Amount donated: [90$](./donations/unicef-2019-11-01.png)
 
 ---
 
@@ -152,7 +151,7 @@ The documentation of `joblib` has recently moved to a new webpage and previous a
 pg. 340
 
 The second paragraph (right under the equation) starts with "Here, x is the feature ..." Instead of "x" it should be "x_i" ("x" with a subscript "i")
- 
+
 pg. 344
 
 > Unfortunately, there is ~now~ {not} a universal approach for dealing with non-randomness in residual plots, and it requires experimentation
