@@ -6,9 +6,6 @@ import os
 # import HashingVectorizer from local dir
 from vectorizer import vect
 
-# import update function from local dir
-from update import update_model
-
 
 def update_model(db_path, model, batch_size=10000):
 
