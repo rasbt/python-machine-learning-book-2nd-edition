@@ -1,10 +1,5 @@
+
 # coding: utf-8
-
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -18,6 +13,7 @@ from matplotlib.colors import ListedColormap
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
+# In[1]:
 
 
 
@@ -41,28 +37,36 @@ from matplotlib.colors import ListedColormap
 # - [Summary](#Summary)
 
 
+# In[2]:
 
-
-
-
+# import packages
+# pep advice tp put all imports at top of file
+from IPython.display import Image
+import numpy as np
+import pandas as pd
+import sys
+import os
 # # Artificial neurons - a brief glimpse into the early history of machine learning
 
-
+# In[3]:
 
 
 
 # ## The formal definition of an artificial neuron
 
+# In[4]:
 
 
 
 
 # ## The perceptron learning rule
 
+# In[5]:
 
 
 
 
+# In[6]:
 
 
 
@@ -72,8 +76,7 @@ from matplotlib.colors import ListedColormap
 
 # ## An object-oriented perceptron API
 
-
-
+# In[7]:
 
 
 class Perceptron(object):
@@ -84,7 +87,7 @@ class Perceptron(object):
     eta : float
       Learning rate (between 0.0 and 1.0)
     n_iter : int
-      Passes over the training dataset.
+      Passes over the training dataset aka epochs
     random_state : int
       Random number generator seed for random weight
       initialization.
@@ -118,7 +121,9 @@ class Perceptron(object):
         self : object
 
         """
+        """seed numpy rgen"""
         rgen = np.random.RandomState(self.random_state)
+        """samples from normal distribution - small random numbers"""
         self.w_ = rgen.normal(loc=0.0, scale=0.01, size=1 + X.shape[1])
         self.errors_ = []
 
@@ -128,6 +133,7 @@ class Perceptron(object):
                 update = self.eta * (target - self.predict(xi))
                 self.w_[1:] += update * xi
                 self.w_[0] += update
+                "collect number of misclassifications per epoch"
                 errors += int(update != 0.0)
             self.errors_.append(errors)
         return self
@@ -141,6 +147,7 @@ class Perceptron(object):
         return np.where(self.net_input(X) >= 0.0, 1, -1)
 
 
+# In[8]:
 
 
 v1 = np.array([1, 2, 3])
@@ -155,19 +162,25 @@ np.arccos(v1.dot(v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
 
 # ### Reading-in the Iris data
 
+# In[9]:
 
 
+import pandas as pd
 
 df = pd.read_csv('https://archive.ics.uci.edu/ml/'
         'machine-learning-databases/iris/iris.data', header=None)
 df.tail()
 
 
+# <hr>
 # 
 # ### Note:
 # 
 # 
-# You can find a copy of the Iris dataset (and all other datasets used in this book) in the code bundle of this book, which you can use if you are working offline or the UCI server at https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data is temporarily unavailable. For instance, to load the Iris dataset from a local directory, you can replace the line 
+# You can find a copy of the Iris dataset (and all other datasets used in this book) 
+# in the code bundle of this book, which you can use if you are working offline 
+# or the UCI server at https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data is temporarily unavailable. 
+# For instance, to load the Iris dataset from a local directory, you can replace the line 
 # 
 #     df = pd.read_csv('https://archive.ics.uci.edu/ml/'
 #         'machine-learning-databases/iris/iris.data', header=None)
@@ -177,18 +190,23 @@ df.tail()
 #     df = pd.read_csv('your/local/path/to/iris.data', header=None)
 # 
 
+# In[10]:
 
 
 df = pd.read_csv('iris.data', header=None)
 df.tail()
 
 
+# <hr>
 
 
 # ### Plotting the Iris data
 
+# In[11]:
 
 
+import matplotlib.pyplot as plt
+import numpy as np
 
 # select setosa and versicolor
 y = df.iloc[0:100, 4].values
@@ -198,10 +216,8 @@ y = np.where(y == 'Iris-setosa', -1, 1)
 X = df.iloc[0:100, [0, 2]].values
 
 # plot data
-plt.scatter(X[:50, 0], X[:50, 1],
-            color='red', marker='o', label='setosa')
-plt.scatter(X[50:100, 0], X[50:100, 1],
-            color='blue', marker='x', label='versicolor')
+plt.scatter(X[:50, 0], X[:50, 1], c='red', marker='o', label='setosa')
+plt.scatter(X[50:100, 0], X[50:100, 1],c='blue', marker='x', label='versicolor')
 
 plt.xlabel('sepal length [cm]')
 plt.ylabel('petal length [cm]')
@@ -214,6 +230,7 @@ plt.show()
 
 # ### Training the perceptron model
 
+# In[12]:
 
 
 ppn = Perceptron(eta=0.1, n_iter=10)
@@ -231,10 +248,12 @@ plt.show()
 
 # ### A function for plotting decision regions
 
+# In[13]:
 
 
+from matplotlib.colors import ListedColormap
 
-
+# function to display decision boundaries
 def plot_decision_regions(X, y, classifier, resolution=0.02):
 
     # setup marker generator and color map
@@ -264,8 +283,6 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
                     edgecolor='black')
 
 
-
-
 plot_decision_regions(X, y, classifier=ppn)
 plt.xlabel('sepal length [cm]')
 plt.ylabel('petal length [cm]')
@@ -275,6 +292,7 @@ plt.legend(loc='upper left')
 # plt.savefig('images/02_08.png', dpi=300)
 plt.show()
 
+# In[14]:
 
 
 # # Adaptive linear neurons and the convergence of learning
@@ -283,17 +301,11 @@ plt.show()
 
 # ## Minimizing cost functions with gradient descent
 
+# In[16]:
 
+# ## Implementing an adaptive linear neuron (ADALINE) in Python
 
-
-
-
-
-
-
-
-# ## Implementing an adaptive linear neuron in Python
-
+# In[17]:
 
 
 class AdalineGD(object):
@@ -303,6 +315,7 @@ class AdalineGD(object):
     ------------
     eta : float
       Learning rate (between 0.0 and 1.0)
+      
     n_iter : int
       Passes over the training dataset.
     random_state : int
@@ -365,7 +378,8 @@ class AdalineGD(object):
         return np.dot(X, self.w_[1:]) + self.w_[0]
 
     def activation(self, X):
-        """Compute linear activation"""
+        """Compute linear activation
+        Activation function is the identity function i.e. phi(z) = z"""
         return X
 
     def predict(self, X):
@@ -373,8 +387,9 @@ class AdalineGD(object):
         return np.where(self.activation(self.net_input(X)) >= 0.0, 1, -1)
 
 
+# In[18]:
 
-
+# experimentng with 2 learning rates 0.01 and 0.0001
 fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
 
 ada1 = AdalineGD(n_iter=10, eta=0.01).fit(X, y)
@@ -394,6 +409,7 @@ plt.show()
 
 
 
+# In[19]:
 
 
 
@@ -401,10 +417,12 @@ plt.show()
 
 # ## Improving gradient descent through feature scaling
 
+# In[20]:
 
 
 
 
+# In[21]:
 
 
 # standardize features
@@ -413,7 +431,9 @@ X_std[:, 0] = (X[:, 0] - X[:, 0].mean()) / X[:, 0].std()
 X_std[:, 1] = (X[:, 1] - X[:, 1].mean()) / X[:, 1].std()
 
 
+# In[22]:
 
+# standardized features help the optimizer converge quicker
 
 ada = AdalineGD(n_iter=15, eta=0.01)
 ada.fit(X_std, y)
@@ -428,6 +448,7 @@ plt.tight_layout()
 plt.show()
 
 plt.plot(range(1, len(ada.cost_) + 1), ada.cost_, marker='o')
+plt.title('SSE error convergence rate')
 plt.xlabel('Epochs')
 plt.ylabel('Sum-squared-error')
 
@@ -439,10 +460,11 @@ plt.show()
 
 # ## Large scale machine learning and stochastic gradient descent
 
+# In[23]:
 
 
 class AdalineSGD(object):
-    """ADAptive LInear NEuron classifier.
+    """ADAptive LInear NEuron classifier with Stchastic Gradient Descent
 
     Parameters
     ------------
@@ -546,6 +568,7 @@ class AdalineSGD(object):
         return np.where(self.activation(self.net_input(X)) >= 0.0, 1, -1)
 
 
+# In[24]:
 
 
 ada = AdalineSGD(n_iter=15, eta=0.01, random_state=1)
@@ -570,8 +593,9 @@ plt.tight_layout()
 plt.show()
 
 
+# In[25]:
 
-
+# for analyze-as-you-go online learning scenario
 ada.partial_fit(X_std[0, :], y[0])
 
 
@@ -584,6 +608,14 @@ ada.partial_fit(X_std[0, :], y[0])
 # 
 # Readers may ignore the following cell
 
+# In[9]:
+
+
+print ('All done with ADALINE optimizer, batch GD, stochastic GD, mini-batch GD, adaptive learning rate ')
+sys.stdout.write('Bye-Bye for now \n')
+
+
+# In[ ]:
 
 
 
