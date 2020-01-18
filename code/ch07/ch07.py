@@ -73,14 +73,6 @@ from sklearn.ensemble import AdaBoostClassifier
 
 
 
-
-
-
-
-
-
-
-
 def ensemble_error(n_classifier, error):
     k_start = int(math.ceil(n_classifier / 2.))
     probs = [comb(n_classifier, k) * error**k * (1-error)**(n_classifier - k)
@@ -92,15 +84,10 @@ def ensemble_error(n_classifier, error):
 
 ensemble_error(n_classifier=11, error=0.25)
 
-
-
-
-
+# visualize for a range of base error values
 error_range = np.arange(0.0, 1.01, 0.01)
 ens_errors = [ensemble_error(n_classifier=11, error=error)
               for error in error_range]
-
-
 
 
 
@@ -131,8 +118,7 @@ plt.show()
 
 
 
-np.argmax(np.bincount([0, 0, 1], 
-                      weights=[0.2, 0.2, 0.6]))
+np.argmax(np.bincount([0, 0, 1], weights=[0.2, 0.2, 0.6]))
 
 
 
@@ -145,8 +131,6 @@ p = np.average(ex,
                axis=0, 
                weights=[0.2, 0.2, 0.6])
 p
-
-
 
 
 np.argmax(p)
@@ -288,8 +272,6 @@ class MajorityVoteClassifier(BaseEstimator,
 # ## Using the majority voting principle to make predictions
 
 
-
-
 iris = datasets.load_iris()
 X, y = iris.data[50:, [1, 2]], iris.target[50:]
 le = LabelEncoder()
@@ -301,7 +283,7 @@ X_train, X_test, y_train, y_test =       train_test_split(X, y,
                         stratify=y)
 
 
-
+# define different classifiers
 
 
 clf1 = LogisticRegression(penalty='l2', 
@@ -315,7 +297,8 @@ clf2 = DecisionTreeClassifier(max_depth=1,
 clf3 = KNeighborsClassifier(n_neighbors=1,
                             p=2,
                             metric='minkowski')
-
+# note only DT classifier can be considered scale invariant; 
+# LR and kNN classifiers need standardized data set
 pipe1 = Pipeline([['sc', StandardScaler()],
                   ['clf', clf1]])
 pipe3 = Pipeline([['sc', StandardScaler()],
@@ -340,6 +323,9 @@ for clf, label in zip([pipe1, clf2, pipe3], clf_labels):
 
 mv_clf = MajorityVoteClassifier(classifiers=[pipe1, clf2, pipe3])
 
+# mv_clf object has a fit method. so it qualifies 
+# as an estimator object for cross_val_score sci-kit function
+
 clf_labels += ['Majority voting']
 all_clf = [pipe1, clf2, pipe3, mv_clf]
 
@@ -357,7 +343,7 @@ for clf, label in zip(all_clf, clf_labels):
 # # Evaluating and tuning the ensemble classifier
 
 
-
+# # fit the ensemble on unseen test data
 
 colors = ['black', 'orange', 'blue', 'green']
 linestyles = [':', '--', '-.', '-']
@@ -393,12 +379,9 @@ plt.show()
 
 
 
-
+# # plot how the decision region actually looks like
 sc = StandardScaler()
 X_train_std = sc.fit_transform(X_train)
-
-
-
 
 
 all_clf = [pipe1, clf2, pipe3, mv_clf]
@@ -452,12 +435,12 @@ plt.show()
 
 
 
-
+# # examples of accessinng individual params of the majority vote classifier
 mv_clf.get_params()
 
 
 
-
+# # demo tune the following indiv params via a grid search
 
 params = {'decisiontreeclassifier__max_depth': [1, 2],
           'pipeline-1__clf__C': [0.001, 0.1, 100.0]}
@@ -493,7 +476,7 @@ print('Accuracy: %.2f' % grid.best_score_)
 # 
 # In addition, the "best" estimator can directly be accessed via the `best_estimator_` attribute.
 
-
+# we can set the mv_clf to the best estimator with the best tuned params
 
 grid.best_estimator_.classifiers
 
@@ -515,21 +498,8 @@ mv_clf
 
 
 # # Bagging -- Building an ensemble of classifiers from bootstrap samples
-
-
-
-
-
 # ## Bagging in a nutshell
-
-
-
-
-
 # ## Applying bagging to classify samples in the Wine dataset
-
-
-
 
 df_wine = pd.read_csv('https://archive.ics.uci.edu/ml/'
                       'machine-learning-databases/wine/wine.data',
@@ -554,10 +524,6 @@ y = df_wine['Class label'].values
 X = df_wine[['Alcohol', 'OD280/OD315 of diluted wines']].values
 
 
-
-
-
-
 le = LabelEncoder()
 y = le.fit_transform(y)
 
@@ -565,9 +531,6 @@ X_train, X_test, y_train, y_test =            train_test_split(X, y,
                              test_size=0.2, 
                              random_state=1,
                              stratify=y)
-
-
-
 
 
 tree = DecisionTreeClassifier(criterion='entropy', 
@@ -580,13 +543,10 @@ bag = BaggingClassifier(base_estimator=tree,
                         max_features=1.0, 
                         bootstrap=True, 
                         bootstrap_features=False, 
-                        n_jobs=1, 
+                        n_jobs=4, 
                         random_state=1)
 
-
-
-
-
+## fitting the DT classifier 
 tree = tree.fit(X_train, y_train)
 y_train_pred = tree.predict(X_train)
 y_test_pred = tree.predict(X_test)
@@ -596,6 +556,7 @@ tree_test = accuracy_score(y_test, y_test_pred)
 print('Decision tree train/test accuracies %.3f/%.3f'
       % (tree_train, tree_test))
 
+## fitting the bagging classifier
 bag = bag.fit(X_train, y_train)
 y_train_pred = bag.predict(X_train)
 y_test_pred = bag.predict(X_test)
@@ -608,7 +569,7 @@ print('Bagging train/test accuracies %.3f/%.3f'
 
 
 
-
+## compare decision regions
 x_min = X_train[:, 0].min() - 1
 x_max = X_train[:, 0].max() + 1
 y_min = X_train[:, 1].min() - 1
@@ -661,27 +622,25 @@ plt.show()
 
 
 
-
+# #--------------------------------------------------------------------------
 
 
 
 # ## Applying AdaBoost using scikit-learn
 
-
-
-
+# # setup a weak learner a - a DT stump
 tree = DecisionTreeClassifier(criterion='entropy', 
                               max_depth=1,
                               random_state=1)
+
+# # train on 500 DT forest
 
 ada = AdaBoostClassifier(base_estimator=tree,
                          n_estimators=500, 
                          learning_rate=0.1,
                          random_state=1)
 
-
-
-
+# # compare the weak learner alone and adaboosted classifier
 tree = tree.fit(X_train, y_train)
 y_train_pred = tree.predict(X_train)
 y_test_pred = tree.predict(X_test)
@@ -702,15 +661,17 @@ print('AdaBoost train/test accuracies %.3f/%.3f'
 
 
 
-
+# # visualize the decision regions
 x_min, x_max = X_train[:, 0].min() - 1, X_train[:, 0].max() + 1
 y_min, y_max = X_train[:, 1].min() - 1, X_train[:, 1].max() + 1
 xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
                      np.arange(y_min, y_max, 0.1))
 
-f, axarr = plt.subplots(1, 2, sharex='col', sharey='row', figsize=(8, 3))
+f, axarr = plt.subplots(1, 2, sharex='col', sharey='row', figsize=(12,4))
 
-
+fsize = 8
+hpos = 'right'
+vpos = 'bottom'
 for idx, clf, tt in zip([0, 1],
                         [tree, ada],
                         ['Decision tree', 'AdaBoost']):
@@ -726,12 +687,10 @@ for idx, clf, tt in zip([0, 1],
     axarr[idx].scatter(X_train[y_train == 1, 0],
                        X_train[y_train == 1, 1],
                        c='green', marker='o')
-    axarr[idx].set_title(tt)
+    axarr[idx].set_title(tt, fontsize=fsize, ha=hpos)
 
-axarr[0].set_ylabel('Alcohol', fontsize=12)
-plt.text(10.2, -0.5,
-         s='OD280/OD315 of diluted wines',
-         ha='center', va='center', fontsize=12)
+    axarr[idx].set_ylabel('Alcohol', fontsize=fsize, ha=hpos)
+    axarr[idx].set_xlabel('OD280/OD315 of diluted wines', fontsize=fsize, ha=hpos)
 
 plt.tight_layout()
 #plt.savefig('images/07_11.png', dpi=300, bbox_inches='tight')

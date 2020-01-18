@@ -534,15 +534,14 @@ svm = SGDClassifier(loss='hinge', n_iter_no_change=1000)
 # # Solving non-linear problems using a kernel SVM
 
 # In[31]:
-
+# separate XOR data using rbf kernel 
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 np.random.seed(1)
 X_xor = np.random.randn(200, 2)
-y_xor = np.logical_xor(X_xor[:, 0] > 0,
-                       X_xor[:, 1] > 0)
+y_xor = np.logical_xor(X_xor[:, 0] > 0, X_xor[:, 1] > 0)
 y_xor = np.where(y_xor, 1, -1)
 
 plt.scatter(X_xor[y_xor == 1, 0],
@@ -573,7 +572,8 @@ plt.show()
 
 # In[33]:
 
-
+# replace kernel = linear with kernel = rbf
+# gamma = 1/2*square(sigma) - free parameter to be optimized
 svm = SVC(kernel='rbf', random_state=1, gamma=0.10, C=10.0)
 svm.fit(X_xor, y_xor)
 plot_decision_regions(X_xor, y_xor,
@@ -587,6 +587,7 @@ plt.show()
 
 # In[34]:
 
+# now apply SVM kernel to IRIS data, LOW value for gamma
 
 from sklearn.svm import SVC
 
@@ -605,7 +606,7 @@ plt.show()
 
 # In[35]:
 
-
+# now apply SVM kernel to IRIS data, HIGH value for gamma
 svm = SVC(kernel='rbf', random_state=1, gamma=100.0, C=1.0)
 svm.fit(X_train_std, y_train)
 
@@ -644,6 +645,7 @@ import numpy as np
 
 def gini(p):
     return p * (1 - p) + (1 - p) * (1 - (1 - p))
+
 
 
 def entropy(p):
@@ -685,12 +687,10 @@ plt.show()
 
 # In[39]:
 
+# plot the typical axis-parallel decision planes
+from sklearn.tree import DecisionTreeClassifier as DTClasser
 
-from sklearn.tree import DecisionTreeClassifier
-
-tree = DecisionTreeClassifier(criterion='gini', 
-                              max_depth=4, 
-                              random_state=1)
+tree = DTClasser(criterion='gini', max_depth=4, random_state=1)
 tree.fit(X_train, y_train)
 
 X_combined = np.vstack((X_train, X_test))
@@ -723,7 +723,7 @@ dot_data = export_graphviz(tree,
                                           'petal width'],
                            out_file=None) 
 graph = graph_from_dot_data(dot_data) 
-graph.write_png('tree.png') 
+graph.write_png('tree.png')
 
 
 # In[41]:
@@ -737,12 +737,12 @@ graph.write_png('tree.png')
 # In[42]:
 
 
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier as RFClasser
 
-forest = RandomForestClassifier(criterion='gini',
+forest = RFClasser(criterion='gini',
                                 n_estimators=25, 
                                 random_state=1,
-                                n_jobs=2)
+                                n_jobs=12)
 forest.fit(X_train, y_train)
 
 plot_decision_regions(X_combined, y_combined, 
@@ -759,7 +759,7 @@ plt.show()
 
 # # K-nearest neighbors - a lazy learning algorithm
 
-# In[43]:
+  # In[43]:
 
 
 
@@ -767,9 +767,9 @@ plt.show()
 # In[44]:
 
 
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier as KNNClasser
 
-knn = KNeighborsClassifier(n_neighbors=5, 
+knn = KNNClasser(n_neighbors=5, 
                            p=2, 
                            metric='minkowski')
 knn.fit(X_train_std, y_train)

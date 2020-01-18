@@ -23,6 +23,8 @@ from sklearn.metrics import make_scorer
 from sklearn.metrics import roc_curve, auc
 from scipy import interp
 from sklearn.utils import resample
+import time
+import dis
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -77,11 +79,11 @@ from sklearn.utils import resample
 # ## Loading the Breast Cancer Wisconsin dataset
 
 
-
-
 df = pd.read_csv('https://archive.ics.uci.edu/ml/'
                  'machine-learning-databases'
                  '/breast-cancer-wisconsin/wdbc.data', header=None)
+
+# dis.dis(pd.read_csv)
 
 # if the Breast Cancer dataset is temporarily unavailable from the
 # UCI machine learning repository, un-comment the following line
@@ -91,15 +93,9 @@ df = pd.read_csv('https://archive.ics.uci.edu/ml/'
 
 df.head()
 
-
-
-
 df.shape
 
-
-
-
-
+#slice out samples matrix and labels vector (M or B)
 
 X = df.loc[:, 2:].values
 y = df.loc[:, 1].values
@@ -107,15 +103,10 @@ le = LabelEncoder()
 y = le.fit_transform(y)
 le.classes_
 
-
-
-
+#check that labels are correct by applying on a new set
 le.transform(['M', 'B'])
 
-
-
-
-
+#split train-test
 X_train, X_test, y_train, y_test =     train_test_split(X, y, 
                      test_size=0.20,
                      stratify=y,
@@ -124,8 +115,6 @@ X_train, X_test, y_train, y_test =     train_test_split(X, y,
 
 
 # ## Combining transformers and estimators in a pipeline
-
-
 
 
 pipe_lr = make_pipeline(StandardScaler(),
@@ -140,33 +129,21 @@ print('Test Accuracy: %.3f' % pipe_lr.score(X_test, y_test))
 
 
 
-
-
 # # Using k-fold cross validation to assess model performance
 
 # ...
 
 # ## The holdout method
-
-
-
-
-
-
 # ## K-fold cross-validation
 
 
 
-
-
-
-
-    
-
 kfold = StratifiedKFold(n_splits=10,
-                        random_state=1).split(X_train, y_train)
+                        random_state=1, shuffle=True).split(X_train, y_train)
 
 scores = []
+
+#iterate n_splits times
 for k, (train, test) in enumerate(kfold):
     pipe_lr.fit(X_train[train], y_train[train])
     score = pipe_lr.score(X_train[test], y_train[test])
@@ -177,15 +154,16 @@ for k, (train, test) in enumerate(kfold):
 print('\nCV accuracy: %.3f +/- %.3f' % (np.mean(scores), np.std(scores)))
 
 
-
-
-
+#sci-kit built-in k-fold cross validation scorer
+#n_jobs relate to number of processors to use
+start_time = time.time()
 scores = cross_val_score(estimator=pipe_lr,
                          X=X_train,
                          y=y_train,
                          cv=10,
-                         n_jobs=1)
-print('CV accuracy scores: %s' % scores)
+                         n_jobs=2)
+print('CV accuracy scores: %s. Time elapsed: %f seconds' 
+          % (scores ,(time.time() - start_time)))
 print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores), np.std(scores)))
 
 
@@ -194,12 +172,6 @@ print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores), np.std(scores)))
 
 
 # ## Diagnosing bias and variance problems with learning curves
-
-
-
-
-
-
 
 
 
@@ -250,10 +222,6 @@ plt.show()
 
 # ## Addressing over- and underfitting with validation curves
 
-
-
-
-
 param_range = [0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
 train_scores, test_scores = validation_curve(
                 estimator=pipe_lr, 
@@ -297,20 +265,20 @@ plt.tight_layout()
 plt.show()
 
 
-
+## ----------------------------------------------------------
 # # Fine-tuning machine learning models via grid search
 
 
 # ## Tuning hyperparameters via grid search 
 
 
-
-
+#Construct a pipeline with estimator as Support Vector Machine
 pipe_svc = make_pipeline(StandardScaler(),
                          SVC(random_state=1))
 
 param_range = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
 
+#construct param_grid  list of dictionary
 param_grid = [{'svc__C': param_range, 
                'svc__kernel': ['linear']},
               {'svc__C': param_range, 
@@ -321,14 +289,14 @@ gs = GridSearchCV(estimator=pipe_svc,
                   param_grid=param_grid, 
                   scoring='accuracy', 
                   cv=10,
-                  n_jobs=-1)
+                  n_jobs=-1, refit = True)
+
 gs = gs.fit(X_train, y_train)
+
 print(gs.best_score_)
 print(gs.best_params_)
 
-
-
-
+# get the best estimator object from GridSearchCV
 clf = gs.best_estimator_
 
 # clf.fit(X_train, y_train)
@@ -344,16 +312,13 @@ print('Test accuracy: %.3f' % clf.score(X_test, y_test))
 
 # ## Algorithm selection with nested cross-validation
 
-
-
-
-
-
-
 gs = GridSearchCV(estimator=pipe_svc,
                   param_grid=param_grid,
                   scoring='accuracy',
+                  refit = True,
+                  n_jobs = -1,
                   cv=2)
+
 
 scores = cross_val_score(gs, X_train, y_train, 
                          scoring='accuracy', cv=5)
@@ -361,19 +326,19 @@ print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores),
                                       np.std(scores)))
 
 
-
-
+# using nested CV to compare an SVM model to a DT classifier
 
 gs = GridSearchCV(estimator=DecisionTreeClassifier(random_state=0),
                   param_grid=[{'max_depth': [1, 2, 3, 4, 5, 6, 7, None]}],
                   scoring='accuracy',
+                  n_jobs = -1,
+                  refit = True,
                   cv=2)
 
 scores = cross_val_score(gs, X_train, y_train, 
                          scoring='accuracy', cv=5)
 print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores), 
                                       np.std(scores)))
-
 
 
 # # Looking at different performance evaluation metrics
@@ -384,18 +349,13 @@ print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores),
 
 
 
-
-
-
-
-
 pipe_svc.fit(X_train, y_train)
 y_pred = pipe_svc.predict(X_test)
 confmat = confusion_matrix(y_true=y_test, y_pred=y_pred)
 print(confmat)
 
 
-
+# reformat for display and plot using matlibplot
 
 fig, ax = plt.subplots(figsize=(2.5, 2.5))
 ax.matshow(confmat, cmap=plt.cm.Blues, alpha=0.3)
@@ -413,7 +373,9 @@ plt.show()
 
 # ### Additional Note
 
-# Remember that we previously encoded the class labels so that *malignant* samples are the "postive" class (1), and *benign* samples are the "negative" class (0):
+# Remember that we previously encoded the class labels 
+## so that *malignant* samples are the "postive" class (1), 
+## and *benign* samples are the "negative" class (0):
 
 
 
@@ -434,9 +396,12 @@ confmat = confusion_matrix(y_true=y_test, y_pred=y_pred)
 print(confmat)
 
 
-# Note that the (true) class 0 samples that are correctly predicted as class 0 (true negatives) are now in the upper left corner of the matrix (index 0, 0). In order to change the ordering so that the true negatives are in the lower right corner (index 1,1) and the true positves are in the upper left, we can use the `labels` argument like shown below:
-
-
+# Note that the (true) class 0 samples that are correctly 
+## predicted as class 0 (true negatives) are now in the 
+## upper left corner of the matrix (index 0, 0). 
+## In order to change the ordering so that the true negatives 
+## are in the lower right corner (index 1,1) and the true positves 
+## are in the upper left, we can use the `labels` argument like shown below:
 
 confmat = confusion_matrix(y_true=y_test, y_pred=y_pred, labels=[1, 0])
 print(confmat)
@@ -451,12 +416,9 @@ print(confmat)
 
 
 
-
 print('Precision: %.3f' % precision_score(y_true=y_test, y_pred=y_pred))
 print('Recall: %.3f' % recall_score(y_true=y_test, y_pred=y_pred))
 print('F1: %.3f' % f1_score(y_true=y_test, y_pred=y_pred))
-
-
 
 
 
@@ -484,8 +446,6 @@ print(gs.best_params_)
 # ## Plotting a receiver operating characteristic
 
 
-
-
 pipe_lr = make_pipeline(StandardScaler(),
                         PCA(n_components=2),
                         LogisticRegression(penalty='l2', 
@@ -496,7 +456,8 @@ X_train2 = X_train[:, [4, 14]]
     
 
 cv = list(StratifiedKFold(n_splits=3, 
-                          random_state=1).split(X_train, y_train))
+                          random_state=1,
+                          shuffle = True).split(X_train, y_train))
 
 fig = plt.figure(figsize=(7, 5))
 
@@ -549,7 +510,7 @@ plt.show()
 
 
 # ## The scoring metrics for multiclass classification
-
+# different average types can be specified. average = 'macro' is default.
 
 
 pre_scorer = make_scorer(score_func=precision_score, 
@@ -561,19 +522,20 @@ pre_scorer = make_scorer(score_func=precision_score,
 # ## Dealing with class imbalance
 
 
-
+# first create an imbalanced dataset - 357 benign stacked on 40 malignant
 X_imb = np.vstack((X[y == 0], X[y == 1][:40]))
 y_imb = np.hstack((y[y == 0], y[y == 1][:40]))
 
 
-
+# if we predict the benign class (y = 0). we'd be already close to 90%
 
 y_pred = np.zeros(y_imb.shape[0])
 np.mean(y_pred == y_imb) * 100
 
 
 
-
+# using resampling function in sci-kit to upsample the minority class
+# to restore class balance
 
 print('Number of class 1 samples before:', X_imb[y_imb == 1].shape[0])
 
@@ -586,12 +548,10 @@ X_upsampled, y_upsampled = resample(X_imb[y_imb == 1],
 print('Number of class 1 samples after:', X_upsampled.shape[0])
 
 
-
+# remake the dataset with the upsampled minority class samples
 
 X_bal = np.vstack((X[y == 0], X_upsampled))
 y_bal = np.hstack((y[y == 0], y_upsampled))
-
-
 
 
 y_pred = np.zeros(y_bal.shape[0])

@@ -77,3 +77,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Scripts
+.convert_notebook_to_script.py
