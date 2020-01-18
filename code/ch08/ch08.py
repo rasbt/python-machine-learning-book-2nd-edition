@@ -92,17 +92,20 @@ target = 'aclImdb_v1.tar.gz'
 
 def reporthook(count, block_size, total_size):
     global start_time
+    speed = 0
     if count == 0:
         start_time = time.time()
         return
     duration = time.time() - start_time
     progress_size = int(count * block_size)
-    speed = progress_size / (1024.**2 * duration)
+    print("duration=%f , count=%i , block size=%i" %(duration,count,block_size))
+    if duration > 0 : speed = progress_size / (1024.**2 * duration)
     percent = count * block_size * 100. / total_size
     sys.stdout.write("\r%d%% | %d MB | %.2f MB/s | %d sec elapsed" %
                     (percent, progress_size / (1024.**2), speed, duration))
     sys.stdout.flush()
 
+# # download imdb data tar file
 
 if not os.path.isdir('aclImdb') and not os.path.isfile('aclImdb_v1.tar.gz'):
     
@@ -112,10 +115,9 @@ if not os.path.isdir('aclImdb') and not os.path.isfile('aclImdb_v1.tar.gz'):
     
     else:
         import urllib.request
-        urllib.request.urlretrieve(source, target, reporthook)
+        urllib.request.urlretrieve(source, target, reporthook=reporthook)
 
-
-
+# # extract file
 
 if not os.path.isdir('aclImdb'):
 
@@ -152,21 +154,15 @@ df.columns = ['review', 'sentiment']
 # Shuffling the DataFrame:
 
 
-
-
 np.random.seed(0)
 df = df.reindex(np.random.permutation(df.index))
 
 
 # Optional: Saving the assembled data as CSV file:
 
-
-
 df.to_csv('movie_data.csv', index=False, encoding='utf-8')
 
-
-
-
+# read back the shuffled data into a panda DF
 
 df = pd.read_csv('movie_data.csv', encoding='utf-8')
 df.head(3)
@@ -191,8 +187,6 @@ df.head(3)
 # 
 
 
-
-
 count = CountVectorizer()
 docs = np.array([
         'The sun is shining',
@@ -203,15 +197,12 @@ bag = count.fit_transform(docs)
 
 # Now let us print the contents of the vocabulary to get a better understanding of the underlying concepts:
 
-
-
 print(count.vocabulary_)
 
 
 # As we can see from executing the preceding command, the vocabulary is stored in a Python dictionary, which maps the unique words that are mapped to integer indices. Next let us print the feature vectors that we just created:
 
 # Each index position in the feature vectors shown here corresponds to the integer values that are stored as dictionary items in the CountVectorizer vocabulary. For example, the  rst feature at index position 0 resembles the count of the word and, which only occurs in the last document, and the word is at index position 1 (the 2nd feature in the document vectors) occurs in all three sentences. Those values in the feature vectors are also called the raw term frequencies: *tf (t,d)*—the number of times a term t occurs in a document *d*.
-
 
 
 print(bag.toarray())
@@ -303,9 +294,6 @@ tfidf = TfidfTransformer(use_idf=True, norm=None, smooth_idf=True)
 raw_tfidf = tfidf.fit_transform(count.fit_transform(docs)).toarray()[-1]
 raw_tfidf 
 
-
-
-
 l2_tfidf = raw_tfidf / np.sqrt(np.sum(raw_tfidf**2))
 l2_tfidf
 
@@ -318,8 +306,6 @@ l2_tfidf
 df.loc[0, 'review'][-50:]
 
 
-
-
 def preprocessor(text):
     text = re.sub('<[^>]*>', '', text)
     emoticons = re.findall('(?::|;|=)(?:-)?(?:\)|\(|D|P)',
@@ -329,17 +315,15 @@ def preprocessor(text):
     return text
 
 
-
+# test the pre-processor on head data
 
 preprocessor(df.loc[0, 'review'][-50:])
-
-
 
 
 preprocessor("</a>This :) is :( a test :-)!")
 
 
-
+# apply preprocessor on all movie reviews to clean up text
 
 df['review'] = df['review'].apply(preprocessor)
 

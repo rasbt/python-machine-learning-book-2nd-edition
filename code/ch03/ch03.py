@@ -1,24 +1,5 @@
+
 # coding: utf-8
-
-
-from sklearn import __version__ as sklearn_version
-from distutils.version import LooseVersion
-from sklearn import datasets
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import Perceptron
-from sklearn.metrics import accuracy_score
-from matplotlib.colors import ListedColormap
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from sklearn.linear_model import SGDClassifier
-from sklearn.tree import DecisionTreeClassifier
-from pydotplus import graph_from_dot_data
-from sklearn.tree import export_graphviz
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
 # 
@@ -32,12 +13,14 @@ from sklearn.neighbors import KNeighborsClassifier
 
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
+# In[1]:
+   
+
+# In[2]:
 
 
-
-
-
-
+from sklearn import __version__ as sklearn_version
+from distutils.version import LooseVersion
 
 if LooseVersion(sklearn_version) < LooseVersion('0.18'):
     raise ValueError('Please use scikit-learn 0.18 or newer')
@@ -70,8 +53,10 @@ if LooseVersion(sklearn_version) < LooseVersion('0.18'):
 
 
 
+# In[3]:
 
 
+from IPython.display import Image
 
 
 # # Choosing a classification algorithm
@@ -82,8 +67,11 @@ if LooseVersion(sklearn_version) < LooseVersion('0.18'):
 
 # Loading the Iris dataset from scikit-learn. Here, the third column represents the petal length, and the fourth column the petal width of the flower samples. The classes are already converted to integer labels where 0=Iris-Setosa, 1=Iris-Versicolor, 2=Iris-Virginica.
 
+# In[4]:
 
 
+from sklearn import datasets
+import numpy as np
 
 iris = datasets.load_iris()
 X = iris.data[:, [2, 3]]
@@ -94,13 +82,16 @@ print('Class labels:', np.unique(y))
 
 # Splitting data into 70% training and 30% test data:
 
+# In[5]:
 
 
+from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=1, stratify=y)
 
 
+# In[6]:
 
 
 print('Labels counts in y:', np.bincount(y))
@@ -110,8 +101,10 @@ print('Labels counts in y_test:', np.bincount(y_test))
 
 # Standardizing the features:
 
+# In[7]:
 
 
+from sklearn.preprocessing import StandardScaler
 
 sc = StandardScaler()
 sc.fit(X_train)
@@ -121,13 +114,16 @@ X_test_std = sc.transform(X_test)
 
 
 # ## Training a perceptron via scikit-learn
+# use inbuilt perceptron classifier in sci-kit
 
 # Redefining the `plot_decision_region` function from chapter 2:
 
+# In[8]:
 
 
+from sklearn.linear_model import Perceptron
 
-ppn = Perceptron(n_iter=40, eta0=0.1, random_state=1)
+ppn = Perceptron(n_iter_no_change=40, eta0=0.1, random_state=1)
 ppn.fit(X_train_std, y_train)
 
 
@@ -135,25 +131,32 @@ ppn.fit(X_train_std, y_train)
 # 
 # - You can replace `Perceptron(n_iter, ...)` by `Perceptron(max_iter, ...)` in scikit-learn >= 0.19. The `n_iter` parameter is used here deriberately, because some people still use scikit-learn 0.18.
 
-
+# In[9]:
+# predict using built-in scikit method
 
 y_pred = ppn.predict(X_test_std)
 print('Misclassified samples: %d' % (y_test != y_pred).sum())
 
 
+# In[10]:
 
 
+from sklearn.metrics import accuracy_score
 
 print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
 
 
+# In[11]:
 
-
+# each classifier also has an accuracy score method
 print('Accuracy: %.2f' % ppn.score(X_test_std, y_test))
 
 
+# In[12]:
 
 
+from matplotlib.colors import ListedColormap
+import matplotlib.pyplot as plt
 
 
 def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
@@ -201,6 +204,7 @@ def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
 
 # Training a perceptron model using the standardized training data:
 
+# In[13]:
 
 
 X_combined_std = np.vstack((X_train_std, X_test_std))
@@ -224,8 +228,11 @@ plt.show()
 
 # ### Logistic regression intuition and conditional probabilities
 
+# In[14]:
 
 
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def sigmoid(z):
@@ -250,6 +257,7 @@ plt.tight_layout()
 plt.show()
 
 
+# In[15]:
 
 
 
@@ -257,6 +265,7 @@ plt.show()
 
 # ### Learning the weights of the logistic cost function
 
+# In[16]:
 
 
 def cost_1(z):
@@ -285,7 +294,9 @@ plt.tight_layout()
 plt.show()
 
 
-
+# In[17]:
+# Adaline code from chapter 1 (not using any in-built SciKit functions) adapted
+# for Logistic Regression
 
 class LogisticRegressionGD(object):
     """Logistic Regression Classifier using gradient descent.
@@ -306,7 +317,7 @@ class LogisticRegressionGD(object):
     w_ : 1d-array
       Weights after fitting.
     cost_ : list
-      Logistic cost function value in each epoch.
+      Sum-of-squares cost function value in each epoch.
 
     """
     def __init__(self, eta=0.05, n_iter=100, random_state=1):
@@ -363,18 +374,16 @@ class LogisticRegressionGD(object):
 
 
 
+# In[18]:
 
 
 X_train_01_subset = X_train[(y_train == 0) | (y_train == 1)]
 y_train_01_subset = y_train[(y_train == 0) | (y_train == 1)]
 
 lrgd = LogisticRegressionGD(eta=0.05, n_iter=1000, random_state=1)
-lrgd.fit(X_train_01_subset,
-         y_train_01_subset)
+lrgd.fit(X_train_01_subset,y_train_01_subset)
 
-plot_decision_regions(X=X_train_01_subset, 
-                      y=y_train_01_subset,
-                      classifier=lrgd)
+plot_decision_regions(X=X_train_01_subset, y=y_train_01_subset, classifier=lrgd)
 
 plt.xlabel('petal length [standardized]')
 plt.ylabel('petal width [standardized]')
@@ -387,8 +396,10 @@ plt.show()
 
 # ### Training a logistic regression model with scikit-learn
 
+# In[19]:
 
 
+from sklearn.linear_model import LogisticRegression
 
 lr = LogisticRegression(C=100.0, random_state=1)
 lr.fit(X_train_std, y_train)
@@ -403,26 +414,31 @@ plt.tight_layout()
 plt.show()
 
 
+# In[20]:
 
 
 lr.predict_proba(X_test_std[:3, :])
 
 
+# In[21]:
 
 
 lr.predict_proba(X_test_std[:3, :]).sum(axis=1)
 
 
-
+# In[22]:
+# get the maximum value col index within each row
 
 lr.predict_proba(X_test_std[:3, :]).argmax(axis=1)
 
 
+# In[23]:
 
-
+# built-in method
 lr.predict(X_test_std[:3, :])
 
 
+# In[24]:
 
 
 lr.predict(X_test_std[0, :].reshape(1, -1))
@@ -431,12 +447,14 @@ lr.predict(X_test_std[0, :].reshape(1, -1))
 
 # ### Tackling overfitting via regularization
 
+# In[25]:
 
 
 
 
+# In[26]:
 
-
+# decreasing 'c' the inverse regularization param leads to shrinking of weight coefficients
 weights, params = [], []
 for c in np.arange(-5, 5):
     lr = LogisticRegression(C=10.**c, random_state=1)
@@ -460,6 +478,7 @@ plt.show()
 
 # # Maximum margin classification with support vector machines
 
+# In[27]:
 
 
 
@@ -470,12 +489,15 @@ plt.show()
 
 # ## Dealing with the nonlinearly separable case using slack variables
 
+# In[28]:
 
 
 
 
+# In[29]:
 
 
+from sklearn.svm import SVC
 
 svm = SVC(kernel='linear', C=1.0, random_state=1)
 svm.fit(X_train_std, y_train)
@@ -494,28 +516,32 @@ plt.show()
 
 # ## Alternative implementations in scikit-learn
 
+# In[30]:
 
 
+from sklearn.linear_model import SGDClassifier
 
-ppn = SGDClassifier(loss='perceptron', n_iter=1000)
-lr = SGDClassifier(loss='log', n_iter=1000)
-svm = SGDClassifier(loss='hinge', n_iter=1000)
+ppn = SGDClassifier(loss='perceptron', n_iter_no_change=1000)
+lr = SGDClassifier(loss='log', n_iter_no_change=1000)
+svm = SGDClassifier(loss='hinge', n_iter_no_change=1000)
 
 
 # **Note**
 # 
-# - You can replace `Perceptron(n_iter, ...)` by `Perceptron(max_iter, ...)` in scikit-learn >= 0.19. The `n_iter` parameter is used here deriberately, because some people still use scikit-learn 0.18.
+# - You can replace `Perceptron(n_iter_no_change, ...)` by `Perceptron(max_iter, ...)` in scikit-learn >= 0.19. The `n_iter` parameter is used here deriberately, because some people still use scikit-learn 0.18.
 
 
 # # Solving non-linear problems using a kernel SVM
 
+# In[31]:
+# separate XOR data using rbf kernel 
 
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 np.random.seed(1)
 X_xor = np.random.randn(200, 2)
-y_xor = np.logical_xor(X_xor[:, 0] > 0,
-                       X_xor[:, 1] > 0)
+y_xor = np.logical_xor(X_xor[:, 0] > 0, X_xor[:, 1] > 0)
 y_xor = np.where(y_xor, 1, -1)
 
 plt.scatter(X_xor[y_xor == 1, 0],
@@ -536,6 +562,7 @@ plt.tight_layout()
 plt.show()
 
 
+# In[32]:
 
 
 
@@ -543,8 +570,10 @@ plt.show()
 
 # ## Using the kernel trick to find separating hyperplanes in higher dimensional space
 
+# In[33]:
 
-
+# replace kernel = linear with kernel = rbf
+# gamma = 1/2*square(sigma) - free parameter to be optimized
 svm = SVC(kernel='rbf', random_state=1, gamma=0.10, C=10.0)
 svm.fit(X_xor, y_xor)
 plot_decision_regions(X_xor, y_xor,
@@ -556,8 +585,11 @@ plt.tight_layout()
 plt.show()
 
 
+# In[34]:
 
+# now apply SVM kernel to IRIS data, LOW value for gamma
 
+from sklearn.svm import SVC
 
 svm = SVC(kernel='rbf', random_state=1, gamma=0.2, C=1.0)
 svm.fit(X_train_std, y_train)
@@ -572,8 +604,9 @@ plt.tight_layout()
 plt.show()
 
 
+# In[35]:
 
-
+# now apply SVM kernel to IRIS data, HIGH value for gamma
 svm = SVC(kernel='rbf', random_state=1, gamma=100.0, C=1.0)
 svm.fit(X_train_std, y_train)
 
@@ -590,10 +623,12 @@ plt.show()
 
 # # Decision tree learning
 
+# In[36]:
 
 
 
 
+# In[37]:
 
 
 
@@ -601,12 +636,16 @@ plt.show()
 
 # ## Maximizing information gain - getting the most bang for the buck
 
+# In[38]:
 
 
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def gini(p):
     return p * (1 - p) + (1 - p) * (1 - (1 - p))
+
 
 
 def entropy(p):
@@ -646,12 +685,12 @@ plt.show()
 
 # ## Building a decision tree
 
+# In[39]:
 
+# plot the typical axis-parallel decision planes
+from sklearn.tree import DecisionTreeClassifier as DTClasser
 
-
-tree = DecisionTreeClassifier(criterion='gini', 
-                              max_depth=4, 
-                              random_state=1)
+tree = DTClasser(criterion='gini', max_depth=4, random_state=1)
 tree.fit(X_train, y_train)
 
 X_combined = np.vstack((X_train, X_test))
@@ -668,8 +707,11 @@ plt.show()
 
 
 
+# In[40]:
 
 
+from pydotplus import graph_from_dot_data
+from sklearn.tree import export_graphviz
 
 dot_data = export_graphviz(tree,
                            filled=True, 
@@ -681,9 +723,10 @@ dot_data = export_graphviz(tree,
                                           'petal width'],
                            out_file=None) 
 graph = graph_from_dot_data(dot_data) 
-graph.write_png('tree.png') 
+graph.write_png('tree.png')
 
 
+# In[41]:
 
 
 
@@ -691,13 +734,15 @@ graph.write_png('tree.png')
 
 # ## Combining weak to strong learners via random forests
 
+# In[42]:
 
 
+from sklearn.ensemble import RandomForestClassifier as RFClasser
 
-forest = RandomForestClassifier(criterion='gini',
+forest = RFClasser(criterion='gini',
                                 n_estimators=25, 
                                 random_state=1,
-                                n_jobs=2)
+                                n_jobs=12)
 forest.fit(X_train, y_train)
 
 plot_decision_regions(X_combined, y_combined, 
@@ -714,14 +759,17 @@ plt.show()
 
 # # K-nearest neighbors - a lazy learning algorithm
 
+  # In[43]:
 
 
 
 
+# In[44]:
 
 
+from sklearn.neighbors import KNeighborsClassifier as KNNClasser
 
-knn = KNeighborsClassifier(n_neighbors=5, 
+knn = KNNClasser(n_neighbors=5, 
                            p=2, 
                            metric='minkowski')
 knn.fit(X_train_std, y_train)
@@ -745,6 +793,13 @@ plt.show()
 # ---
 # 
 # Readers may ignore the next cell.
+
+# In[ ]:
+
+
+
+
+# In[ ]:
 
 
 

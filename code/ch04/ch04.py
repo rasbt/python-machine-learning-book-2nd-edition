@@ -4,7 +4,7 @@
 import pandas as pd
 from io import StringIO
 import sys
-from sklearn.preprocessing import Imputer
+from sklearn.impute import SimpleImputer as Simputer
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
@@ -62,7 +62,11 @@ from sklearn.feature_selection import SelectFromModel
 # - [Summary](#Summary)
 
 
+from sklearn import __version__ as sklearn_version
+from distutils.version import LooseVersion
 
+if LooseVersion(sklearn_version) < LooseVersion('0.18'):
+    raise ValueError('Please use scikit-learn 0.18 or newer')
 
 
 
@@ -81,15 +85,17 @@ csv_data = '''A,B,C,D
 # If you are using Python 2.7, you need
 # to convert the string to unicode:
 
-if (sys.version_info < (3, 0)):
-    csv_data = unicode(csv_data)
+sys.version_info
+
+# if (sys.version_info < (3, 0)):
+#    csv_data = unicode(csv_data)
 
 df = pd.read_csv(StringIO(csv_data))
 df
 
 
 
-
+# display th number of missing values by column
 df.isnull().sum()
 
 
@@ -133,7 +139,7 @@ df.dropna(how='all')
 
 
 
-# drop rows that have less than 3 real values 
+# drop rows that have less than 4 real values 
 
 df.dropna(thresh=4)
 
@@ -158,8 +164,7 @@ df.values
 
 # impute missing values via the column mean
 
-
-imr = Imputer(missing_values='NaN', strategy='mean', axis=0)
+imr = Simputer(missing_values=np.nan, strategy='mean')
 imr = imr.fit(df.values)
 imputed_data = imr.transform(df.values)
 imputed_data
@@ -182,20 +187,26 @@ imputed_data
 # ## Nominal and ordinal features
 
 
+# create a sample DataFrame
+def dfn():
+    import pandas as pd
+    df = pd.DataFrame([['green', 'M', 10.1, 'class2'],
+                       ['red', 'L', 13.5, 'class1'],
+                       ['blue', 'XL', 15.3, 'class2']])
+    size_mapping = {'XL': 3,'L': 2,'M': 1}
+    df.columns = ['color', 'size', 'price', 'classlabel']
+    df['size'] = df['size'].map(size_mapping)
+    class_mapping = {label: idx for idx, label in enumerate(np.unique(df['classlabel']))}
+    df['classlabel'] = df['classlabel'].map(class_mapping)
+    #let's say color blue has colinearity with red and green - so remove that column
+    df = pd.get_dummies(df, drop_first = True)
+    return df
 
-
-df = pd.DataFrame([['green', 'M', 10.1, 'class2'],
-                   ['red', 'L', 13.5, 'class1'],
-                   ['blue', 'XL', 15.3, 'class2']])
-
-df.columns = ['color', 'size', 'price', 'classlabel']
-df
-
-
+dfn()
 
 # ## Mapping ordinal features
 
-
+# manual mapping is needed as there is no auto-generated order
 
 size_mapping = {'XL': 3,
                 'L': 2,
@@ -205,11 +216,11 @@ df['size'] = df['size'].map(size_mapping)
 df
 
 
+# reversing mapping if needed
 
-
-inv_size_mapping = {v: k for k, v in size_mapping.items()}
-df['size'].map(inv_size_mapping)
-
+# inv_size_mapping = {v: k for k, v in size_mapping.items()}
+# df['size'] = df['size'].map(inv_size_mapping)
+# df
 
 
 # ## Encoding class labels
@@ -219,6 +230,7 @@ df['size'].map(inv_size_mapping)
 
 # create a mapping dict
 # to convert class labels from strings to integers
+import numpy as np
 class_mapping = {label: idx for idx, label in enumerate(np.unique(df['classlabel']))}
 class_mapping
 
@@ -233,9 +245,9 @@ df
 
 
 # reverse the class label mapping
-inv_class_mapping = {v: k for k, v in class_mapping.items()}
-df['classlabel'] = df['classlabel'].map(inv_class_mapping)
-df
+# inv_class_mapping = {v: k for k, v in class_mapping.items()}
+# df['classlabel'] = df['classlabel'].map(inv_class_mapping)
+# df
 
 
 
@@ -250,8 +262,8 @@ y
 
 
 # reverse mapping
-class_le.inverse_transform(y)
-
+y = class_le.inverse_transform(y)
+y
 
 # Note: The deprecation warning shown above is due to an implementation detail in scikit-learn. It was already addressed in a pull request (https://github.com/scikit-learn/scikit-learn/pull/9816), and the patch will be released with the next version of scikit-learn (i.e., v. 0.20.0).
 
@@ -260,33 +272,51 @@ class_le.inverse_transform(y)
 
 
 
-X = df[['color', 'size', 'price']].values
+M = df[['color', 'size', 'price']].values
 
 color_le = LabelEncoder()
-X[:, 0] = color_le.fit_transform(X[:, 0])
+M[:, df.columns.get_loc("color")] = color_le.fit_transform(M[:, df.columns.get_loc("color")])
+M
+
+
+
+df = dfn()
+X = df[['color', 'size', 'price']].values
 X
-
-
-
-
-
-ohe = OneHotEncoder(categorical_features=[0])
-ohe.fit_transform(X).toarray()
-
+catl = X[:,0]
+catl
+ohe = OneHotEncoder(categories = [catl])
+ohe.categories
+X
+ohe.fit(X[:,0].reshape(-1,1))
+# have to use array as OHE by defaullt returns a sparse matrix
+# convert to dense using the toarray() function
+XT = ohe.transform(X[:, 0].reshape(-1,1)).toarray()
+XT = np.concatenate((XT, X[:,1:3]), axis = 1)
+XT
 
 
 
 # return dense array so that we can skip
-# the toarray step
+# the toarray step - use sparse = false in OHE encoder
+df = dfn()
+X = df[['color', 'size', 'price']].values
+X
+catl = X[:,0]
+catl
+ohe = OneHotEncoder(categories = [catl], sparse = False)
+ohe.categories
+X
+ohe.fit(X[:,0].reshape(-1,1))
+XT = ohe.transform(X[:, 0].reshape(-1,1))
+XT = np.concatenate((XT, X[:,1:3]), axis = 1)
+XT
 
-ohe = OneHotEncoder(categorical_features=[0], sparse=False)
-ohe.fit_transform(X)
 
 
 
-
-# one-hot encoding via pandas
-
+# one-hot encoding via pandas - the easiest way
+df = dfn()
 pd.get_dummies(df[['price', 'color', 'size']])
 
 
@@ -305,7 +335,7 @@ ohe = OneHotEncoder(categorical_features=[0])
 ohe.fit_transform(X).toarray()[:, 1:]
 
 
-
+## ---------------------------------------------------------------
 # # Partitioning a dataset into a seperate training and test set
 
 
@@ -320,7 +350,7 @@ df_wine = pd.read_csv('https://archive.ics.uci.edu/'
 
 # df_wine = pd.read_csv('wine.data', header=None)
 
-
+# from IPython.display import HTML as htm
 df_wine.columns = ['Class label', 'Alcohol', 'Malic acid', 'Ash',
                    'Alcalinity of ash', 'Magnesium', 'Total phenols',
                    'Flavanoids', 'Nonflavanoid phenols', 'Proanthocyanins',
@@ -328,10 +358,12 @@ df_wine.columns = ['Class label', 'Alcohol', 'Malic acid', 'Ash',
                    'Proline']
 
 print('Class labels', np.unique(df_wine['Class label']))
-df_wine.head()
-
-
-
+dfhead = df_wine.head()
+dfh_html = df_wine.to_html()
+print(dfh_html)
+dfh_file = open("wine_data.html", "w")
+dfh_file.write(dfh_html)
+dfh_file.close()
 
 
 X, y = df_wine.iloc[:, 1:].values, df_wine.iloc[:, 0].values
@@ -343,9 +375,10 @@ X_train, X_test, y_train, y_test =    train_test_split(X, y,
 
 
 
-# # Bringing features onto the same scale
+# # Feature Scaling - Bringing features onto the same scale
 
-
+# Apply the minmax scaler to get the normalized (not standardized) 
+# value of samples -[min,max] range = [0,1] for each feature column
 
 
 mms = MinMaxScaler()
@@ -354,7 +387,7 @@ X_test_norm = mms.transform(X_test)
 
 
 
-
+## Apply standard normal distribution or standardization to samples
 
 stdsc = StandardScaler()
 X_train_std = stdsc.fit_transform(X_train)
@@ -400,19 +433,17 @@ print('normalized:', (ex - ex.min()) / (ex.max() - ex.min()))
 
 
 
-# For regularized models in scikit-learn that support L1 regularization, we can simply set the `penalty` parameter to `'l1'` to obtain a sparse solution:
+# For regularized models in scikit-learn that support L1 regularization, 
+# we can simply set the `penalty` parameter to `'l1'` 
+# to obtain a sparse solution:
 
-
-
-LogisticRegression(penalty='l1')
+LogisticRegression(penalty='l1', solver = 'liblinear')
 
 
 # Applied to the standardized Wine data ...
+# C  = inverse of the regularization parameter lambda
 
-
-
-
-lr = LogisticRegression(penalty='l1', C=1.0)
+lr = LogisticRegression(penalty='l1', C=1.0, solver = 'liblinear')
 # Note that C=1.0 is the default. You can increase
 # or decrease it to make the regulariztion effect
 # stronger or weaker, respectively.
@@ -420,29 +451,17 @@ lr.fit(X_train_std, y_train)
 print('Training accuracy:', lr.score(X_train_std, y_train))
 print('Test accuracy:', lr.score(X_test_std, y_test))
 
-
-
+np.set_printoptions(8)
 
 lr.intercept_
 
-
-
-
-np.set_printoptions(8)
-
-
-
-
-lr.coef_[lr.coef_!=0].shape
-
-
-
-
 lr.coef_
 
+print("total coefficients = " , lr.coef_.shape[0] * lr.coef_.shape[1])
+print("non-zero coeffs = " , lr.coef_[lr.coef_!=0].shape[0])
 
 
-
+# Vary regularization strength and plot the regularization path
 
 fig = plt.figure()
 ax = plt.subplot(111)
@@ -454,7 +473,8 @@ colors = ['blue', 'green', 'red', 'cyan',
 
 weights, params = [], []
 for c in np.arange(-4., 6.):
-    lr = LogisticRegression(penalty='l1', C=10.**c, random_state=0)
+    lr = LogisticRegression(penalty='l1', C=10.**c, 
+                            random_state=0, solver = 'liblinear')
     lr.fit(X_train_std, y_train)
     weights.append(lr.coef_[1])
     params.append(10**c)
@@ -481,6 +501,7 @@ plt.show()
 
 
 # ## Sequential feature selection algorithms
+## Not available in scikit, so we implement from scratch in python
 
 
 
@@ -559,12 +580,10 @@ plt.tight_layout()
 plt.show()
 
 
-
+# investigating smallest feature set that yielded 100% accuracy
 
 k3 = list(sbs.subsets_[10])
 print(df_wine.columns[1:][k3])
-
-
 
 
 knn.fit(X_train_std, y_train)
@@ -572,7 +591,7 @@ print('Training accuracy:', knn.score(X_train_std, y_train))
 print('Test accuracy:', knn.score(X_test_std, y_test))
 
 
-
+#knn on the selected 3 feature selected set
 
 knn.fit(X_train_std[:, k3], y_train)
 print('Training accuracy:', knn.score(X_train_std[:, k3], y_train))
@@ -581,8 +600,7 @@ print('Test accuracy:', knn.score(X_test_std[:, k3], y_test))
 
 
 # # Assessing feature importance with Random Forests
-
-
+# # sci-kit has this model built-in
 
 
 feat_labels = df_wine.columns[1:]
@@ -613,18 +631,17 @@ plt.tight_layout()
 plt.show()
 
 
-
-
-
+## using feature selection as part of the scikit estimator pipeline
 sfm = SelectFromModel(forest, threshold=0.1, prefit=True)
 X_selected = sfm.transform(X_train)
 print('Number of features that meet this threshold criterion:', 
       X_selected.shape[1])
 
 
-# Now, let's print the 3 features that met the threshold criterion for feature selection that we set earlier (note that this code snippet does not appear in the actual book but was added to this notebook later for illustrative purposes):
-
-
+# Now, let's print the 3 features that met the threshold criterion 
+# for feature selection that we set earlier (note that this code snippet 
+# does not appear in the actual book but was added to this notebook 
+# later for illustrative purposes):
 
 for f in range(X_selected.shape[1]):
     print("%2d) %-*s %f" % (f + 1, 30, 

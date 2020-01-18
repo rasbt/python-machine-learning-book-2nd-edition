@@ -111,13 +111,14 @@ X_train, X_test, y_train, y_test =     train_test_split(X, y, test_size=0.3,
 
 
 # Standardizing the data.
-
-
-
+# use standard normal distribution; mean = 0; std = 1
 
 sc = StandardScaler()
 X_train_std = sc.fit_transform(X_train)
 X_test_std = sc.transform(X_test)
+
+np.mean(X_train_std[:,0])
+np.std(X_train_std[:,0])
 
 
 # ---
@@ -165,11 +166,11 @@ X_test_std = sc.transform(X_test)
 # ---
 
 # Eigendecomposition of the covariance matrix.
-
+#use eigh (hermetian) to always get real eigen values
 
 
 cov_mat = np.cov(X_train_std.T)
-eigen_vals, eigen_vecs = np.linalg.eig(cov_mat)
+eigen_vals, eigen_vecs = np.linalg.eigh(cov_mat)
 
 print('\nEigenvalues \n%s' % eigen_vals)
 
@@ -184,17 +185,12 @@ print('\nEigenvalues \n%s' % eigen_vals)
 
 # ## Total and explained variance
 
-
-
 tot = sum(eigen_vals)
 var_exp = [(i / tot) for i in sorted(eigen_vals, reverse=True)]
 cum_var_exp = np.cumsum(var_exp)
 
 
-
-
-
-
+## plot variance and cumulative variance
 plt.bar(range(1, 14), var_exp, alpha=0.5, align='center',
         label='individual explained variance')
 plt.step(range(1, 14), cum_var_exp, where='mid',
@@ -219,16 +215,15 @@ eigen_pairs = [(np.abs(eigen_vals[i]), eigen_vecs[:, i])
 # Sort the (eigenvalue, eigenvector) tuples from high to low
 eigen_pairs.sort(key=lambda k: k[0], reverse=True)
 
-
-
-
 w = np.hstack((eigen_pairs[0][1][:, np.newaxis],
                eigen_pairs[1][1][:, np.newaxis]))
 print('Matrix W:\n', w)
 
 
 # **Note**
-# Depending on which version of NumPy and LAPACK you are using, you may obtain the Matrix W with its signs flipped. Please note that this is not an issue: If $v$ is an eigenvector of a matrix $\Sigma$, we have
+# Depending on which version of NumPy and LAPACK you are using, 
+# you may obtain the Matrix W with its signs flipped. 
+# Please note that this is not an issue: If $v$ is an eigenvector of a matrix $\Sigma$, we have
 # 
 # $$\Sigma v = \lambda v,$$
 # 
@@ -239,16 +234,16 @@ print('Matrix W:\n', w)
 # $$\Sigma \cdot (-v) = -\Sigma v = -\lambda v = \lambda \cdot (-v).$$
 
 
-
 X_train_std[0].dot(w)
 
 
-
-
+## transforming the entire sample set
 X_train_pca = X_train_std.dot(w)
+
 colors = ['r', 'b', 'g']
 markers = ['s', 'x', 'o']
 
+#visualizing along the 2D PCs
 for l, c, m in zip(np.unique(y_train), colors, markers):
     plt.scatter(X_train_pca[y_train == l, 0], 
                 X_train_pca[y_train == l, 1], 
@@ -267,9 +262,8 @@ plt.show()
 
 # **NOTE**
 # 
-# The following four code cells has been added in addition to the content to the book, to illustrate how to replicate the results from our own PCA implementation in scikit-learn:
-
-
+# The following four code cells has been added in addition to the content to the book, 
+# to illustrate how to replicate the results from our own PCA implementation in scikit-learn:
 
 
 pca = PCA()
@@ -285,8 +279,6 @@ plt.ylabel('Explained variance ratio')
 plt.xlabel('Principal components')
 
 plt.show()
-
-
 
 
 pca = PCA(n_components=2)
@@ -336,17 +328,12 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
 
 # Training logistic regression classifier using the first 2 principal components.
 
-
-
-
 pca = PCA(n_components=2)
 X_train_pca = pca.fit_transform(X_train_std)
 X_test_pca = pca.transform(X_test_std)
 
 lr = LogisticRegression()
 lr = lr.fit(X_train_pca, y_train)
-
-
 
 
 plot_decision_regions(X_train_pca, y_train, classifier=lr)
@@ -357,9 +344,7 @@ plt.tight_layout()
 # plt.savefig('images/05_04.png', dpi=300)
 plt.show()
 
-
-
-
+# plot decision regions on test data as well
 plot_decision_regions(X_test_pca, y_test, classifier=lr)
 plt.xlabel('PC 1')
 plt.ylabel('PC 2')
@@ -368,13 +353,15 @@ plt.tight_layout()
 # plt.savefig('images/05_05.png', dpi=300)
 plt.show()
 
-
-
+# to learn the explained variance ratios of all components
+# set n_components = None
 
 pca = PCA(n_components=None)
 X_train_pca = pca.fit_transform(X_train_std)
 pca.explained_variance_ratio_
 
+
+## ---------------------------------------------------------------------
 
 
 # # Supervised data compression via linear discriminant analysis
@@ -420,13 +407,11 @@ print('Within-class scatter matrix: %sx%s' % (S_W.shape[0], S_W.shape[1]))
 
 # Better: covariance matrix since classes are not equally distributed:
 
+# print class label distribution to check if uniform distribution
+# class is there. In this case output says the classes 
+# are NOT uniformly distributed.
 
-
-print('Class label distribution: %s' 
-      % np.bincount(y_train)[1:])
-
-
-
+print('Class label distribution: %s' % np.bincount(y_train)[1:])
 
 d = 13  # number of features
 S_W = np.zeros((d, d))
@@ -438,7 +423,6 @@ print('Scaled within-class scatter matrix: %sx%s' % (S_W.shape[0],
 
 
 # Compute the between-class scatter matrix:
-
 
 
 mean_overall = np.mean(X_train_std, axis=0)
@@ -488,8 +472,6 @@ for eigen_val in eigen_pairs:
     print(eigen_val[0])
 
 
-
-
 tot = sum(eigen_vals.real)
 discr = [(i / tot) for i in sorted(eigen_vals.real, reverse=True)]
 cum_discr = np.cumsum(discr)
@@ -508,7 +490,8 @@ plt.show()
 
 
 
-
+# now stack the 2 most discriminative eigenvector columns to create W,
+# the transformation matrix
 w = np.hstack((eigen_pairs[0][1][:, np.newaxis].real,
               eigen_pairs[1][1][:, np.newaxis].real))
 print('Matrix W:\n', w)
@@ -516,8 +499,6 @@ print('Matrix W:\n', w)
 
 
 # ## Projecting samples onto the new feature space
-
-
 
 X_train_lda = X_train_std.dot(w)
 colors = ['r', 'b', 'g']
@@ -540,13 +521,8 @@ plt.show()
 # ## LDA via scikit-learn
 
 
-
-
 lda = LDA(n_components=2)
 X_train_lda = lda.fit_transform(X_train_std, y_train)
-
-
-
 
 lr = LogisticRegression()
 lr = lr.fit(X_train_lda, y_train)
@@ -554,13 +530,13 @@ lr = lr.fit(X_train_lda, y_train)
 plot_decision_regions(X_train_lda, y_train, classifier=lr)
 plt.xlabel('LD 1')
 plt.ylabel('LD 2')
-plt.legend(loc='lower left')
+plt.legend(loc='lower right')
 plt.tight_layout()
 # plt.savefig('images/05_09.png', dpi=300)
 plt.show()
 
 
-
+# ##now et's apply lda on test samples to see how they output
 
 X_test_lda = lda.transform(X_test_std)
 
@@ -574,10 +550,8 @@ plt.show()
 
 
 
+## -----------------------------------------------------------------
 # # Using kernel principal component analysis for nonlinear mappings
-
-
-
 
 
 
@@ -627,6 +601,11 @@ def rbf_kernel_pca(X, gamma, n_components):
     eigvals, eigvecs = eigvals[::-1], eigvecs[:, ::-1]
 
     # Collect the top k eigenvectors (projected samples)
+    # in kernel pca, the top eigen vectors are the projected samples 
+    # themselves, unlike in pca where the eigen vectors are PCs and
+    # are used to transform samples into the 
+    # new dimensionality reduced space
+    
     X_pc = np.column_stack((eigvecs[:, i]
                             for i in range(n_components)))
 
@@ -635,9 +614,6 @@ def rbf_kernel_pca(X, gamma, n_components):
 
 
 # ### Example 1: Separating half-moon shapes
-
-
-
 
 X, y = make_moons(n_samples=100, random_state=123)
 
@@ -648,10 +624,8 @@ plt.tight_layout()
 # plt.savefig('images/05_12.png', dpi=300)
 plt.show()
 
-
-
-
-
+## first, let's look at how the output would look if the traditional
+## PCA were to be applied
 scikit_pca = PCA(n_components=2)
 X_spca = scikit_pca.fit_transform(X)
 
@@ -678,9 +652,9 @@ plt.tight_layout()
 plt.show()
 
 
-
-
-X_kpca = rbf_kernel_pca(X, gamma=15, n_components=2)
+## now let's try out the kernel PCA on the half moon dataset
+gamma = 15
+X_kpca = rbf_kernel_pca(X, gamma=gamma, n_components=2)
 
 fig, ax = plt.subplots(nrows=1,ncols=2, figsize=(7,3))
 ax[0].scatter(X_kpca[y==0, 0], X_kpca[y==0, 1], 
@@ -699,6 +673,8 @@ ax[1].set_ylim([-1, 1])
 ax[1].set_yticks([])
 ax[1].set_xlabel('PC1')
 
+plt.suptitle('RBF kernel PCA: with gamma = ' + str(gamma))
+
 plt.tight_layout()
 # plt.savefig('images/05_14.png', dpi=300)
 plt.show()
@@ -706,8 +682,6 @@ plt.show()
 
 
 # ### Example 2: Separating concentric circles
-
-
 
 
 X, y = make_circles(n_samples=1000, random_state=123, noise=0.1, factor=0.2)
@@ -720,8 +694,7 @@ plt.tight_layout()
 plt.show()
 
 
-
-
+# fit using traditional PCA
 scikit_pca = PCA(n_components=2)
 X_spca = scikit_pca.fit_transform(X)
 
@@ -743,14 +716,17 @@ ax[1].set_ylim([-1, 1])
 ax[1].set_yticks([])
 ax[1].set_xlabel('PC1')
 
+plt.suptitle('traditional PCA')
+
 plt.tight_layout()
 # plt.savefig('images/05_16.png', dpi=300)
 plt.show()
 
 
 
-
-X_kpca = rbf_kernel_pca(X, gamma=15, n_components=2)
+# fit using rbf kernal PCA
+gamma = 15
+X_kpca = rbf_kernel_pca(X, gamma=gamma, n_components=2)
 
 fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(7, 3))
 ax[0].scatter(X_kpca[y == 0, 0], X_kpca[y == 0, 1],
@@ -769,6 +745,8 @@ ax[1].set_ylim([-1, 1])
 ax[1].set_yticks([])
 ax[1].set_xlabel('PC1')
 
+plt.suptitle('RBF kernel PCA: with gamma = ' + str(gamma))
+
 plt.tight_layout()
 # plt.savefig('images/05_17.png', dpi=300)
 plt.show()
@@ -777,7 +755,11 @@ plt.show()
 
 # ## Projecting new data points
 
+# needed for real applications as there are different data sets such as 
+# training, validation, test etc.
 
+# we modify the rbf kernel pca to return both transformed data
+## and eigne values
 
 
 def rbf_kernel_pca(X, gamma, n_components):
@@ -833,24 +815,19 @@ def rbf_kernel_pca(X, gamma, n_components):
     return alphas, lambdas
 
 
-
+## now let us fit the modified rbd_kernel_pca on 
+## the half moon synthetic dataset
 
 X, y = make_moons(n_samples=100, random_state=123)
 alphas, lambdas = rbf_kernel_pca(X, gamma=15, n_components=1)
-
-
 
 
 x_new = X[25]
 x_new
 
 
-
-
 x_proj = alphas[25] # original projection
 x_proj
-
-
 
 
 def project_x(x_new, X, gamma, alphas, lambdas):
@@ -859,10 +836,9 @@ def project_x(x_new, X, gamma, alphas, lambdas):
     return k.dot(alphas / lambdas)
 
 # projection of the "new" datapoint
+# shows project_x function is working properly if x_reproj = x_proj
 x_reproj = project_x(x_new, X, gamma=15, alphas=alphas, lambdas=lambdas)
 x_reproj 
-
-
 
 
 plt.scatter(alphas[y == 0, 0], np.zeros((50)),
@@ -882,21 +858,29 @@ plt.show()
 
 
 # ## Kernel principal component analysis in scikit-learn
-
-
-
-
+# analyze for a stream of gammas
+gamma = [1, 3, 5, 7, 10, 12, 15, 20]
 X, y = make_moons(n_samples=100, random_state=123)
-scikit_kpca = KernelPCA(n_components=2, kernel='rbf', gamma=15)
-X_skernpca = scikit_kpca.fit_transform(X)
+ncols = 2
+nrows_tup=divmod(len(gamma),ncols)
+fig, ax = plt.subplots(nrows=nrows_tup[0] + nrows_tup[1], ncols=ncols)
+textpos = (0.0, 0.3)
+for g in enumerate(gamma): 
+    scikit_kpca = KernelPCA(n_components=2, kernel='rbf', gamma=g[1])
+    X_skernpca = scikit_kpca.fit_transform(X)
+    idx = divmod(g[0] , ncols)
+    ax[idx].scatter(X_skernpca[y == 0, 0], X_skernpca[y == 0, 1],
+                color='red', marker='^', alpha=0.5)
+    ax[idx].scatter(X_skernpca[y == 1, 0], X_skernpca[y == 1, 1],
+                color='blue', marker='o', alpha=0.5)
+    
+    ax[idx].set_xlabel('PC1', fontsize = 8)
+    ax[idx].set_ylabel('PC2', fontsize = 8)
+    ax[idx].text(textpos[0], textpos[1], "gamma:"+str(g[1]), fontsize = 6 )
 
-plt.scatter(X_skernpca[y == 0, 0], X_skernpca[y == 0, 1],
-            color='red', marker='^', alpha=0.5)
-plt.scatter(X_skernpca[y == 1, 0], X_skernpca[y == 1, 1],
-            color='blue', marker='o', alpha=0.5)
+plt.suptitle('Sci-kit RBF kernel PCA: with gamma = ' + str(gamma), 
+                 va = "bottom", fontsize=8)
 
-plt.xlabel('PC1')
-plt.ylabel('PC2')
 plt.tight_layout()
 # plt.savefig('images/05_19.png', dpi=300)
 plt.show()
