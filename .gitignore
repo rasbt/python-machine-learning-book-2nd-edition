@@ -44,6 +44,9 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+.vscode/
+.idea/
+.spyproject/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -80,3 +83,9 @@ target/
 
 # Scripts
 .convert_notebook_to_script.py
+
+# Data
+acllmdb/
+*.tar.gz
+*.csv
+*.csv.gz
