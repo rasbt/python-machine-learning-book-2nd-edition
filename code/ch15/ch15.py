@@ -2,9 +2,9 @@
 # coding: utf-8
 
 # *Python Machine Learning 2nd Edition* by [Sebastian Raschka](https://sebastianraschka.com), Packt Publishing Ltd. 2017
-# 
+#
 # Code Repository: https://github.com/rasbt/python-machine-learning-book-2nd-edition
-# 
+#
 # Code License: [MIT License](https://github.com/rasbt/python-machine-learning-book-2nd-edition/blob/master/LICENSE.txt)
 
 # # Python Machine Learning - Code Examples
@@ -52,30 +52,30 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 from __future__ import print_function
 
 
-# # Building blocks of convolutional neural networks 
+# # Building blocks of convolutional neural networks
 
 # ## Understanding CNNs and learning feature hierarchies
 
 # In[4]:
 
 
-Image(filename='images/15_01.png', width=700) 
+Image(filename='images/15_01.png', width=700)
 
 
-# ## Performing discrete convolutions  
+# ## Performing discrete convolutions
 
 # ###  Performing a discrete convolution in one dimension
 
 # In[5]:
 
 
-Image(filename='images/15_02.png', width=700) 
+Image(filename='images/15_02.png', width=700)
 
 
 # In[6]:
 
 
-Image(filename='images/15_03.png', width=700) 
+Image(filename='images/15_03.png', width=700)
 
 
 # ### The effect of zero-padding in convolution
@@ -83,7 +83,7 @@ Image(filename='images/15_03.png', width=700)
 # In[7]:
 
 
-Image(filename='images/15_11.png', width=700) 
+Image(filename='images/15_11.png', width=700)
 
 
 # ### Determining the size of the convolution output
@@ -108,9 +108,9 @@ def conv1d(x, w, p=0, s=1):
 ## Testing:
 x = [1, 3, 2, 4, 5, 6, 1, 3]
 w = [1, 0, 3, 1, 2]
-print('Conv1d Implementation: ', 
+print('Conv1d Implementation: ',
       conv1d(x, w, p=2, s=1))
-print('Numpy Results:         ', 
+print('Numpy Results:         ',
       np.convolve(x, w, mode='same'))
 
 
@@ -119,13 +119,13 @@ print('Numpy Results:         ',
 # In[9]:
 
 
-Image(filename='images/15_04.png', width=700) 
+Image(filename='images/15_04.png', width=700)
 
 
 # In[10]:
 
 
-Image(filename='images/15_05.png', width=900) 
+Image(filename='images/15_05.png', width=900)
 
 
 # In[11]:
@@ -141,25 +141,25 @@ def conv2d(X, W, p=(0,0), s=(1,1)):
     n1 = X_orig.shape[0] + 2*p[0]
     n2 = X_orig.shape[1] + 2*p[1]
     X_padded = np.zeros(shape=(n1,n2))
-    X_padded[p[0]:p[0] + X_orig.shape[0], 
+    X_padded[p[0]:p[0] + X_orig.shape[0],
              p[1]:p[1] + X_orig.shape[1]] = X_orig
 
     res = []
-    for i in range(0, int((X_padded.shape[0] - 
+    for i in range(0, int((X_padded.shape[0] -
                            W_rot.shape[0])/s[0])+1, s[0]):
         res.append([])
-        for j in range(0, int((X_padded.shape[1] - 
+        for j in range(0, int((X_padded.shape[1] -
                                W_rot.shape[1])/s[1])+1, s[1]):
             X_sub = X_padded[i:i+W_rot.shape[0], j:j+W_rot.shape[1]]
             res[-1].append(np.sum(X_sub * W_rot))
     return(np.array(res))
-    
+
 X = [[1, 3, 2, 4], [5, 6, 1, 3], [1 , 2,0, 2], [3, 4, 3, 2]]
 W = [[1, 0, 3], [1, 2, 1], [0, 1, 1]]
-print('Conv2d Implementation: \n', 
+print('Conv2d Implementation: \n',
       conv2d(X, W, p=(1,1), s=(1,1)))
 
-print('Scipy Results:         \n', 
+print('Scipy Results:         \n',
       scipy.signal.convolve2d(X, W, mode='same'))
 
 
@@ -168,10 +168,10 @@ print('Scipy Results:         \n',
 # In[12]:
 
 
-Image(filename='images/15_06.png', width=700) 
+Image(filename='images/15_06.png', width=700)
 
 
-# # Putting everything together to build a CNN 
+# # Putting everything together to build a CNN
 
 # ## Working with multiple input or color channels
 
@@ -188,8 +188,8 @@ except AttributeError:
          " You can satisfy this requirement by installing the"
          " userfriendly fork PILLOW via `pip install pillow`.")
     raise AttributeError(s)
-    
-    
+
+
 print('Image shape:', img.shape)
 print('Number of channels:', img.shape[2])
 print('Image data type:', img.dtype)
@@ -200,7 +200,7 @@ print(img[100:102, 100:102, :])
 # In[14]:
 
 
-Image(filename='images/15_07.png', width=800) 
+Image(filename='images/15_07.png', width=800)
 
 
 # ## Regularizing a neural network with dropout
@@ -208,17 +208,17 @@ Image(filename='images/15_07.png', width=800)
 # In[15]:
 
 
-Image(filename='images/15_08.png', width=800) 
+Image(filename='images/15_08.png', width=800)
 
 
 # # Implementing a deep convolutional neural network using TensorFlow
 
-# ## The multilayer CNN architecture 
+# ## The multilayer CNN architecture
 
 # In[16]:
 
 
-Image(filename='images/15_09.png', width=800) 
+Image(filename='images/15_09.png', width=800)
 
 
 # ## Loading and preprocessing the data
@@ -293,17 +293,17 @@ print('Test Set:   ', X_test.shape, y_test.shape)
 # In[19]:
 
 
-def batch_generator(X, y, batch_size=64, 
+def batch_generator(X, y, batch_size=64,
                     shuffle=False, random_seed=None):
-    
+
     idx = np.arange(y.shape[0])
-    
+
     if shuffle:
         rng = np.random.RandomState(random_seed)
         rng.shuffle(idx)
         X = X[idx]
         y = y[idx]
-    
+
     for i in range(0, X.shape[0], batch_size):
         yield (X[i:i+batch_size, :], y[i:i+batch_size])
 
@@ -330,19 +330,19 @@ import tensorflow as tf
 import numpy as np
 
 
-## wrapper functions 
+## wrapper functions
 
 def conv_layer(input_tensor, name,
-               kernel_size, n_output_channels, 
+               kernel_size, n_output_channels,
                padding_mode='SAME', strides=(1, 1, 1, 1)):
     with tf.variable_scope(name):
         ## get n_input_channels:
-        ##   input tensor shape: 
+        ##   input tensor shape:
         ##   [batch x width x height x channels_in]
         input_shape = input_tensor.get_shape().as_list()
-        n_input_channels = input_shape[-1] 
+        n_input_channels = input_shape[-1]
 
-        weights_shape = (list(kernel_size) + 
+        weights_shape = (list(kernel_size) +
                          [n_input_channels, n_output_channels])
 
         weights = tf.get_variable(name='_weights',
@@ -352,39 +352,39 @@ def conv_layer(input_tensor, name,
                                  initializer=tf.zeros(
                                      shape=[n_output_channels]))
         print(biases)
-        conv = tf.nn.conv2d(input=input_tensor, 
+        conv = tf.nn.conv2d(input=input_tensor,
                             filter=weights,
-                            strides=strides, 
+                            strides=strides,
                             padding=padding_mode)
         print(conv)
-        conv = tf.nn.bias_add(conv, biases, 
+        conv = tf.nn.bias_add(conv, biases,
                               name='net_pre-activation')
         print(conv)
         conv = tf.nn.relu(conv, name='activation')
         print(conv)
-        
+
         return conv
-    
+
 
 ## testing
 g = tf.Graph()
 with g.as_default():
     x = tf.placeholder(tf.float32, shape=[None, 28, 28, 1])
     conv_layer(x, name='convtest', kernel_size=(3, 3), n_output_channels=32)
-    
+
 del g, x
 
 
 # In[22]:
 
 
-def fc_layer(input_tensor, name, 
+def fc_layer(input_tensor, name,
              n_output_units, activation_fn=None):
     with tf.variable_scope(name):
         input_shape = input_tensor.get_shape().as_list()[1:]
         n_input_units = np.prod(input_shape)
         if len(input_shape) > 1:
-            input_tensor = tf.reshape(input_tensor, 
+            input_tensor = tf.reshape(input_tensor,
                                       shape=(-1, n_input_units))
 
         weights_shape = [n_input_units, n_output_units]
@@ -403,20 +403,20 @@ def fc_layer(input_tensor, name,
         print(layer)
         if activation_fn is None:
             return layer
-        
+
         layer = activation_fn(layer, name='activation')
         print(layer)
         return layer
 
-    
+
 ## testing:
 g = tf.Graph()
 with g.as_default():
-    x = tf.placeholder(tf.float32, 
+    x = tf.placeholder(tf.float32,
                        shape=[None, 28, 28, 1])
-    fc_layer(x, name='fctest', n_output_units=32, 
+    fc_layer(x, name='fctest', n_output_units=32,
              activation_fn=tf.nn.relu)
-    
+
 del g, x
 
 
@@ -430,7 +430,7 @@ def build_cnn(learning_rate=1e-4):
     tf_y = tf.placeholder(tf.int32, shape=[None],
                           name='tf_y')
 
-    # reshape x to a 4D tensor: 
+    # reshape x to a 4D tensor:
     # [batchsize, width, height, 1]
     tf_x_image = tf.reshape(tf_x, shape=[-1, 28, 28, 1],
                             name='tf_x_reshaped')
@@ -442,41 +442,41 @@ def build_cnn(learning_rate=1e-4):
     ## 1st layer: Conv_1
     print('\nBuilding 1st layer: ')
     h1 = conv_layer(tf_x_image, name='conv_1',
-                    kernel_size=(5, 5), 
+                    kernel_size=(5, 5),
                     padding_mode='VALID',
                     n_output_channels=32)
     ## MaxPooling
-    h1_pool = tf.nn.max_pool(h1, 
+    h1_pool = tf.nn.max_pool(h1,
                              ksize=[1, 2, 2, 1],
-                             strides=[1, 2, 2, 1], 
+                             strides=[1, 2, 2, 1],
                              padding='SAME')
     ## 2n layer: Conv_2
     print('\nBuilding 2nd layer: ')
-    h2 = conv_layer(h1_pool, name='conv_2', 
-                    kernel_size=(5,5), 
+    h2 = conv_layer(h1_pool, name='conv_2',
+                    kernel_size=(5,5),
                     padding_mode='VALID',
                     n_output_channels=64)
-    ## MaxPooling 
-    h2_pool = tf.nn.max_pool(h2, 
+    ## MaxPooling
+    h2_pool = tf.nn.max_pool(h2,
                              ksize=[1, 2, 2, 1],
-                             strides=[1, 2, 2, 1], 
+                             strides=[1, 2, 2, 1],
                              padding='SAME')
 
     ## 3rd layer: Fully Connected
     print('\nBuilding 3rd layer:')
     h3 = fc_layer(h2_pool, name='fc_3',
-                  n_output_units=1024, 
+                  n_output_units=1024,
                   activation_fn=tf.nn.relu)
 
     ## Dropout
     keep_prob = tf.placeholder(tf.float32, name='fc_keep_prob')
-    h3_drop = tf.nn.dropout(h3, keep_prob=keep_prob, 
+    h3_drop = tf.nn.dropout(h3, keep_prob=keep_prob,
                             name='dropout_layer')
 
     ## 4th layer: Fully Connected (linear activation)
     print('\nBuilding 4th layer:')
     h4 = fc_layer(h3_drop, name='fc_4',
-                  n_output_units=10, 
+                  n_output_units=10,
                   activation_fn=None)
 
     ## Prediction
@@ -485,7 +485,7 @@ def build_cnn(learning_rate=1e-4):
         'labels' : tf.cast(tf.argmax(h4, axis=1), tf.int32,
                            name='labels')
     }
-    
+
     ## Visualize the graph with TensorBoard:
 
     ## Loss Function and Optimization
@@ -501,14 +501,14 @@ def build_cnn(learning_rate=1e-4):
 
     ## Computing the prediction accuracy
     correct_predictions = tf.equal(
-        predictions['labels'], 
+        predictions['labels'],
         tf_y, name='correct_preds')
 
     accuracy = tf.reduce_mean(
         tf.cast(correct_predictions, tf.float32),
         name='accuracy')
 
-    
+
 def save(saver, sess, epoch, path='./model/'):
     if not os.path.isdir(path):
         os.makedirs(path)
@@ -516,13 +516,13 @@ def save(saver, sess, epoch, path='./model/'):
     saver.save(sess, os.path.join(path,'cnn-model.ckpt'),
                global_step=epoch)
 
-    
+
 def load(saver, sess, path, epoch):
     print('Loading model from %s' % path)
     saver.restore(sess, os.path.join(
             path, 'cnn-model.ckpt-%d' % epoch))
 
-    
+
 def train(sess, training_set, validation_set=None,
           initialize=True, epochs=20, shuffle=True,
           dropout=0.5, random_seed=None):
@@ -538,12 +538,12 @@ def train(sess, training_set, validation_set=None,
     np.random.seed(random_seed) # for shuflling in batch_generator
     for epoch in range(1, epochs+1):
         batch_gen = batch_generator(
-                        X_data, y_data, 
+                        X_data, y_data,
                         shuffle=shuffle)
         avg_loss = 0.0
         for i,(batch_x,batch_y) in enumerate(batch_gen):
-            feed = {'tf_x:0': batch_x, 
-                    'tf_y:0': batch_y, 
+            feed = {'tf_x:0': batch_x,
+                    'tf_y:0': batch_y,
                     'fc_keep_prob:0': dropout}
             loss, _ = sess.run(
                     ['cross_entropy_loss:0', 'train_op'],
@@ -562,9 +562,9 @@ def train(sess, training_set, validation_set=None,
         else:
             print()
 
-            
+
 def predict(sess, X_test, return_proba=False):
-    feed = {'tf_x:0': X_test, 
+    feed = {'tf_x:0': X_test,
             'fc_keep_prob:0': 1.0}
     if return_proba:
         return sess.run('probabilities:0', feed_dict=feed)
@@ -601,7 +601,7 @@ with g.as_default():
 ## @Readers: PLEASE IGNORE THIS CELL
 ##
 ## This cell is meant to shrink the
-## dataset when this notebook is run 
+## dataset when this notebook is run
 ## on the Travis Continuous Integration
 ## platform to test the code as well as
 ## speeding up the run using a smaller
@@ -617,13 +617,13 @@ if 'TRAVIS' in os.environ:
 # In[26]:
 
 
-## crearte a TF session 
+## crearte a TF session
 ## and train the CNN model
 
 with tf.Session(graph=g) as sess:
-    train(sess, 
-          training_set=(X_train_centered, y_train), 
-          validation_set=(X_valid_centered, y_valid), 
+    train(sess,
+          training_set=(X_train_centered, y_train),
+          validation_set=(X_valid_centered, y_valid),
           initialize=True,
           random_seed=123)
     save(saver, sess, epoch=20)
@@ -638,7 +638,7 @@ with tf.Session(graph=g) as sess:
 
 del g
 
-## create a new graph 
+## create a new graph
 ## and build the model
 g2 = tf.Graph()
 with g2.as_default():
@@ -649,36 +649,36 @@ with g2.as_default():
     ## saver:
     saver = tf.train.Saver()
 
-## create a new session 
+## create a new session
 ## and restore the model
 with tf.Session(graph=g2) as sess:
-    load(saver, sess, 
+    load(saver, sess,
          epoch=20, path='./model/')
-    
-    preds = predict(sess, X_test_centered, 
+
+    preds = predict(sess, X_test_centered,
                     return_proba=False)
 
     print('Test Accuracy: %.3f%%' % (100*
                 np.sum(preds == y_test)/len(y_test)))
-    
+
 
 
 # In[28]:
 
 
-## run the prediction on 
+## run the prediction on
 ##  some test samples
 
 np.set_printoptions(precision=2, suppress=True)
 
 with tf.Session(graph=g2) as sess:
-    load(saver, sess, 
+    load(saver, sess,
          epoch=20, path='./model/')
-        
-    print(predict(sess, X_test_centered[:10], 
+
+    print(predict(sess, X_test_centered[:10],
               return_proba=False))
-    
-    print(predict(sess, X_test_centered[:10], 
+
+    print(predict(sess, X_test_centered[:10],
                   return_proba=True))
 
 
@@ -687,24 +687,24 @@ with tf.Session(graph=g2) as sess:
 
 ## continue training for 20 more epochs
 ## without re-initializing :: initialize=False
-## create a new session 
+## create a new session
 ## and restore the model
 with tf.Session(graph=g2) as sess:
-    load(saver, sess, 
+    load(saver, sess,
          epoch=20, path='./model/')
-    
+
     train(sess,
-          training_set=(X_train_centered, y_train), 
+          training_set=(X_train_centered, y_train),
           validation_set=(X_valid_centered, y_valid),
           initialize=False,
           epochs=20,
           random_seed=123)
-        
+
     save(saver, sess, epoch=40, path='./model/')
-    
-    preds = predict(sess, X_test_centered, 
+
+    preds = predict(sess, X_test_centered,
                     return_proba=False)
-    
+
     print('Test Accuracy: %.3f%%' % (100*
                 np.sum(preds == y_test)/len(y_test)))
 
@@ -720,7 +720,7 @@ def build_cnn():
     tf_y = tf.placeholder(tf.int32, shape=[None],
                           name='tf_y')
 
-    # reshape x to a 4D tensor: 
+    # reshape x to a 4D tensor:
     # [batchsize, width, height, 1]
     tf_x_image = tf.reshape(tf_x, shape=[-1, 28, 28, 1],
                             name='tf_x_reshaped')
@@ -732,41 +732,41 @@ def build_cnn():
     ## 1st layer: Conv_1
     print('\nBuilding 1st layer: ')
     h1 = conv_layer(tf_x_image, name='conv_1',
-                    kernel_size=(5, 5), 
+                    kernel_size=(5, 5),
                     padding_mode='VALID',
                     n_output_channels=32)
     ## MaxPooling
-    h1_pool = tf.nn.max_pool(h1, 
+    h1_pool = tf.nn.max_pool(h1,
                              ksize=[1, 2, 2, 1],
-                             strides=[1, 2, 2, 1], 
+                             strides=[1, 2, 2, 1],
                              padding='SAME')
     ## 2n layer: Conv_2
     print('\nBuilding 2nd layer: ')
-    h2 = conv_layer(h1_pool, name='conv_2', 
-                    kernel_size=(5, 5), 
+    h2 = conv_layer(h1_pool, name='conv_2',
+                    kernel_size=(5, 5),
                     padding_mode='VALID',
                     n_output_channels=64)
-    ## MaxPooling 
-    h2_pool = tf.nn.max_pool(h2, 
+    ## MaxPooling
+    h2_pool = tf.nn.max_pool(h2,
                              ksize=[1, 2, 2, 1],
-                             strides=[1, 2, 2, 1], 
+                             strides=[1, 2, 2, 1],
                              padding='SAME')
 
     ## 3rd layer: Fully Connected
     print('\nBuilding 3rd layer:')
     h3 = fc_layer(h2_pool, name='fc_3',
-                  n_output_units=1024, 
+                  n_output_units=1024,
                   activation_fn=tf.nn.relu)
 
     ## Dropout
     keep_prob = tf.placeholder(tf.float32, name='fc_keep_prob')
-    h3_drop = tf.nn.dropout(h3, keep_prob=keep_prob, 
+    h3_drop = tf.nn.dropout(h3, keep_prob=keep_prob,
                             name='dropout_layer')
 
     ## 4th layer: Fully Connected (linear activation)
     print('\nBuilding 4th layer:')
     h4 = fc_layer(h3_drop, name='fc_4',
-                  n_output_units=10, 
+                  n_output_units=10,
                   activation_fn=None)
 
     ## Prediction
@@ -782,7 +782,7 @@ with g.as_default():
     tf.set_random_seed(random_seed)
     ## build the graph
     build_cnn()
-    
+
 
 with tf.Session(graph=g) as sess:
     file_writer = tf.summary.FileWriter(logdir='./tensorboard/', graph=g)
@@ -793,7 +793,7 @@ with tf.Session(graph=g) as sess:
 # In[4]:
 
 
-Image(filename='images/15_10.png', width=800) 
+Image(filename='images/15_10.png', width=800)
 
 
 # ## Implementing a CNN in the TensorFlow layers API
@@ -807,7 +807,7 @@ import numpy as np
 
 class ConvNN(object):
     def __init__(self, batchsize=64,
-                 epochs=20, learning_rate=1e-4, 
+                 epochs=20, learning_rate=1e-4,
                  dropout_rate=0.5,
                  shuffle=True, random_seed=None):
         np.random.seed(random_seed)
@@ -816,12 +816,12 @@ class ConvNN(object):
         self.learning_rate = learning_rate
         self.dropout_rate = dropout_rate
         self.shuffle = shuffle
-                
+
         g = tf.Graph()
         with g.as_default():
             ## set random-seed:
             tf.set_random_seed(random_seed)
-            
+
             ## build the network:
             self.build()
 
@@ -830,24 +830,24 @@ class ConvNN(object):
 
             ## saver
             self.saver = tf.train.Saver()
-            
+
         ## create a session
         self.sess = tf.Session(graph=g)
-                
+
     def build(self):
-        
+
         ## Placeholders for X and y:
-        tf_x = tf.placeholder(tf.float32, 
+        tf_x = tf.placeholder(tf.float32,
                               shape=[None, 784],
                               name='tf_x')
-        tf_y = tf.placeholder(tf.int32, 
+        tf_y = tf.placeholder(tf.int32,
                               shape=[None],
                               name='tf_y')
-        is_train = tf.placeholder(tf.bool, 
+        is_train = tf.placeholder(tf.bool,
                               shape=(),
                               name='is_train')
 
-        ## reshape x to a 4D tensor: 
+        ## reshape x to a 4D tensor:
         ##  [batchsize, width, height, 1]
         tf_x_image = tf.reshape(tf_x, shape=[-1, 28, 28, 1],
                               name='input_x_2dimages')
@@ -857,53 +857,53 @@ class ConvNN(object):
                               name='input_y_onehot')
 
         ## 1st layer: Conv_1
-        h1 = tf.layers.conv2d(tf_x_image, 
-                              kernel_size=(5, 5), 
-                              filters=32, 
+        h1 = tf.layers.conv2d(tf_x_image,
+                              kernel_size=(5, 5),
+                              filters=32,
                               activation=tf.nn.relu)
         ## MaxPooling
-        h1_pool = tf.layers.max_pooling2d(h1, 
-                              pool_size=(2, 2), 
+        h1_pool = tf.layers.max_pooling2d(h1,
+                              pool_size=(2, 2),
                               strides=(2, 2))
         ## 2n layer: Conv_2
-        h2 = tf.layers.conv2d(h1_pool, kernel_size=(5,5), 
-                              filters=64, 
+        h2 = tf.layers.conv2d(h1_pool, kernel_size=(5,5),
+                              filters=64,
                               activation=tf.nn.relu)
-        ## MaxPooling 
-        h2_pool = tf.layers.max_pooling2d(h2, 
-                              pool_size=(2, 2), 
+        ## MaxPooling
+        h2_pool = tf.layers.max_pooling2d(h2,
+                              pool_size=(2, 2),
                               strides=(2, 2))
 
         ## 3rd layer: Fully Connected
         input_shape = h2_pool.get_shape().as_list()
         n_input_units = np.prod(input_shape[1:])
-        h2_pool_flat = tf.reshape(h2_pool, 
+        h2_pool_flat = tf.reshape(h2_pool,
                               shape=[-1, n_input_units])
-        h3 = tf.layers.dense(h2_pool_flat, 1024, 
+        h3 = tf.layers.dense(h2_pool_flat, 1024,
                               activation=tf.nn.relu)
 
         ## Dropout
-        h3_drop = tf.layers.dropout(h3, 
+        h3_drop = tf.layers.dropout(h3,
                               rate=self.dropout_rate,
                               training=is_train)
-        
+
         ## 4th layer: Fully Connected (linear activation)
-        h4 = tf.layers.dense(h3_drop, 10, 
+        h4 = tf.layers.dense(h3_drop, 10,
                               activation=None)
 
         ## Prediction
         predictions = {
-            'probabilities': tf.nn.softmax(h4, 
+            'probabilities': tf.nn.softmax(h4,
                               name='probabilities'),
-            'labels': tf.cast(tf.argmax(h4, axis=1), 
+            'labels': tf.cast(tf.argmax(h4, axis=1),
                               tf.int32, name='labels')}
-        
+
         ## Loss Function and Optimization
         cross_entropy_loss = tf.reduce_mean(
             tf.nn.softmax_cross_entropy_with_logits(
                 logits=h4, labels=tf_y_onehot),
             name='cross_entropy_loss')
-        
+
         ## Optimizer
         optimizer = tf.train.AdamOptimizer(self.learning_rate)
         optimizer = optimizer.minimize(cross_entropy_loss,
@@ -911,9 +911,9 @@ class ConvNN(object):
 
         ## Finding accuracy
         correct_predictions = tf.equal(
-            predictions['labels'], 
+            predictions['labels'],
             tf_y, name='correct_preds')
-        
+
         accuracy = tf.reduce_mean(
             tf.cast(correct_predictions, tf.float32),
             name='accuracy')
@@ -922,16 +922,16 @@ class ConvNN(object):
         if not os.path.isdir(path):
             os.makedirs(path)
         print('Saving model in %s' % path)
-        self.saver.save(self.sess, 
+        self.saver.save(self.sess,
                         os.path.join(path, 'model.ckpt'),
                         global_step=epoch)
-        
+
     def load(self, epoch, path):
         print('Loading model from %s' % path)
-        self.saver.restore(self.sess, 
+        self.saver.restore(self.sess,
              os.path.join(path, 'model.ckpt-%d' % epoch))
-        
-    def train(self, training_set, 
+
+    def train(self, training_set,
               validation_set=None,
               initialize=True):
         ## initialize variables
@@ -943,30 +943,30 @@ class ConvNN(object):
         y_data = np.array(training_set[1])
 
         for epoch in range(1, self.epochs + 1):
-            batch_gen =                 batch_generator(X_data, y_data, 
+            batch_gen =                 batch_generator(X_data, y_data,
                                  shuffle=self.shuffle)
             avg_loss = 0.0
             for i, (batch_x,batch_y) in                 enumerate(batch_gen):
-                feed = {'tf_x:0': batch_x, 
+                feed = {'tf_x:0': batch_x,
                         'tf_y:0': batch_y,
                         'is_train:0': True} ## for dropout
                 loss, _ = self.sess.run(
-                        ['cross_entropy_loss:0', 'train_op'], 
+                        ['cross_entropy_loss:0', 'train_op'],
                         feed_dict=feed)
                 avg_loss += loss
-                
+
             print('Epoch %02d: Training Avg. Loss: '
                   '%7.3f' % (epoch, avg_loss), end=' ')
             if validation_set is not None:
-                feed = {'tf_x:0': batch_x, 
-                        'tf_y:0': batch_y,
+                feed = {'tf_x:0': validation_set[0],
+                        'tf_y:0': validation_set[1],
                         'is_train:0': False} ## for dropout
                 valid_acc = self.sess.run('accuracy:0',
                                           feed_dict=feed)
                 print('Validation Acc: %7.3f' % valid_acc)
             else:
                 print()
-                    
+
     def predict(self, X_test, return_proba = False):
         feed = {'tf_x:0': X_test,
                 'is_train:0': False} ## for dropout
@@ -988,7 +988,7 @@ cnn = ConvNN(random_seed=123)
 # In[34]:
 
 
-cnn.train(training_set=(X_train_centered, y_train), 
+cnn.train(training_set=(X_train_centered, y_train),
           validation_set=(X_valid_centered, y_valid))
 
 cnn.save(epoch=20)
@@ -1020,7 +1020,7 @@ print('Test Accuracy: %.2f%%' % (100*
 # ...
 
 # ---
-# 
+#
 # Readers may ignore the next cell.
 
 # In[ ]:
