@@ -111,3 +111,5 @@ Raschka, Sebastian, and Vahid Mirjalili. *Python Machine Learning, 2nd Ed*. Pack
 - [Amazon.co.jp link](https://www.amazon.co.jp/Python-機械学習プログラミング-達人データサイエンティストによる理論と実践-impress-gear/dp/4295003379/ref=tmm_pap_swatch_0)
 
 ![](images/cover-japanese.jpg)
+
+i would like to know how this works please can you explain? also dont reject this please
