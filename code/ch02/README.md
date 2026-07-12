@@ -8,7 +8,7 @@ Python Machine Learning - Code Examples
 - Artificial neurons – a brief glimpse into the early history of machine learning
   - The formal definition of an artificial neuron
   - The perceptron learning rule
-- Implementing a perceptron learning algorithm in Python 
+- Implementing a perceptron learning algorithm in Python
   - An object-oriented perceptron API
   - Training a perceptron model on the Iris dataset
 - Adaptive linear neurons and the convergence of learning
@@ -45,4 +45,4 @@ In addition to the code examples, I added a table of contents to each Jupyter no
 ![](images/jupyter-example-2.png)
 
 
-When I was creating these notebooks, I was hoping to make your reading (and coding) experience as convenient as possible! However, if you don't wish to use Jupyter Notebooks, I also converted these notebooks to regular Python script files (`.py` files) that can be viewed and edited in any plaintext editor. 
+When I was creating these notebooks, I was hoping to make your reading (and coding) experience as convenient as possible! However, if you don't wish to use Jupyter Notebooks, I also converted these notebooks to regular Python script files (`.py` files) that can be viewed and edited in any plaintext editor.

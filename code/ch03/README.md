@@ -19,7 +19,7 @@ Python Machine Learning - Code Examples
   - Alternative implementations in scikit-learn
 - Solving nonlinear problems using a kernel SVM
   - Kernel methods for linearly inseparable data
-  - Using the kernel trick to find separating hyperplanes in high-dimensional space 
+  - Using the kernel trick to find separating hyperplanes in high-dimensional space
 - Decision tree learning
   - Maximizing information gain – getting the most bang for your buck
   - Building a decision tree
@@ -54,4 +54,4 @@ In addition to the code examples, I added a table of contents to each Jupyter no
 ![](../ch02/images/jupyter-example-2.png)
 
 
-When I was creating these notebooks, I was hoping to make your reading (and coding) experience as convenient as possible! However, if you don't wish to use Jupyter Notebooks, I also converted these notebooks to regular Python script files (`.py` files) that can be viewed and edited in any plaintext editor. 
+When I was creating these notebooks, I was hoping to make your reading (and coding) experience as convenient as possible! However, if you don't wish to use Jupyter Notebooks, I also converted these notebooks to regular Python script files (`.py` files) that can be viewed and edited in any plaintext editor.

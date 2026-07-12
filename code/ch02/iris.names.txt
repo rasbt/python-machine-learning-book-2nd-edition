@@ -19,7 +19,7 @@
       Intelligence, Vol. PAMI-2, No. 1, 67-71.
       -- Results:
          -- very low misclassification rates (0% for the setosa class)
-   4. Gates, G.W. (1972) "The Reduced Nearest Neighbor Rule".  IEEE 
+   4. Gates, G.W. (1972) "The Reduced Nearest Neighbor Rule".  IEEE
       Transactions on Information Theory, May 1972, 431-433.
       -- Results:
          -- very low misclassification rates again
@@ -41,7 +41,7 @@
 	The 35th sample should be: 4.9,3.1,1.5,0.2,"Iris-setosa"
 	where the error is in the fourth feature.
 	The 38th sample: 4.9,3.6,1.4,0.1,"Iris-setosa"
-	where the errors are in the second and third features.  
+	where the errors are in the second and third features.
 
 5. Number of Instances: 150 (50 in each of three classes)
 
@@ -52,7 +52,7 @@
    2. sepal width in cm
    3. petal length in cm
    4. petal width in cm
-   5. class: 
+   5. class:
       -- Iris Setosa
       -- Iris Versicolour
       -- Iris Virginica
@@ -61,7 +61,7 @@
 
 Summary Statistics:
 	         Min  Max   Mean    SD   Class Correlation
-   sepal length: 4.3  7.9   5.84  0.83    0.7826   
+   sepal length: 4.3  7.9   5.84  0.83    0.7826
     sepal width: 2.0  4.4   3.05  0.43   -0.4194
    petal length: 1.0  6.9   3.76  1.76    0.9490  (high!)
     petal width: 0.1  2.5   1.20  0.76    0.9565  (high!)
